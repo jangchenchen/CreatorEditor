@@ -49,7 +49,8 @@ export {
   addPlotEvent,
   updatePlotEvent,
   deletePlotEvent,
-  updateTimelineInfo
+  updateTimelineInfo,
+  loadTimelineData
 } from './timelineSlice';
 
 export {
@@ -75,7 +76,8 @@ export {
   updateIdeaStatus,
   addPlotAlternative,
   updatePlotAlternative,
-  deletePlotAlternative
+  deletePlotAlternative,
+  loadIdeasData
 } from './ideasSlice';
 
 export {
@@ -148,6 +150,7 @@ const rootReducer = (state: OutlineState | undefined, action: any) => {
 
 // Export the enhanced reducer as the main reducer
 export { rootReducer as outlineReducer };
+export default rootReducer;
 
 // Global selectors for backward compatibility
 export const selectOutline = (state: { outline: OutlineState }) => state.outline;

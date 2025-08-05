@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { useOutlineNavigator } from './navigator/useOutlineNavigator';
-import NavigationToolbar from './navigator/NavigationToolbar';
-import ProjectOverview from './navigator/ProjectOverview';
-import ModuleGrid from './navigator/ModuleGrid';
-import ModuleContent from './navigator/ModuleContent';
-import InfoDialog from './navigator/InfoDialog';
+import { useOutlineNavigator } from './useOutlineNavigator';
+import NavigationToolbar from './NavigationToolbar';
+import ProjectOverview from './ProjectOverview';
+import ModuleGrid from './ModuleGrid';
+import ModuleContent from './ModuleContent';
+import InfoDialog from './InfoDialog';
 
 const OutlineNavigatorNew: React.FC = () => {
   const {

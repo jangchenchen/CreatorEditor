@@ -1,11 +1,11 @@
 import { Middleware } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
 import {
-  updateTimeline,
+  loadTimelineData,
   updateChapter,
   updateSubplot,
   updateSecondaryStory,
-  updateIdea
+  updateCreativeIdea
 } from '../slices/rootOutlineSlice';
 
 export const syncMiddleware: Middleware<{}, RootState> = (store) => (next) => (action) => {
@@ -46,7 +46,7 @@ const handleCharacterDeletionCleanup = (store: any, characterId: string, state: 
   }));
   
   if (JSON.stringify(updatedEvents) !== JSON.stringify(state.timeline.events)) {
-    store.dispatch(updateTimeline({
+    store.dispatch(loadTimelineData({
       ...state.timeline,
       events: updatedEvents
     }));
@@ -128,7 +128,7 @@ const handleCharacterDeletionCleanup = (store: any, characterId: string, state: 
   
   if (ideasChanged) {
     updatedIdeas.forEach((idea: any) => {
-      store.dispatch(updateIdea(idea));
+      store.dispatch(updateCreativeIdea(idea));
     });
   }
 };

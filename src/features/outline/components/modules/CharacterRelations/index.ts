@@ -5,3 +5,6 @@ export { RelationshipDialog } from './components/RelationshipDialog';
 export { RelationshipToolbar } from './components/RelationshipToolbar';
 export { RelationshipVisualizer } from './components/RelationshipVisualizer';
 export { useRelationshipMap } from './hooks/useRelationshipMap';
+
+// Main component
+export { default } from './index.tsx';
