@@ -25,3 +25,5 @@ export const useRelationshipMapNew = (): UseRelationshipMapReturn => {
     characters: mockCharacters
   };
 };
+
+export default useRelationshipMapNew;

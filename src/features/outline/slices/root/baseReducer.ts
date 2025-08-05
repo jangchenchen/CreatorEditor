@@ -1,12 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import projectReducer from './projectSlice';
-import storyReducer from './storySlice';
-import charactersReducer from './charactersSlice';
-import timelineReducer from './timelineSlice';
-import chaptersReducer from './chaptersSlice';
-import subplotsReducer from './subplotsSlice';
-import ideasReducer from './ideasSlice';
-import worldReducer from './worldSlice';
+import projectReducer from '../projectSlice';
+import storyReducer from '../storySlice';
+import charactersReducer from '../charactersSlice';
+import timelineReducer from '../timelineSlice';
+import chaptersReducer from '../chaptersSlice';
+import subplotsReducer from '../subplotsSlice';
+import ideasReducer from '../ideasSlice';
+import worldReducer from '../worldSlice';
 import { OutlineState } from './types';
 
 // Combine all the individual slices

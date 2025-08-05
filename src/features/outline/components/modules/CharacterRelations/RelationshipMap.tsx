@@ -6,7 +6,7 @@ import {
   RelationshipToolbar,
   RelationshipVisualizer
 } from './index';
-import { useRelationshipMap } from './hooks/useRelationshipMap';
+import useRelationshipMap from './hooks/useRelationshipMap';
 
 const RelationshipMap: React.FC = () => {
   const {

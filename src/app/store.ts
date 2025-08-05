@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import editorReducer from '../features/editor/editorSlice';
-import outlineReducer from '../features/outline/slices/rootOutlineSlice';
+import { outlineReducer } from '../features/outline/slices/rootOutlineSlice';
 import { syncMiddleware } from '../features/outline/middleware/syncMiddleware';
-import { autoSaveMiddleware } from '../features/outline/middleware/autoSaveMiddleware';
+import { autoSaveMiddleware } from '../features/outline/middleware/autoSave';
 
 // 配置Redux Store
 export const store = configureStore({
