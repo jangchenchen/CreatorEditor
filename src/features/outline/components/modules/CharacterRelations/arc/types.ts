@@ -68,3 +68,18 @@ export const ROLE_COLORS = {
   antagonist: 'secondary',
   supporting: 'success'
 } as const;
+
+export interface UseCharacterArcReturn {
+  state: CharacterArcState;
+  progress: CharacterProgress;
+  steps: CharacterStepData[];
+  characters: any[];
+  handleCharacterChange: (characterId: string) => void;
+  handleStepClick: (step: number) => void;
+  handlePrevious: () => void;
+  handleNext: () => void;
+  handleEdit: (eventIndex: number) => void;
+  handleSave: () => void;
+  handleCancel: () => void;
+  handleEventTextChange: (text: string) => void;
+}
