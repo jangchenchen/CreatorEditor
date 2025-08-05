@@ -16,7 +16,7 @@ import {
   Save as SaveIcon,
   Refresh as RefreshIcon
 } from '@mui/icons-material';
-import GeographySettings from './GeographySettings';
+import { GeographySettings } from './GeographySettingsNew';
 import SocialSystems from './SocialSystems';
 import WorldHistory from './WorldHistory';
 
