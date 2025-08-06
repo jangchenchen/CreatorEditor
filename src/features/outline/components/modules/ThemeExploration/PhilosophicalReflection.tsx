@@ -15,7 +15,7 @@ const PhilosophicalReflection: React.FC = () => {
   const dispatch = useDispatch();
   const outline = useSelector(selectOutline);
   const themes = outline.themes;
-  
+
   const {
     philosophicalQuestions,
     socialCommentary,
@@ -26,13 +26,13 @@ const PhilosophicalReflection: React.FC = () => {
     handleAddItem,
     handleRemoveItem,
     handleInputChange,
-    getReflectionState
+    getReflectionState,
   } = useReflectionState(themes);
 
   const stats = getReflectionStats({
     philosophicalQuestions,
     socialCommentary,
-    personalReflections
+    personalReflections,
   });
 
   const handleSave = () => {
@@ -43,10 +43,10 @@ const PhilosophicalReflection: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto' }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         哲学思考与反思
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant='body2' color='text.secondary' paragraph>
         深入探讨故事中蕴含的哲学思辨、社会议题和个人感悟，提升作品的思想深度。
       </Typography>
 
@@ -59,31 +59,31 @@ const PhilosophicalReflection: React.FC = () => {
       <PhilosophicalQuestionsSection
         questions={philosophicalQuestions}
         newQuestion={newQuestion}
-        onNewQuestionChange={(value) => handleInputChange('question', value)}
+        onNewQuestionChange={value => handleInputChange('question', value)}
         onAddQuestion={() => handleAddItem('question')}
-        onRemoveQuestion={(index) => handleRemoveItem('question', index)}
+        onRemoveQuestion={index => handleRemoveItem('question', index)}
       />
 
       <SocialCommentarySection
         commentary={socialCommentary}
         newCommentary={newCommentary}
-        onNewCommentaryChange={(value) => handleInputChange('commentary', value)}
+        onNewCommentaryChange={value => handleInputChange('commentary', value)}
         onAddCommentary={() => handleAddItem('commentary')}
-        onRemoveCommentary={(index) => handleRemoveItem('commentary', index)}
+        onRemoveCommentary={index => handleRemoveItem('commentary', index)}
       />
 
       <PersonalReflectionsSection
         reflections={personalReflections}
         newReflection={newReflection}
-        onNewReflectionChange={(value) => handleInputChange('reflection', value)}
+        onNewReflectionChange={value => handleInputChange('reflection', value)}
         onAddReflection={() => handleAddItem('reflection')}
-        onRemoveReflection={(index) => handleRemoveItem('reflection', index)}
+        onRemoveReflection={index => handleRemoveItem('reflection', index)}
       />
 
       <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
         <Button
-          variant="contained"
-          size="large"
+          variant='contained'
+          size='large'
           onClick={handleSave}
           startIcon={<SaveIcon />}
           sx={{ minWidth: 140 }}

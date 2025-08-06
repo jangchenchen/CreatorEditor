@@ -20,12 +20,16 @@ export const useHistoryState = (initialHistory: any) => {
   // 历史事件处理
   const handleOpenEventDialog = (event?: HistoricalEvent) => {
     setEditingEvent(event || null);
-    setEventFormData(event ? { ...event } : {
-      name: '',
-      period: '',
-      description: '',
-      impact: ''
-    });
+    setEventFormData(
+      event
+        ? { ...event }
+        : {
+            name: '',
+            period: '',
+            description: '',
+            impact: '',
+          }
+    );
     setEventDialogOpen(true);
   };
 
@@ -35,14 +39,13 @@ export const useHistoryState = (initialHistory: any) => {
     setEventFormData({});
   };
 
-  const handleEventFormChange = (field: keyof HistoricalEvent) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setEventFormData(prev => ({
-      ...prev,
-      [field]: event.target.value
-    }));
-  };
+  const handleEventFormChange =
+    (field: keyof HistoricalEvent) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEventFormData(prev => ({
+        ...prev,
+        [field]: event.target.value,
+      }));
+    };
 
   return {
     // Event states
@@ -53,7 +56,7 @@ export const useHistoryState = (initialHistory: any) => {
     handleOpenEventDialog,
     handleCloseEventDialog,
     handleEventFormChange,
-    
+
     // Other history elements
     legends,
     setLegends,
@@ -61,13 +64,13 @@ export const useHistoryState = (initialHistory: any) => {
     setFamilySecrets,
     mysteries,
     setMysteries,
-    
+
     // Input states
     newLegend,
     setNewLegend,
     newSecret,
     setNewSecret,
     newMystery,
-    setNewMystery
+    setNewMystery,
   };
 };

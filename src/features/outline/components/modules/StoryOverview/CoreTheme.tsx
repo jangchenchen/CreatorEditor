@@ -10,7 +10,7 @@ import {
   Divider,
   Chip,
   IconButton,
-  InputAdornment
+  InputAdornment,
 } from '@mui/material';
 import { Add as AddIcon, Clear as ClearIcon } from '@mui/icons-material';
 import { selectCoreTheme } from '../../../outlineSlice';
@@ -21,27 +21,33 @@ const CoreTheme: React.FC = () => {
   const coreTheme = useSelector(selectCoreTheme);
   const [newKeyword, setNewKeyword] = useState('');
 
-  const handleFieldChange = (field: keyof Omit<typeof coreTheme, 'keywords'>) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    dispatch(updateCoreTheme({
-      [field]: event.target.value
-    }));
-  };
+  const handleFieldChange =
+    (field: keyof Omit<typeof coreTheme, 'keywords'>) =>
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(
+        updateCoreTheme({
+          [field]: event.target.value,
+        })
+      );
+    };
 
   const handleAddKeyword = () => {
     if (newKeyword.trim() && !coreTheme.keywords.includes(newKeyword.trim())) {
-      dispatch(updateCoreTheme({
-        keywords: [...coreTheme.keywords, newKeyword.trim()]
-      }));
+      dispatch(
+        updateCoreTheme({
+          keywords: [...coreTheme.keywords, newKeyword.trim()],
+        })
+      );
       setNewKeyword('');
     }
   };
 
   const handleRemoveKeyword = (keyword: string) => {
-    dispatch(updateCoreTheme({
-      keywords: coreTheme.keywords.filter(k => k !== keyword)
-    }));
+    dispatch(
+      updateCoreTheme({
+        keywords: coreTheme.keywords.filter(k => k !== keyword),
+      })
+    );
   };
 
   const handleKeywordKeyPress = (event: React.KeyboardEvent) => {
@@ -53,10 +59,10 @@ const CoreTheme: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto' }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         核心主题设定
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant='body2' color='text.secondary' paragraph>
         明确故事要传达的核心思想、主要冲突和深层含义，这将指导整个故事的发展方向。
       </Typography>
 
@@ -65,18 +71,18 @@ const CoreTheme: React.FC = () => {
         <Grid item xs={12}>
           <Card elevation={1}>
             <CardContent>
-              <Typography variant="subtitle1" gutterBottom>
+              <Typography variant='subtitle1' gutterBottom>
                 核心主题
               </Typography>
               <TextField
                 fullWidth
                 multiline
                 rows={3}
-                placeholder="故事的核心主题是什么？要探讨的核心问题..."
+                placeholder='故事的核心主题是什么？要探讨的核心问题...'
                 value={coreTheme.theme}
                 onChange={handleFieldChange('theme')}
-                variant="outlined"
-                size="small"
+                variant='outlined'
+                size='small'
               />
             </CardContent>
           </Card>
@@ -86,18 +92,18 @@ const CoreTheme: React.FC = () => {
         <Grid item xs={12}>
           <Card elevation={1}>
             <CardContent>
-              <Typography variant="subtitle1" gutterBottom>
+              <Typography variant='subtitle1' gutterBottom>
                 主要冲突
               </Typography>
               <TextField
                 fullWidth
                 multiline
                 rows={3}
-                placeholder="故事的核心冲突是什么？角色间的主要矛盾..."
+                placeholder='故事的核心冲突是什么？角色间的主要矛盾...'
                 value={coreTheme.conflict}
                 onChange={handleFieldChange('conflict')}
-                variant="outlined"
-                size="small"
+                variant='outlined'
+                size='small'
               />
             </CardContent>
           </Card>
@@ -107,18 +113,18 @@ const CoreTheme: React.FC = () => {
         <Grid item xs={12}>
           <Card elevation={1}>
             <CardContent>
-              <Typography variant="subtitle1" gutterBottom>
+              <Typography variant='subtitle1' gutterBottom>
                 要表达的理念
               </Typography>
               <TextField
                 fullWidth
                 multiline
                 rows={3}
-                placeholder="通过这个故事想要传达什么价值观、人生感悟..."
+                placeholder='通过这个故事想要传达什么价值观、人生感悟...'
                 value={coreTheme.message}
                 onChange={handleFieldChange('message')}
-                variant="outlined"
-                size="small"
+                variant='outlined'
+                size='small'
               />
             </CardContent>
           </Card>
@@ -128,25 +134,25 @@ const CoreTheme: React.FC = () => {
         <Grid item xs={12}>
           <Card elevation={1}>
             <CardContent>
-              <Typography variant="subtitle1" gutterBottom>
+              <Typography variant='subtitle1' gutterBottom>
                 关键词标签
               </Typography>
-              
+
               {/* 添加关键词 */}
               <TextField
                 fullWidth
-                placeholder="添加主题关键词，按回车确认..."
+                placeholder='添加主题关键词，按回车确认...'
                 value={newKeyword}
-                onChange={(e) => setNewKeyword(e.target.value)}
+                onChange={e => setNewKeyword(e.target.value)}
                 onKeyPress={handleKeywordKeyPress}
-                variant="outlined"
-                size="small"
+                variant='outlined'
+                size='small'
                 sx={{ mb: 2 }}
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton 
-                        size="small" 
+                    <InputAdornment position='end'>
+                      <IconButton
+                        size='small'
                         onClick={handleAddKeyword}
                         disabled={!newKeyword.trim()}
                       >
@@ -165,13 +171,13 @@ const CoreTheme: React.FC = () => {
                     label={keyword}
                     onDelete={() => handleRemoveKeyword(keyword)}
                     deleteIcon={<ClearIcon />}
-                    size="small"
-                    variant="outlined"
-                    color="primary"
+                    size='small'
+                    variant='outlined'
+                    color='primary'
                   />
                 ))}
                 {coreTheme.keywords.length === 0 && (
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant='body2' color='text.secondary'>
                     暂无关键词标签
                   </Typography>
                 )}
@@ -184,8 +190,9 @@ const CoreTheme: React.FC = () => {
       <Divider sx={{ my: 3 }} />
 
       <Box sx={{ mt: 2, p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
-        <Typography variant="caption" color="text.secondary">
-          💡 提示：主题应该具有普遍性和深度，能够引起读者的共鸣。关键词有助于后续情节发展时保持主题一致性。
+        <Typography variant='caption' color='text.secondary'>
+          💡
+          提示：主题应该具有普遍性和深度，能够引起读者的共鸣。关键词有助于后续情节发展时保持主题一致性。
         </Typography>
       </Box>
     </Box>

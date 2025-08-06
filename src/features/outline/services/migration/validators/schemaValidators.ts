@@ -13,7 +13,15 @@ export function validateVersion100(data: any): boolean {
   }
 
   // Check required top-level fields
-  const requiredFields = ['id', 'projectName', 'version', 'story', 'characters', 'timeline', 'chapters'];
+  const requiredFields = [
+    'id',
+    'projectName',
+    'version',
+    'story',
+    'characters',
+    'timeline',
+    'chapters',
+  ];
   for (const field of requiredFields) {
     if (!(field in data)) {
       console.error(`Missing required field: ${field}`);

@@ -12,7 +12,7 @@ const initialState: ChaptersState = {
   id: 'chapters-1',
   chapters: [],
   totalChapters: 0,
-  overallStructure: ''
+  overallStructure: '',
 };
 
 const chaptersSlice = createSlice({
@@ -54,10 +54,10 @@ const chaptersSlice = createSlice({
       return action.payload;
     },
 
-    resetChapters: (state) => {
+    resetChapters: state => {
       return { ...initialState, id: state.id };
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -67,7 +67,7 @@ export const {
   updateChapterStructure,
   reorderChapters,
   loadChaptersData,
-  resetChapters
+  resetChapters,
 } = chaptersSlice.actions;
 
 export default chaptersSlice.reducer;
@@ -75,19 +75,17 @@ export default chaptersSlice.reducer;
 // Selectors
 export const selectChapters = (state: { chapters: ChaptersState }) => state.chapters;
 export const selectChapterList = (state: { chapters: ChaptersState }) => state.chapters.chapters;
-export const selectChapterById = (chapterId: string) => 
-  (state: { chapters: ChaptersState }) => 
-    state.chapters.chapters.find(c => c.id === chapterId);
+export const selectChapterById = (chapterId: string) => (state: { chapters: ChaptersState }) =>
+  state.chapters.chapters.find(c => c.id === chapterId);
 
-export const selectChaptersByStatus = (status: string) => 
-  (state: { chapters: ChaptersState }) => 
-    state.chapters.chapters.filter(c => c.status === status);
+export const selectChaptersByStatus = (status: string) => (state: { chapters: ChaptersState }) =>
+  state.chapters.chapters.filter(c => c.status === status);
 
 export const selectChaptersStats = (state: { chapters: ChaptersState }) => {
   const chapters = state.chapters.chapters;
   const totalWordCount = chapters.reduce((sum, chapter) => sum + (chapter.wordCount || 0), 0);
   const avgWordCount = chapters.length > 0 ? Math.round(totalWordCount / chapters.length) : 0;
-  
+
   return {
     totalChapters: state.chapters.totalChapters,
     draftChapters: chapters.filter(c => c.status === 'draft').length,
@@ -95,6 +93,6 @@ export const selectChaptersStats = (state: { chapters: ChaptersState }) => {
     completeChapters: chapters.filter(c => c.status === 'complete').length,
     totalWordCount,
     avgWordCount,
-    hasStructure: !!state.chapters.overallStructure
+    hasStructure: !!state.chapters.overallStructure,
   };
 };

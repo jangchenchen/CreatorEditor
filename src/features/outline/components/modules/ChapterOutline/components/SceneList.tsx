@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  Button
-} from '@mui/material';
+import { Grid, Card, CardContent, Typography, Button } from '@mui/material';
 import { Movie as SceneIcon } from '@mui/icons-material';
 import { Scene, Character } from '../../../../types/outline.types';
 import SceneCard from './SceneCard';
@@ -23,20 +17,20 @@ const SceneList: React.FC<SceneListProps> = ({
   characters,
   onEdit,
   onDelete,
-  onAddScene
+  onAddScene,
 }) => {
   if (scenes.length === 0) {
     return (
       <Card>
         <CardContent sx={{ textAlign: 'center', py: 4 }}>
           <SceneIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-          <Typography variant="h6" color="text.secondary" gutterBottom>
+          <Typography variant='h6' color='text.secondary' gutterBottom>
             暂无场景
           </Typography>
-          <Typography variant="body2" color="text.secondary" paragraph>
+          <Typography variant='body2' color='text.secondary' paragraph>
             开始添加场景来详细规划这一章节的内容
           </Typography>
-          <Button variant="outlined" onClick={onAddScene}>
+          <Button variant='outlined' onClick={onAddScene}>
             添加第一个场景
           </Button>
         </CardContent>

@@ -12,7 +12,7 @@ const initialState: SubplotsState = {
   id: 'subplots-1',
   subplots: [],
   secondaryStories: [],
-  weavingStrategy: ''
+  weavingStrategy: '',
 };
 
 const subplotsSlice = createSlice({
@@ -41,7 +41,9 @@ const subplotsSlice = createSlice({
     },
 
     updateSecondaryStory: (state, action: PayloadAction<SecondaryCharacterStory>) => {
-      const index = state.secondaryStories.findIndex(s => s.characterId === action.payload.characterId);
+      const index = state.secondaryStories.findIndex(
+        s => s.characterId === action.payload.characterId
+      );
       if (index !== -1) {
         state.secondaryStories[index] = action.payload;
       }
@@ -60,10 +62,10 @@ const subplotsSlice = createSlice({
       return action.payload;
     },
 
-    resetSubplots: (state) => {
+    resetSubplots: state => {
       return { ...initialState, id: state.id };
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -75,7 +77,7 @@ export const {
   deleteSecondaryStory,
   updateWeavingStrategy,
   loadSubplotsData,
-  resetSubplots
+  resetSubplots,
 } = subplotsSlice.actions;
 
 export default subplotsSlice.reducer;
@@ -83,17 +85,17 @@ export default subplotsSlice.reducer;
 // Selectors
 export const selectSubplots = (state: { subplots: SubplotsState }) => state.subplots;
 export const selectSubplotsList = (state: { subplots: SubplotsState }) => state.subplots.subplots;
-export const selectSecondaryStories = (state: { subplots: SubplotsState }) => state.subplots.secondaryStories;
+export const selectSecondaryStories = (state: { subplots: SubplotsState }) =>
+  state.subplots.secondaryStories;
 
-export const selectActiveSubplots = (state: { subplots: SubplotsState }) => 
+export const selectActiveSubplots = (state: { subplots: SubplotsState }) =>
   state.subplots.subplots.filter(s => s.status === 'active');
 
-export const selectSubplotsByStatus = (status: string) => 
-  (state: { subplots: SubplotsState }) => 
-    state.subplots.subplots.filter(s => s.status === status);
+export const selectSubplotsByStatus = (status: string) => (state: { subplots: SubplotsState }) =>
+  state.subplots.subplots.filter(s => s.status === status);
 
-export const selectSecondaryStoryByCharacter = (characterId: string) => 
-  (state: { subplots: SubplotsState }) => 
+export const selectSecondaryStoryByCharacter =
+  (characterId: string) => (state: { subplots: SubplotsState }) =>
     state.subplots.secondaryStories.find(s => s.characterId === characterId);
 
 export const selectSubplotsStats = (state: { subplots: SubplotsState }) => ({
@@ -101,5 +103,5 @@ export const selectSubplotsStats = (state: { subplots: SubplotsState }) => ({
   activeSubplots: state.subplots.subplots.filter(s => s.status === 'active').length,
   completedSubplots: state.subplots.subplots.filter(s => s.status === 'completed').length,
   secondaryStories: state.subplots.secondaryStories.length,
-  hasWeavingStrategy: !!state.subplots.weavingStrategy
+  hasWeavingStrategy: !!state.subplots.weavingStrategy,
 });

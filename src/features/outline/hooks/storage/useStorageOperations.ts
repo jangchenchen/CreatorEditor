@@ -15,11 +15,11 @@ interface StorageState {
   setError: (error: string | null) => void;
 }
 
-export const useStorageOperations = ({ 
-  isInitialized, 
-  currentState, 
-  setIsLoading, 
-  setError 
+export const useStorageOperations = ({
+  isInitialized,
+  currentState,
+  setIsLoading,
+  setError,
 }: StorageState) => {
   const dispatch = useDispatch();
 
@@ -42,51 +42,59 @@ export const useStorageOperations = ({
     }
   }, [currentState, isInitialized, setIsLoading, setError]);
 
-  const loadProject = useCallback(async (projectId?: string): Promise<OutlineData | null> => {
-    if (!isInitialized) {
-      throw new Error('Storage not initialized');
-    }
-
-    try {
-      setIsLoading(true);
-      setError(null);
-      const projectData = await localStorageService.loadProject(projectId);
-      
-      if (projectData) {
-        dispatch(initializeProject(projectData));
-        console.log(`Project loaded: ${projectData.projectName}`);
+  const loadProject = useCallback(
+    async (projectId?: string): Promise<OutlineData | null> => {
+      if (!isInitialized) {
+        throw new Error('Storage not initialized');
       }
-      
-      return projectData;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Load failed';
-      setError(errorMessage);
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [dispatch, isInitialized, setIsLoading, setError]);
 
-  const deleteProject = useCallback(async (projectId: string): Promise<void> => {
-    if (!isInitialized) {
-      throw new Error('Storage not initialized');
-    }
+      try {
+        setIsLoading(true);
+        setError(null);
+        const projectData = await localStorageService.loadProject(projectId);
 
-    try {
-      setIsLoading(true);
-      setError(null);
-      await localStorageService.deleteProject(projectId);
-      console.log(`Project deleted: ${projectId}`);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Delete failed';
-      setError(errorMessage);
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [isInitialized, setIsLoading, setError]);
+        if (projectData) {
+          dispatch(initializeProject(projectData));
+          console.log(`Project loaded: ${projectData.projectName}`);
+        }
 
-  const getProjectList = useCallback(async (): Promise<Array<{ id: string; name: string; lastUpdated: Date }>> => {
+        return projectData;
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Load failed';
+        setError(errorMessage);
+        throw err;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [dispatch, isInitialized, setIsLoading, setError]
+  );
+
+  const deleteProject = useCallback(
+    async (projectId: string): Promise<void> => {
+      if (!isInitialized) {
+        throw new Error('Storage not initialized');
+      }
+
+      try {
+        setIsLoading(true);
+        setError(null);
+        await localStorageService.deleteProject(projectId);
+        console.log(`Project deleted: ${projectId}`);
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Delete failed';
+        setError(errorMessage);
+        throw err;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [isInitialized, setIsLoading, setError]
+  );
+
+  const getProjectList = useCallback(async (): Promise<
+    Array<{ id: string; name: string; lastUpdated: Date }>
+  > => {
     if (!isInitialized) {
       throw new Error('Storage not initialized');
     }
@@ -121,6 +129,6 @@ export const useStorageOperations = ({
     loadProject,
     deleteProject,
     getProjectList,
-    getStorageStats
+    getStorageStats,
   };
 };

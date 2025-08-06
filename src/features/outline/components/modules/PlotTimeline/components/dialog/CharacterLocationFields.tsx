@@ -15,7 +15,7 @@ export const CharacterLocationFields: React.FC<CharacterLocationFieldsProps> = (
   selectedCharacters,
   locations,
   onCharactersChange,
-  onLocationsChange
+  onLocationsChange,
 }) => {
   return (
     <>
@@ -23,15 +23,11 @@ export const CharacterLocationFields: React.FC<CharacterLocationFieldsProps> = (
         <Autocomplete
           multiple
           options={characters.map(c => c.id)}
-          getOptionLabel={(option) => characters.find(c => c.id === option)?.name || option}
+          getOptionLabel={option => characters.find(c => c.id === option)?.name || option}
           value={selectedCharacters}
           onChange={onCharactersChange}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="涉及角色"
-              placeholder="选择相关角色"
-            />
+          renderInput={params => (
+            <TextField {...params} label='涉及角色' placeholder='选择相关角色' />
           )}
         />
       </Grid>
@@ -42,12 +38,8 @@ export const CharacterLocationFields: React.FC<CharacterLocationFieldsProps> = (
           options={[]}
           value={locations}
           onChange={onLocationsChange}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="发生地点"
-              placeholder="输入地点并按回车"
-            />
+          renderInput={params => (
+            <TextField {...params} label='发生地点' placeholder='输入地点并按回车' />
           )}
         />
       </Grid>

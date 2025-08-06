@@ -1,7 +1,7 @@
 /**
  * Storage Controls Component
  * Provides UI controls for local storage operations including auto-save, import/export
- * 
+ *
  * @deprecated This component has been refactored. Use StorageControlsRefactored for new development.
  * This file maintains backward compatibility.
  */
@@ -17,6 +17,6 @@ interface StorageControlsProps {
 /**
  * @deprecated Use the refactored StorageControls components for new development
  */
-export const StorageControls: React.FC<StorageControlsProps> = (props) => {
+export const StorageControls: React.FC<StorageControlsProps> = props => {
   return <RefactoredStorageControls {...props} />;
 };

@@ -22,8 +22,8 @@ export const useExportData = () => {
           top: 2.5,
           right: 2.5,
           bottom: 2.5,
-          left: 2.5
-        }
+          left: 2.5,
+        },
       },
       content: {
         includeProjectInfo: true,
@@ -33,22 +33,22 @@ export const useExportData = () => {
         includeChapters: true,
         includeSubplots: true,
         includeIdeas: true,
-        includeWorld: true
-      }
+        includeWorld: true,
+      },
     };
-    
+
     // Auto-fill title and author from outline data if available
     if (outlineData) {
       defaultOptions.formatting.title = outlineData.projectName || '';
       // Could potentially extract author from story data if available
     }
-    
+
     return defaultOptions;
   }, [outlineData]);
 
   const validateExportData = useCallback((): { isValid: boolean; issues: string[] } => {
     const issues: string[] = [];
-    
+
     if (!outlineData) {
       issues.push('没有可导出的项目数据');
       return { isValid: false, issues };
@@ -56,12 +56,13 @@ export const useExportData = () => {
 
     // Check if there's any content to export
     let hasContent = false;
-    
-    if (outlineData.story && (
-      outlineData.story.background?.era ||
-      outlineData.story.coreTheme?.theme ||
-      outlineData.story.synopsis?.beginning
-    )) {
+
+    if (
+      outlineData.story &&
+      (outlineData.story.background?.era ||
+        outlineData.story.coreTheme?.theme ||
+        outlineData.story.synopsis?.beginning)
+    ) {
       hasContent = true;
     }
 
@@ -69,15 +70,27 @@ export const useExportData = () => {
       hasContent = true;
     }
 
-    if (outlineData.timeline && outlineData.timeline.events && outlineData.timeline.events.length > 0) {
+    if (
+      outlineData.timeline &&
+      outlineData.timeline.events &&
+      outlineData.timeline.events.length > 0
+    ) {
       hasContent = true;
     }
 
-    if (outlineData.chapters && outlineData.chapters.chapters && outlineData.chapters.chapters.length > 0) {
+    if (
+      outlineData.chapters &&
+      outlineData.chapters.chapters &&
+      outlineData.chapters.chapters.length > 0
+    ) {
       hasContent = true;
     }
 
-    if (outlineData.subplots && outlineData.subplots.subplots && outlineData.subplots.subplots.length > 0) {
+    if (
+      outlineData.subplots &&
+      outlineData.subplots.subplots &&
+      outlineData.subplots.subplots.length > 0
+    ) {
       hasContent = true;
     }
 
@@ -91,26 +104,34 @@ export const useExportData = () => {
 
     // Check for potential data quality issues
     if (outlineData.characters) {
-      const charactersWithoutNames = outlineData.characters.filter(c => !c.name || c.name.trim() === '');
+      const charactersWithoutNames = outlineData.characters.filter(
+        c => !c.name || c.name.trim() === ''
+      );
       if (charactersWithoutNames.length > 0) {
         issues.push(`发现 ${charactersWithoutNames.length} 个角色没有名称`);
       }
     }
 
     if (outlineData.chapters && outlineData.chapters.chapters) {
-      const chaptersWithoutTitles = outlineData.chapters.chapters.filter(c => !c.title || c.title.trim() === '');
+      const chaptersWithoutTitles = outlineData.chapters.chapters.filter(
+        c => !c.title || c.title.trim() === ''
+      );
       if (chaptersWithoutTitles.length > 0) {
         issues.push(`发现 ${chaptersWithoutTitles.length} 个章节没有标题`);
       }
 
-      const chaptersWithoutSummary = outlineData.chapters.chapters.filter(c => !c.summary || c.summary.trim() === '');
+      const chaptersWithoutSummary = outlineData.chapters.chapters.filter(
+        c => !c.summary || c.summary.trim() === ''
+      );
       if (chaptersWithoutSummary.length > 0) {
         issues.push(`发现 ${chaptersWithoutSummary.length} 个章节没有概述`);
       }
     }
 
     if (outlineData.timeline && outlineData.timeline.events) {
-      const eventsWithoutTitles = outlineData.timeline.events.filter(e => !e.title || e.title.trim() === '');
+      const eventsWithoutTitles = outlineData.timeline.events.filter(
+        e => !e.title || e.title.trim() === ''
+      );
       if (eventsWithoutTitles.length > 0) {
         issues.push(`发现 ${eventsWithoutTitles.length} 个时间线事件没有标题`);
       }
@@ -118,13 +139,13 @@ export const useExportData = () => {
 
     return {
       isValid: issues.length === 0 || hasContent, // Allow export even with minor issues if there's content
-      issues
+      issues,
     };
   }, [outlineData]);
 
   return {
     outlineData,
     getDefaultOptions,
-    validateExportData
+    validateExportData,
   };
 };

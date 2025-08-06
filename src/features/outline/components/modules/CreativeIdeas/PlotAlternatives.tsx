@@ -1,9 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Divider } from '@mui/material';
-import {
-  selectOutline
-} from '../../../outlineSlice';
+import { selectOutline } from '../../../outlineSlice';
 import { PlotAlternative } from '../../../types/outline.types';
 import AlternativeStatistics from './components/AlternativeStatistics';
 import AlternativeToolbar from './components/AlternativeToolbar';
@@ -16,7 +14,7 @@ const PlotAlternatives: React.FC = () => {
   const dispatch = useDispatch();
   const outline = useSelector(selectOutline);
   const alternatives = outline.ideas.alternatives;
-  
+
   const {
     editingAlternative,
     dialogOpen,
@@ -26,7 +24,7 @@ const PlotAlternatives: React.FC = () => {
     handleFormChange,
     handleListFieldChange,
     handleAddListItem,
-    handleRemoveListItem
+    handleRemoveListItem,
   } = useAlternativeState();
 
   const handleSaveAlternative = () => {
@@ -36,7 +34,7 @@ const PlotAlternatives: React.FC = () => {
       alternativeVersion: formData.alternativeVersion || '',
       pros: formData.pros || [],
       cons: formData.cons || [],
-      impact: formData.impact || ''
+      impact: formData.impact || '',
     };
 
     // TODO: 使用 dispatch 更新 Redux state

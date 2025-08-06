@@ -9,7 +9,7 @@ import {
   StepContent,
   Button,
   Paper,
-  Box
+  Box,
 } from '@mui/material';
 import { Timeline as ArcIcon } from '@mui/icons-material';
 import { CharacterStepData } from './types';
@@ -41,21 +41,27 @@ export const ArcTimeline: React.FC<ArcTimelineProps> = ({
   eventText,
   onEventTextChange,
   onSave,
-  onCancel
+  onCancel,
 }) => {
   const getStepColor = (type: string) => {
     switch (type) {
-      case 'start': return 'primary';
-      case 'end': return 'success';
-      default: return 'inherit';
+      case 'start':
+        return 'primary';
+      case 'end':
+        return 'success';
+      default:
+        return 'inherit';
     }
   };
 
   const getStepBgColor = (type: string) => {
     switch (type) {
-      case 'start': return 'grey.50';
-      case 'end': return 'success.50';
-      default: return 'primary.50';
+      case 'start':
+        return 'grey.50';
+      case 'end':
+        return 'success.50';
+      default:
+        return 'primary.50';
     }
   };
 
@@ -64,41 +70,35 @@ export const ArcTimeline: React.FC<ArcTimelineProps> = ({
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
           <ArcIcon sx={{ mr: 1, color: 'primary.main' }} />
-          <Typography variant="h6">角色发展弧线</Typography>
+          <Typography variant='h6'>角色发展弧线</Typography>
         </Box>
 
-        <Stepper activeStep={activeStep} orientation="vertical">
+        <Stepper activeStep={activeStep} orientation='vertical'>
           {steps.map((step, index) => (
             <Step key={index} completed={step.isCompleted}>
-              <StepLabel 
-                onClick={() => onStepClick(step.index)} 
-                sx={{ cursor: 'pointer' }}
-              >
-                <Typography 
-                  variant="subtitle1" 
-                  color={getStepColor(step.type) as any}
-                >
+              <StepLabel onClick={() => onStepClick(step.index)} sx={{ cursor: 'pointer' }}>
+                <Typography variant='subtitle1' color={getStepColor(step.type) as any}>
                   {step.title}
                 </Typography>
               </StepLabel>
               <StepContent>
-                <Paper 
-                  elevation={1} 
-                  sx={{ 
-                    p: 2, 
-                    mb: 2, 
-                    bgcolor: getStepBgColor(step.type) 
+                <Paper
+                  elevation={1}
+                  sx={{
+                    p: 2,
+                    mb: 2,
+                    bgcolor: getStepBgColor(step.type),
                   }}
                 >
                   {isEditing && editingEvent === step.index ? (
                     <Box>
-                      <Typography variant="body2" gutterBottom>
+                      <Typography variant='body2' gutterBottom>
                         编辑事件内容:
                       </Typography>
                       <Typography
                         contentEditable
                         suppressContentEditableWarning
-                        onInput={(e) => onEventTextChange(e.currentTarget.textContent || '')}
+                        onInput={e => onEventTextChange(e.currentTarget.textContent || '')}
                         sx={{
                           border: '1px solid #ccc',
                           padding: '8px',
@@ -106,39 +106,28 @@ export const ArcTimeline: React.FC<ArcTimelineProps> = ({
                           minHeight: '60px',
                           '&:focus': {
                             outline: 'none',
-                            borderColor: 'primary.main'
-                          }
+                            borderColor: 'primary.main',
+                          },
                         }}
                       >
                         {eventText}
                       </Typography>
                       <Box sx={{ mt: 1 }}>
-                        <Button
-                          variant="contained"
-                          size="small"
-                          onClick={onSave}
-                          sx={{ mr: 1 }}
-                        >
+                        <Button variant='contained' size='small' onClick={onSave} sx={{ mr: 1 }}>
                           保存
                         </Button>
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          onClick={onCancel}
-                        >
+                        <Button variant='outlined' size='small' onClick={onCancel}>
                           取消
                         </Button>
                       </Box>
                     </Box>
                   ) : (
                     <Box>
-                      <Typography variant="body1">
-                        {step.content}
-                      </Typography>
+                      <Typography variant='body1'>{step.content}</Typography>
                       {step.type === 'event' && (
                         <Button
-                          variant="outlined"
-                          size="small"
+                          variant='outlined'
+                          size='small'
                           onClick={() => onEdit(step.index)}
                           sx={{ mt: 1 }}
                         >
@@ -148,24 +137,15 @@ export const ArcTimeline: React.FC<ArcTimelineProps> = ({
                     </Box>
                   )}
                 </Paper>
-                
+
                 <Box sx={{ mb: 1 }}>
                   {index > 0 && (
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      onClick={onPrevious}
-                      sx={{ mr: 1 }}
-                    >
+                    <Button variant='outlined' size='small' onClick={onPrevious} sx={{ mr: 1 }}>
                       上一步
                     </Button>
                   )}
                   {index < steps.length - 1 && (
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={onNext}
-                    >
+                    <Button variant='contained' size='small' onClick={onNext}>
                       {index === steps.length - 2 ? '查看结果' : '下一步'}
                     </Button>
                   )}
@@ -178,18 +158,13 @@ export const ArcTimeline: React.FC<ArcTimelineProps> = ({
         {/* 完成状态显示 */}
         {activeStep >= steps.length && (
           <Paper elevation={2} sx={{ p: 3, mt: 2, bgcolor: 'success.50' }}>
-            <Typography variant="h6" color="success.main" gutterBottom>
+            <Typography variant='h6' color='success.main' gutterBottom>
               🎉 角色发展弧线完成！
             </Typography>
-            <Typography variant="body1">
+            <Typography variant='body1'>
               已经完成了从"{steps[0]?.content}"到"{steps[steps.length - 1]?.content}"的完整转变。
             </Typography>
-            <Button
-              variant="contained"
-              size="small"
-              onClick={() => onStepClick(0)}
-              sx={{ mt: 2 }}
-            >
+            <Button variant='contained' size='small' onClick={() => onStepClick(0)} sx={{ mt: 2 }}>
               重新查看
             </Button>
           </Paper>

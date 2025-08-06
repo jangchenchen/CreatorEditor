@@ -14,19 +14,19 @@ export function createOutlineStateFromData(data: OutlineData): any {
       id: data.id,
       name: data.projectName,
       createdAt: data.createdAt,
-      lastUpdated: data.lastUpdated
+      lastUpdated: data.lastUpdated,
     },
     story: data.story,
     characters: {
       characters: data.characters,
-      relationships: data.relationships
+      relationships: data.relationships,
     },
     timeline: data.timeline,
     chapters: data.chapters,
     world: data.world,
     themes: data.themes,
     subplots: data.subplots,
-    ideas: data.ideas
+    ideas: data.ideas,
   };
 }
 
@@ -40,7 +40,7 @@ export function createDataFromOutlineState(state: any): OutlineData {
     version: '1.0.0',
     createdAt: state.project.createdAt,
     lastUpdated: state.project.lastUpdated,
-    
+
     story: state.story,
     characters: state.characters?.characters || [],
     relationships: state.characters?.relationships || [],
@@ -49,7 +49,7 @@ export function createDataFromOutlineState(state: any): OutlineData {
     world: state.world,
     themes: state.themes,
     subplots: state.subplots,
-    ideas: state.ideas
+    ideas: state.ideas,
   };
 }
 
@@ -59,56 +59,56 @@ export function createDataFromOutlineState(state: any): OutlineData {
 export function normalizeProjectData(data: Partial<OutlineData>): OutlineData {
   const now = new Date();
   const projectId = data.id || `project_${Date.now()}`;
-  
+
   return {
     id: projectId,
     projectName: data.projectName || 'Untitled Project',
     version: data.version || '1.0.0',
     createdAt: data.createdAt || now,
     lastUpdated: data.lastUpdated || now,
-    
+
     story: data.story || {
       id: `story_${projectId}`,
       background: {
         era: '',
         location: '',
         socialEnvironment: '',
-        historicalContext: ''
+        historicalContext: '',
       },
       coreTheme: {
         theme: '',
         conflict: '',
         message: '',
-        keywords: []
+        keywords: [],
       },
       synopsis: {
         beginning: '',
         development: '',
         climax: '',
         ending: '',
-        overallTone: ''
+        overallTone: '',
       },
-      lastUpdated: now
+      lastUpdated: now,
     },
-    
+
     characters: data.characters || [],
     relationships: data.relationships || [],
-    
+
     timeline: data.timeline || {
       id: `timeline_${projectId}`,
       events: [],
       startTime: '',
       endTime: '',
-      timelineNotes: ''
+      timelineNotes: '',
     },
-    
+
     world: data.world || {
       id: `world_${projectId}`,
       geography: {
         regions: [],
         climate: '',
         landmarks: [],
-        naturalFeatures: []
+        naturalFeatures: [],
       },
       society: {
         political: '',
@@ -116,25 +116,25 @@ export function normalizeProjectData(data: Partial<OutlineData>): OutlineData {
         cultural: [],
         religious: '',
         technology: '',
-        socialClasses: []
+        socialClasses: [],
       },
       history: {
         timeline: [],
         legends: [],
         familySecrets: [],
-        mysteries: []
+        mysteries: [],
       },
       customRules: [],
-      inspirationSources: []
+      inspirationSources: [],
     },
-    
+
     chapters: data.chapters || {
       id: `chapters_${projectId}`,
       chapters: [],
       totalChapters: 0,
-      overallStructure: ''
+      overallStructure: '',
     },
-    
+
     themes: data.themes || {
       id: `themes_${projectId}`,
       themes: {
@@ -142,28 +142,28 @@ export function normalizeProjectData(data: Partial<OutlineData>): OutlineData {
         secondary: [],
         symbols: [],
         metaphors: [],
-        motifs: []
+        motifs: [],
       },
       characterMotivations: [],
       philosophicalQuestions: [],
       socialCommentary: [],
-      personalReflections: []
+      personalReflections: [],
     },
-    
+
     subplots: data.subplots || {
       id: `subplots_${projectId}`,
       subplots: [],
       secondaryStories: [],
-      weavingStrategy: ''
+      weavingStrategy: '',
     },
-    
+
     ideas: data.ideas || {
       id: `ideas_${projectId}`,
       ideas: [],
       alternatives: [],
       inspirationSources: [],
-      brainstormingSessions: []
-    }
+      brainstormingSessions: [],
+    },
   };
 }
 
@@ -177,10 +177,13 @@ export function cloneProjectData(data: OutlineData): OutlineData {
 /**
  * Merge project data with updates
  */
-export function mergeProjectData(original: OutlineData, updates: Partial<OutlineData>): OutlineData {
+export function mergeProjectData(
+  original: OutlineData,
+  updates: Partial<OutlineData>
+): OutlineData {
   return {
     ...original,
     ...updates,
-    lastUpdated: new Date()
+    lastUpdated: new Date(),
   };
 }

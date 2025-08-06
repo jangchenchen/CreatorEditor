@@ -17,24 +17,22 @@ const EditorStatusBar: React.FC<EditorStatusBarProps> = ({
 }) => {
   return (
     <StatusBar>
-      <Box display="flex" alignItems="center" gap={2}>
-        <Typography variant="body2">
-          字数: {wordCount}
-        </Typography>
+      <Box display='flex' alignItems='center' gap={2}>
+        <Typography variant='body2'>字数: {wordCount}</Typography>
         {isDirty && (
-          <Typography variant="body2" color="warning.main">
+          <Typography variant='body2' color='warning.main'>
             未保存
           </Typography>
         )}
         {lastSaved && (
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             上次保存: {lastSaved.toLocaleTimeString()}
           </Typography>
         )}
       </Box>
-      
-      <Box display="flex" alignItems="center" gap={1}>
-        <Typography variant="body2" color="text.secondary">
+
+      <Box display='flex' alignItems='center' gap={1}>
+        <Typography variant='body2' color='text.secondary'>
           自动保存: {autoSaveEnabled ? '开启' : '关闭'}
         </Typography>
       </Box>

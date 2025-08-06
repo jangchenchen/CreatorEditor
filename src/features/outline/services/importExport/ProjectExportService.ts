@@ -38,7 +38,7 @@ export class ProjectExportService {
       format: 'json-pretty',
       includeMetadata: true,
       compression: false,
-      encryption: false
+      encryption: false,
     };
 
     const exportOptions = { ...defaultOptions, ...options };
@@ -47,11 +47,11 @@ export class ProjectExportService {
     try {
       // Load project data
       const projectData = await localStorageService.loadProject(projectId);
-      
+
       if (!projectData) {
         return {
           success: false,
-          errors: [`Project ${projectId} not found`]
+          errors: [`Project ${projectId} not found`],
         };
       }
 
@@ -76,14 +76,13 @@ export class ProjectExportService {
         success: true,
         filePath,
         size: fileSize,
-        errors: errors
+        errors: errors,
       };
-
     } catch (error) {
       console.error('Export failed:', error);
       return {
         success: false,
-        errors: [`Export failed: ${error.message}`]
+        errors: [`Export failed: ${error.message}`],
       };
     }
   }

@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { 
-  Box, 
-  Paper, 
-  Tabs, 
-  Tab, 
-  Typography,
-  Toolbar,
-  IconButton,
-  Tooltip
-} from '@mui/material';
+import { Box, Paper, Tabs, Tab, Typography, Toolbar, IconButton, Tooltip } from '@mui/material';
 import {
   Public as BackgroundIcon,
   Psychology as ThemeIcon,
   MenuBook as SynopsisIcon,
   Save as SaveIcon,
-  Refresh as RefreshIcon
+  Refresh as RefreshIcon,
 } from '@mui/icons-material';
 import StoryBackground from './StoryBackground';
 import CoreTheme from './CoreTheme';
@@ -31,17 +22,13 @@ interface TabPanelProps {
 const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other }) => {
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`story-tabpanel-${index}`}
       aria-labelledby={`story-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };
@@ -72,19 +59,19 @@ const StoryOverview: React.FC = () => {
   return (
     <Paper elevation={2} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* 工具栏 */}
-      <Toolbar variant="dense" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <Toolbar variant='dense' sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
           故事概述
         </Typography>
-        
-        <Tooltip title="保存">
-          <IconButton size="small" onClick={handleSave}>
+
+        <Tooltip title='保存'>
+          <IconButton size='small' onClick={handleSave}>
             <SaveIcon />
           </IconButton>
         </Tooltip>
-        
-        <Tooltip title="刷新">
-          <IconButton size="small" onClick={handleRefresh}>
+
+        <Tooltip title='刷新'>
+          <IconButton size='small' onClick={handleRefresh}>
             <RefreshIcon />
           </IconButton>
         </Tooltip>
@@ -92,28 +79,24 @@ const StoryOverview: React.FC = () => {
 
       {/* 标签页导航 */}
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs 
-          value={activeTab} 
-          onChange={handleTabChange}
-          aria-label="story overview tabs"
-        >
-          <Tab 
-            icon={<BackgroundIcon />} 
-            label="背景设定" 
-            id="story-tab-0"
-            aria-controls="story-tabpanel-0"
+        <Tabs value={activeTab} onChange={handleTabChange} aria-label='story overview tabs'>
+          <Tab
+            icon={<BackgroundIcon />}
+            label='背景设定'
+            id='story-tab-0'
+            aria-controls='story-tabpanel-0'
           />
-          <Tab 
-            icon={<ThemeIcon />} 
-            label="核心主题" 
-            id="story-tab-1"
-            aria-controls="story-tabpanel-1"
+          <Tab
+            icon={<ThemeIcon />}
+            label='核心主题'
+            id='story-tab-1'
+            aria-controls='story-tabpanel-1'
           />
-          <Tab 
-            icon={<SynopsisIcon />} 
-            label="故事概要" 
-            id="story-tab-2"
-            aria-controls="story-tabpanel-2"
+          <Tab
+            icon={<SynopsisIcon />}
+            label='故事概要'
+            id='story-tab-2'
+            aria-controls='story-tabpanel-2'
           />
         </Tabs>
       </Box>
@@ -123,11 +106,11 @@ const StoryOverview: React.FC = () => {
         <TabPanel value={activeTab} index={0}>
           <StoryBackground />
         </TabPanel>
-        
+
         <TabPanel value={activeTab} index={1}>
           <CoreTheme />
         </TabPanel>
-        
+
         <TabPanel value={activeTab} index={2}>
           <StorySynopsis />
         </TabPanel>

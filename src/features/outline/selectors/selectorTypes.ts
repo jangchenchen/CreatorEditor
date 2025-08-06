@@ -1,4 +1,12 @@
-import { Character, Chapter, Scene, TimelineEvent, Subplot, SecondaryStory, Idea } from '../types/outline.types';
+import {
+  Character,
+  Chapter,
+  Scene,
+  TimelineEvent,
+  Subplot,
+  SecondaryStory,
+  Idea,
+} from '../types/outline.types';
 
 export interface ValidationContext {
   validCharacterIds: Set<string>;

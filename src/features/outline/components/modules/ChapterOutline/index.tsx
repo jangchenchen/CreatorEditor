@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { 
-  Box, 
-  Paper, 
-  Tabs, 
-  Tab, 
-  Typography,
-  Toolbar,
-  IconButton,
-  Tooltip
-} from '@mui/material';
+import { Box, Paper, Tabs, Tab, Typography, Toolbar, IconButton, Tooltip } from '@mui/material';
 import {
   MenuBook as ChapterIcon,
   Movie as SceneIcon,
   AccountTree as StructureIcon,
   Add as AddIcon,
-  Save as SaveIcon
+  Save as SaveIcon,
 } from '@mui/icons-material';
 import ChapterManagement from './ChapterManagement';
 import SceneEditor from './SceneEditor';
@@ -32,17 +23,13 @@ interface TabPanelProps {
 const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other }) => {
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`chapter-tabpanel-${index}`}
       aria-labelledby={`chapter-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };
@@ -67,7 +54,7 @@ const ChapterOutline: React.FC = () => {
       status: 'draft',
       wordCount: 0,
       estimatedReadingTime: 0,
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     };
     dispatch(addChapter(newChapter));
     console.log('已添加新章节:', newChapter);
@@ -82,19 +69,19 @@ const ChapterOutline: React.FC = () => {
   return (
     <Paper elevation={2} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* 工具栏 */}
-      <Toolbar variant="dense" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <Toolbar variant='dense' sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
           章节大纲
         </Typography>
-        
-        <Tooltip title="添加章节">
-          <IconButton size="small" onClick={handleAddChapter}>
+
+        <Tooltip title='添加章节'>
+          <IconButton size='small' onClick={handleAddChapter}>
             <AddIcon />
           </IconButton>
         </Tooltip>
-        
-        <Tooltip title="保存">
-          <IconButton size="small" onClick={handleSave}>
+
+        <Tooltip title='保存'>
+          <IconButton size='small' onClick={handleSave}>
             <SaveIcon />
           </IconButton>
         </Tooltip>
@@ -102,28 +89,24 @@ const ChapterOutline: React.FC = () => {
 
       {/* 标签页导航 */}
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs 
-          value={activeTab} 
-          onChange={handleTabChange}
-          aria-label="chapter outline tabs"
-        >
-          <Tab 
-            icon={<ChapterIcon />} 
-            label="章节管理" 
-            id="chapter-tab-0"
-            aria-controls="chapter-tabpanel-0"
+        <Tabs value={activeTab} onChange={handleTabChange} aria-label='chapter outline tabs'>
+          <Tab
+            icon={<ChapterIcon />}
+            label='章节管理'
+            id='chapter-tab-0'
+            aria-controls='chapter-tabpanel-0'
           />
-          <Tab 
-            icon={<SceneIcon />} 
-            label="场景编辑" 
-            id="chapter-tab-1"
-            aria-controls="chapter-tabpanel-1"
+          <Tab
+            icon={<SceneIcon />}
+            label='场景编辑'
+            id='chapter-tab-1'
+            aria-controls='chapter-tabpanel-1'
           />
-          <Tab 
-            icon={<StructureIcon />} 
-            label="结构概览" 
-            id="chapter-tab-2"
-            aria-controls="chapter-tabpanel-2"
+          <Tab
+            icon={<StructureIcon />}
+            label='结构概览'
+            id='chapter-tab-2'
+            aria-controls='chapter-tabpanel-2'
           />
         </Tabs>
       </Box>
@@ -133,11 +116,11 @@ const ChapterOutline: React.FC = () => {
         <TabPanel value={activeTab} index={0}>
           <ChapterManagement />
         </TabPanel>
-        
+
         <TabPanel value={activeTab} index={1}>
           <SceneEditor />
         </TabPanel>
-        
+
         <TabPanel value={activeTab} index={2}>
           <StructureOverview />
         </TabPanel>

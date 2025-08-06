@@ -6,12 +6,9 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
 } from '@mui/material';
-import {
-  Save as SaveIcon,
-  Cancel as CancelIcon
-} from '@mui/icons-material';
+import { Save as SaveIcon, Cancel as CancelIcon } from '@mui/icons-material';
 import { Subplot } from '../../../../types/outline.types';
 import SubplotBasicFields from './SubplotBasicFields';
 import SubplotDetailsFields from './SubplotDetailsFields';
@@ -23,9 +20,9 @@ interface SubplotEditDialogProps {
   characters: any[];
   onClose: () => void;
   onSave: () => void;
-  onFormChange: (field: keyof Subplot) => (
-    event: React.ChangeEvent<HTMLInputElement | { value: unknown }>
-  ) => void;
+  onFormChange: (
+    field: keyof Subplot
+  ) => (event: React.ChangeEvent<HTMLInputElement | { value: unknown }>) => void;
   onCharactersChange: (event: any, newValue: string[]) => void;
 }
 
@@ -37,21 +34,16 @@ const SubplotEditDialog: React.FC<SubplotEditDialogProps> = ({
   onClose,
   onSave,
   onFormChange,
-  onCharactersChange
+  onCharactersChange,
 }) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>
-        {editingSubplot ? '编辑副线情节' : '添加新副线情节'}
-      </DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth='md' fullWidth>
+      <DialogTitle>{editingSubplot ? '编辑副线情节' : '添加新副线情节'}</DialogTitle>
       <DialogContent>
-        <Box component="form" sx={{ mt: 2 }}>
+        <Box component='form' sx={{ mt: 2 }}>
           <Grid container spacing={2}>
-            <SubplotBasicFields
-              formData={formData}
-              onFormChange={onFormChange}
-            />
-            
+            <SubplotBasicFields formData={formData} onFormChange={onFormChange} />
+
             <SubplotDetailsFields
               formData={formData}
               characters={characters}
@@ -65,9 +57,9 @@ const SubplotEditDialog: React.FC<SubplotEditDialogProps> = ({
         <Button onClick={onClose} startIcon={<CancelIcon />}>
           取消
         </Button>
-        <Button 
-          onClick={onSave} 
-          variant="contained" 
+        <Button
+          onClick={onSave}
+          variant='contained'
           startIcon={<SaveIcon />}
           disabled={!formData.title}
         >

@@ -15,11 +15,11 @@ export const mockCharacters: Character[] = [
       startState: '隐居',
       keyEvents: [],
       endState: '宗师',
-      growthDirection: 'growth'
+      growthDirection: 'growth',
     },
     tags: ['武当'],
     createdAt: new Date(),
-    lastUpdated: new Date()
+    lastUpdated: new Date(),
   },
   {
     id: '2',
@@ -34,11 +34,11 @@ export const mockCharacters: Character[] = [
       startState: '少年',
       keyEvents: [],
       endState: '英雄',
-      growthDirection: 'growth'
+      growthDirection: 'growth',
     },
     tags: ['武当', '明教'],
     createdAt: new Date(),
-    lastUpdated: new Date()
+    lastUpdated: new Date(),
   },
   {
     id: '3',
@@ -53,12 +53,12 @@ export const mockCharacters: Character[] = [
       startState: '郡主',
       keyEvents: [],
       endState: '贤妻',
-      growthDirection: 'transformation'
+      growthDirection: 'transformation',
     },
     tags: ['朝廷', '郡主'],
     createdAt: new Date(),
-    lastUpdated: new Date()
-  }
+    lastUpdated: new Date(),
+  },
 ];
 
 export const mockRelationships: Relationship[] = [
@@ -70,7 +70,7 @@ export const mockRelationships: Relationship[] = [
     description: '师父和弟子的关系',
     intensity: 9,
     isReversible: false,
-    developmentStage: '深厚师徒情'
+    developmentStage: '深厚师徒情',
   },
   {
     id: '2',
@@ -80,6 +80,6 @@ export const mockRelationships: Relationship[] = [
     description: '互相爱慕的恋人',
     intensity: 10,
     isReversible: true,
-    developmentStage: '热恋期'
-  }
+    developmentStage: '热恋期',
+  },
 ];

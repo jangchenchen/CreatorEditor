@@ -24,26 +24,26 @@ export class PdfExportService implements ExportService {
     updateProgress: UpdateProgressFunction
   ): Promise<void> {
     updateProgress('processing', 10, '创建PDF文档', 1, 4);
-    
+
     await this.initializePdf(options);
-    
+
     updateProgress('processing', 20, '生成PDF内容', 1, 4);
-    
+
     if (options.formatting.includeCoverPage) {
       this.addCoverPage(data, options);
       this.addNewPage();
     }
 
     this.addContentSections(data, options, updateProgress);
-    
+
     updateProgress('generating', 90, '完成PDF生成', 2, 4);
-    
+
     if (options.formatting.pageNumbers) {
       this.addPageNumbers();
     }
 
     updateProgress('saving', 95, '保存PDF文件', 3, 4);
-    
+
     await this.savePdf(data, options);
   }
 
@@ -64,7 +64,7 @@ export class PdfExportService implements ExportService {
       size: 24,
       font: this.boldFont,
     });
-    
+
     this.currentPage.drawText(`作者: ${options.formatting.author || '未知作者'}`, {
       x: this.pageMargin,
       y: 550,
@@ -81,8 +81,8 @@ export class PdfExportService implements ExportService {
   }
 
   private addContentSections(
-    data: OutlineData, 
-    options: ExportOptions, 
+    data: OutlineData,
+    options: ExportOptions,
     updateProgress: UpdateProgressFunction
   ): void {
     const addHeading = this.addHeading.bind(this);
@@ -128,7 +128,7 @@ export class PdfExportService implements ExportService {
     if (this.yPosition < this.pageMargin + size) {
       this.addNewPage();
     }
-    
+
     this.currentPage.drawText(text, {
       x: this.pageMargin,
       y: this.yPosition,
@@ -136,7 +136,7 @@ export class PdfExportService implements ExportService {
       font: fontType,
       color: rgb(0, 0, 0),
     });
-    
+
     this.yPosition -= this.lineHeight;
   }
 
@@ -168,7 +168,7 @@ export class PdfExportService implements ExportService {
   private async savePdf(data: OutlineData, options: ExportOptions): Promise<void> {
     const pdfBytes = await this.pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    
+
     const filename = BaseExportService.generateFilename(options, data, 'pdf');
     saveAs(blob, filename);
   }

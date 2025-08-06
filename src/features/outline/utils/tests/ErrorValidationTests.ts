@@ -68,36 +68,36 @@ export class ErrorValidationTests {
       // Test valid data
       const validData = TestDataFactory.createTestProject();
       const isValid = DataMigrationService.validateCurrentSchema(validData);
-      
+
       if (!isValid) {
         console.error('Valid data failed validation');
         return false;
       }
-      
+
       console.log('✓ Valid data passed validation');
-      
+
       // Test invalid data (missing version)
       const invalidData = { ...validData, version: undefined };
       const isInvalid = DataMigrationService.validateCurrentSchema(invalidData);
-      
+
       if (isInvalid) {
         console.error('Invalid data (missing version) passed validation');
         return false;
       }
-      
+
       console.log('✓ Invalid data (missing version) correctly rejected');
 
       // Test invalid data (missing required fields)
       const invalidData2 = { ...validData, projectName: undefined };
       const isInvalid2 = DataMigrationService.validateCurrentSchema(invalidData2);
-      
+
       if (isInvalid2) {
         console.error('Invalid data (missing projectName) passed validation');
         return false;
       }
-      
+
       console.log('✓ Invalid data (missing projectName) correctly rejected');
-      
+
       return true;
     } catch (error) {
       console.error('Data validation test failed:', error);

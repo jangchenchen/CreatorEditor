@@ -20,17 +20,17 @@ export class IdeaValidator {
             module: 'ideas',
             entityId: idea.id,
             message: `Idea "${idea.title}" references deleted character: ${element.id}`,
-            severity: 'low'
+            severity: 'low',
           });
         }
-        
+
         if (element.type === 'chapter' && !validChapterIds.has(element.id)) {
           errors.push({
             type: 'orphaned_reference',
             module: 'ideas',
             entityId: idea.id,
             message: `Idea "${idea.title}" references deleted chapter: ${element.id}`,
-            severity: 'low'
+            severity: 'low',
           });
         }
       });

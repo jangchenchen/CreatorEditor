@@ -37,7 +37,7 @@ global.IntersectionObserver = jest.fn().mockImplementation(() => ({
 // Enhanced localStorage mock for integration tests
 const createStorageMock = () => {
   const storage: Record<string, string> = {};
-  
+
   return {
     getItem: jest.fn((key: string) => storage[key] || null),
     setItem: jest.fn((key: string, value: string) => {
@@ -58,7 +58,7 @@ const createStorageMock = () => {
     _setStorage: (newStorage: Record<string, string>) => {
       Object.keys(storage).forEach(key => delete storage[key]);
       Object.assign(storage, newStorage);
-    }
+    },
   };
 };
 
@@ -85,7 +85,7 @@ global.File = jest.fn().mockImplementation((content, filename, options) => ({
   arrayBuffer: jest.fn().mockResolvedValue(new ArrayBuffer(content.length)),
   text: jest.fn().mockResolvedValue(content.join ? content.join('') : content),
   stream: jest.fn(),
-  slice: jest.fn()
+  slice: jest.fn(),
 })) as any;
 
 // Mock FileReader for file reading operations
@@ -102,7 +102,7 @@ global.FileReader = jest.fn().mockImplementation(() => ({
   result: null,
   error: null,
   readyState: 0,
-  abort: jest.fn()
+  abort: jest.fn(),
 })) as any;
 
 // Mock Blob for file operations
@@ -112,7 +112,7 @@ global.Blob = jest.fn().mockImplementation((content, options) => ({
   arrayBuffer: jest.fn().mockResolvedValue(new ArrayBuffer(content?.length || 0)),
   text: jest.fn().mockResolvedValue(content?.join ? content.join('') : content || ''),
   stream: jest.fn(),
-  slice: jest.fn()
+  slice: jest.fn(),
 })) as any;
 
 // Mock URL.createObjectURL
@@ -130,21 +130,55 @@ afterEach(() => {
   jest.clearAllMocks();
   localStorageMock.clear();
   sessionStorageMock.clear();
-  
+
   // 清理文件操作模拟
   (global.URL.createObjectURL as jest.Mock).mockClear();
   (global.URL.revokeObjectURL as jest.Mock).mockClear();
-  
+
+  // 重置electronAPI模拟（根据集成测试方案）
+  if ((global as any).window?.electronAPI?._resetMocks) {
+    (global as any).window.electronAPI._resetMocks();
+  }
+
   // 重置 timers（用于测试自动保存等定时功能）
   if (jest.isMockFunction(setTimeout)) {
     jest.clearAllTimers();
   }
 });
 
-// 在测试开始前设置模拟定时器
+// 全局 Mock electronAPI（根据集成测试方案）
 beforeEach(() => {
   // 为自动保存测试提供假时钟支持
   jest.useFakeTimers({ advanceTimers: true });
+
+  // Mock electronAPI for integration tests
+  (global as any).window = {
+    ...(global as any).window,
+    electronAPI: {
+      openFile: jest.fn(),
+      saveFile: jest.fn(),
+      readFile: jest.fn(),
+      writeFile: jest.fn(),
+      // 文件操作相关
+      showOpenDialog: jest.fn(),
+      showSaveDialog: jest.fn(),
+      // 应用控制相关
+      closeApp: jest.fn(),
+      minimizeApp: jest.fn(),
+      maximizeApp: jest.fn(),
+      // 系统集成相关
+      showItemInFolder: jest.fn(),
+      getPath: jest.fn(),
+      // 重置所有mock
+      _resetMocks: function () {
+        Object.keys(this).forEach(key => {
+          if (key !== '_resetMocks' && jest.isMockFunction(this[key])) {
+            this[key].mockReset();
+          }
+        });
+      },
+    },
+  };
 });
 
 // 测试结束后恢复真实定时器

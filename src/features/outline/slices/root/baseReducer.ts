@@ -20,7 +20,7 @@ export const baseOutlineReducer = combineReducers({
   subplots: subplotsReducer,
   ideas: ideasReducer,
   world: worldReducer,
-  themes: themesReducer
+  themes: themesReducer,
 });
 
 export default baseOutlineReducer;

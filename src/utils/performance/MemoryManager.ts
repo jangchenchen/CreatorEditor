@@ -29,9 +29,9 @@ class MemoryManager {
   private objectPools = new Map<string, ObjectPoolItem<any>[]>();
   private weakRefs = new Set<WeakRef<any>>();
   private memoryThresholds = {
-    warningPercent: 70,  // 内存使用超过70%警告
+    warningPercent: 70, // 内存使用超过70%警告
     criticalPercent: 90, // 内存使用超过90%严重警告
-    maxHistorySize: 100  // 保留最近100次内存记录
+    maxHistorySize: 100, // 保留最近100次内存记录
   };
   private isMonitoring = false;
   private monitoringInterval: NodeJS.Timeout | null = null;
@@ -79,7 +79,7 @@ class MemoryManager {
       usedJSHeapSize: memory.usedJSHeapSize,
       totalJSHeapSize: memory.totalJSHeapSize,
       jsHeapSizeLimit: memory.jsHeapSizeLimit,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     // 添加到历史记录
@@ -105,7 +105,7 @@ class MemoryManager {
         type: 'critical',
         message: `Critical memory usage: ${usagePercent.toFixed(1)}%`,
         usage,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
       this.memoryAlerts.push(alert);
       console.error(alert.message, usage);
@@ -114,7 +114,7 @@ class MemoryManager {
         type: 'warning',
         message: `High memory usage: ${usagePercent.toFixed(1)}%`,
         usage,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
       this.memoryAlerts.push(alert);
       console.warn(alert.message, usage);
@@ -146,7 +146,7 @@ class MemoryManager {
         average: 0,
         peak: 0,
         trend: 'stable',
-        leakDetection: { suspectedLeaks: 0, recommendation: 'Memory API not available' }
+        leakDetection: { suspectedLeaks: 0, recommendation: 'Memory API not available' },
       };
     }
 
@@ -172,7 +172,7 @@ class MemoryManager {
       average: Math.round(average / 1024 / 1024), // 转换为 MB
       peak: Math.round(peak / 1024 / 1024),
       trend,
-      leakDetection
+      leakDetection,
     };
   }
 
@@ -183,14 +183,14 @@ class MemoryManager {
     if (this.memoryHistory.length < 10) {
       return {
         suspectedLeaks: 0,
-        recommendation: 'Not enough data for leak detection'
+        recommendation: 'Not enough data for leak detection',
       };
     }
 
     // 检查内存是否持续增长
     const recentGrowth = this.memoryHistory.slice(-10);
     let continuousGrowth = 0;
-    
+
     for (let i = 1; i < recentGrowth.length; i++) {
       if (recentGrowth[i].usedJSHeapSize > recentGrowth[i - 1].usedJSHeapSize) {
         continuousGrowth++;
@@ -198,16 +198,18 @@ class MemoryManager {
     }
 
     const growthRatio = continuousGrowth / (recentGrowth.length - 1);
-    
+
     let suspectedLeaks = 0;
     let recommendation = '';
 
     if (growthRatio > 0.8) {
       suspectedLeaks = Math.round(growthRatio * 10);
-      recommendation = 'Possible memory leak detected. Check for uncleaned event listeners, closures, or large data structures.';
+      recommendation =
+        'Possible memory leak detected. Check for uncleaned event listeners, closures, or large data structures.';
     } else if (growthRatio > 0.6) {
       suspectedLeaks = Math.round(growthRatio * 5);
-      recommendation = 'Memory usage trending upward. Consider running garbage collection or optimizing data usage.';
+      recommendation =
+        'Memory usage trending upward. Consider running garbage collection or optimizing data usage.';
     } else {
       recommendation = 'Memory usage appears stable.';
     }
@@ -226,7 +228,7 @@ class MemoryManager {
       usedJSHeapSize: memory.usedJSHeapSize,
       totalJSHeapSize: memory.totalJSHeapSize,
       jsHeapSizeLimit: memory.jsHeapSizeLimit,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
   }
 
@@ -251,7 +253,7 @@ class MemoryManager {
       pool.push({
         object: factory(),
         inUse: false,
-        lastUsed: 0
+        lastUsed: 0,
       });
     }
 
@@ -273,7 +275,7 @@ class MemoryManager {
         pool.push({
           object: newObj,
           inUse: true,
-          lastUsed: Date.now()
+          lastUsed: Date.now(),
         });
 
         return newObj;
@@ -293,7 +295,7 @@ class MemoryManager {
       clear: (): void => {
         pool.length = 0;
         this.objectPools.delete(poolName);
-      }
+      },
     };
   }
 
@@ -302,10 +304,10 @@ class MemoryManager {
    */
   createWeakRef<T extends object>(obj: T, cleanup?: () => void): WeakRef<T> {
     const weakRef = new WeakRef(obj);
-    
+
     if (cleanup) {
       // 使用FinalizationRegistry来监听对象的垃圾回收
-      const registry = new FinalizationRegistry((heldValue) => {
+      const registry = new FinalizationRegistry(heldValue => {
         cleanup();
       });
       registry.register(obj, null);
@@ -344,7 +346,7 @@ class MemoryManager {
       (global as any).gc();
       return true;
     }
-    
+
     if ('gc' in window) {
       (window as any).gc();
       return true;
@@ -381,16 +383,16 @@ class MemoryManager {
    */
   getObjectPoolStats(): Record<string, { total: number; inUse: number; available: number }> {
     const stats: Record<string, { total: number; inUse: number; available: number }> = {};
-    
+
     for (const [name, pool] of this.objectPools.entries()) {
       const inUse = pool.filter(item => item.inUse).length;
       stats[name] = {
         total: pool.length,
         inUse,
-        available: pool.length - inUse
+        available: pool.length - inUse,
       };
     }
-    
+
     return stats;
   }
 }

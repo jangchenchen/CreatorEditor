@@ -1,11 +1,11 @@
 import { RootState } from '../../../../app/store';
 import { localStorageService } from '../../services/localStorageService';
-import { 
-  AutoSaveConfig, 
-  AutoSaveStatus, 
-  SaveEventData, 
+import {
+  AutoSaveConfig,
+  AutoSaveStatus,
+  SaveEventData,
   AutoSaveManager,
-  DEFAULT_AUTO_SAVE_CONFIG
+  DEFAULT_AUTO_SAVE_CONFIG,
 } from './types';
 
 export class AutoSaveManagerImpl implements AutoSaveManager {
@@ -87,35 +87,34 @@ export class AutoSaveManagerImpl implements AutoSaveManager {
 
     try {
       await localStorageService.saveState(state);
-      
+
       this.lastSaveTime = saveStartTime;
       this.retryCount = 0;
       this.pendingState = null;
-      
+
       console.log('Auto-save completed successfully');
       this.dispatchSaveEvent('success', {
         timestamp: saveStartTime,
-        duration: Date.now() - saveStartTime
+        duration: Date.now() - saveStartTime,
       });
-      
     } catch (error) {
       console.error('Auto-save failed:', error);
-      
+
       if (this.retryCount < this.config.maxRetries) {
         this.retryCount++;
         console.log(`Retrying auto-save (attempt ${this.retryCount}/${this.config.maxRetries})`);
-        
+
         setTimeout(async () => {
           await this.performSave(state);
         }, this.config.retryDelay * this.retryCount);
       } else {
         console.error('Auto-save failed after maximum retries');
         this.retryCount = 0;
-        
+
         this.dispatchSaveEvent('error', {
           error: error.message,
           timestamp: saveStartTime,
-          retries: this.config.maxRetries
+          retries: this.config.maxRetries,
         });
       }
     } finally {
@@ -129,11 +128,11 @@ export class AutoSaveManagerImpl implements AutoSaveManager {
         timestamp: data.timestamp || 0,
         duration: data.duration || 0,
         error: data.error,
-        retries: data.retries
+        retries: data.retries,
       };
 
       const event = new CustomEvent('autosave', {
-        detail: { type, data: eventData }
+        detail: { type, data: eventData },
       });
       window.dispatchEvent(event);
     }
@@ -145,7 +144,7 @@ export class AutoSaveManagerImpl implements AutoSaveManager {
       saving: this.isSaving,
       lastSaveTime: this.lastSaveTime,
       retryCount: this.retryCount,
-      hasPendingChanges: this.pendingState !== null
+      hasPendingChanges: this.pendingState !== null,
     };
   }
 

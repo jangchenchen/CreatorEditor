@@ -15,7 +15,7 @@ import {
   Box,
   Typography,
   Button,
-  Chip
+  Chip,
 } from '@mui/material';
 import {
   Close as CloseIcon,
@@ -23,7 +23,7 @@ import {
   Error as ErrorIcon,
   Info as InfoIcon,
   CheckCircle as SuccessIcon,
-  Refresh as RetryIcon
+  Refresh as RetryIcon,
 } from '@mui/icons-material';
 import { ErrorLogger } from './ErrorLogger';
 import type { ErrorLevel } from './ErrorLogger';
@@ -82,7 +82,7 @@ export const ErrorNotificationProvider: React.FC<ErrorNotificationProviderProps>
   children,
   maxNotifications = 5,
   defaultDuration = 6000,
-  position = { vertical: 'top', horizontal: 'right' }
+  position = { vertical: 'top', horizontal: 'right' },
 }) => {
   const [notifications, setNotifications] = useState<ErrorNotification[]>([]);
 
@@ -90,26 +90,29 @@ export const ErrorNotificationProvider: React.FC<ErrorNotificationProviderProps>
     return `notification_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }, []);
 
-  const addNotification = useCallback((notification: ErrorNotification) => {
-    setNotifications(prev => {
-      const newNotifications = [notification, ...prev];
-      
-      // 限制通知数量
-      if (newNotifications.length > maxNotifications) {
-        return newNotifications.slice(0, maxNotifications);
-      }
-      
-      return newNotifications;
-    });
+  const addNotification = useCallback(
+    (notification: ErrorNotification) => {
+      setNotifications(prev => {
+        const newNotifications = [notification, ...prev];
 
-    // 自动隐藏非持久化通知
-    if (!notification.persistent && notification.duration !== 0) {
-      const duration = notification.duration || defaultDuration;
-      setTimeout(() => {
-        hideNotification(notification.id);
-      }, duration);
-    }
-  }, [maxNotifications, defaultDuration]);
+        // 限制通知数量
+        if (newNotifications.length > maxNotifications) {
+          return newNotifications.slice(0, maxNotifications);
+        }
+
+        return newNotifications;
+      });
+
+      // 自动隐藏非持久化通知
+      if (!notification.persistent && notification.duration !== 0) {
+        const duration = notification.duration || defaultDuration;
+        setTimeout(() => {
+          hideNotification(notification.id);
+        }, duration);
+      }
+    },
+    [maxNotifications, defaultDuration]
+  );
 
   const hideNotification = useCallback((id: string) => {
     setNotifications(prev => prev.filter(notification => notification.id !== id));
@@ -119,99 +122,110 @@ export const ErrorNotificationProvider: React.FC<ErrorNotificationProviderProps>
     setNotifications([]);
   }, []);
 
-  const showError = useCallback((message: string, options: Partial<ErrorNotification> = {}) => {
-    const id = options.id || generateId();
-    const notification: ErrorNotification = {
-      id,
-      type: 'error',
-      title: options.title || '操作失败',
-      message,
-      duration: options.duration,
-      persistent: options.persistent,
-      actions: options.actions,
-      metadata: options.metadata,
-      timestamp: Date.now()
-    };
-    
-    addNotification(notification);
-    return id;
-  }, [addNotification, generateId]);
+  const showError = useCallback(
+    (message: string, options: Partial<ErrorNotification> = {}) => {
+      const id = options.id || generateId();
+      const notification: ErrorNotification = {
+        id,
+        type: 'error',
+        title: options.title || '操作失败',
+        message,
+        duration: options.duration,
+        persistent: options.persistent,
+        actions: options.actions,
+        metadata: options.metadata,
+        timestamp: Date.now(),
+      };
 
-  const showWarning = useCallback((message: string, options: Partial<ErrorNotification> = {}) => {
-    const id = options.id || generateId();
-    const notification: ErrorNotification = {
-      id,
-      type: 'warning',
-      title: options.title || '注意',
-      message,
-      duration: options.duration,
-      persistent: options.persistent,
-      actions: options.actions,
-      metadata: options.metadata,
-      timestamp: Date.now()
-    };
-    
-    addNotification(notification);
-    return id;
-  }, [addNotification, generateId]);
+      addNotification(notification);
+      return id;
+    },
+    [addNotification, generateId]
+  );
 
-  const showInfo = useCallback((message: string, options: Partial<ErrorNotification> = {}) => {
-    const id = options.id || generateId();
-    const notification: ErrorNotification = {
-      id,
-      type: 'info',
-      title: options.title || '提示',
-      message,
-      duration: options.duration,
-      persistent: options.persistent,
-      actions: options.actions,
-      metadata: options.metadata,
-      timestamp: Date.now()
-    };
-    
-    addNotification(notification);
-    return id;
-  }, [addNotification, generateId]);
+  const showWarning = useCallback(
+    (message: string, options: Partial<ErrorNotification> = {}) => {
+      const id = options.id || generateId();
+      const notification: ErrorNotification = {
+        id,
+        type: 'warning',
+        title: options.title || '注意',
+        message,
+        duration: options.duration,
+        persistent: options.persistent,
+        actions: options.actions,
+        metadata: options.metadata,
+        timestamp: Date.now(),
+      };
 
-  const showSuccess = useCallback((message: string, options: Partial<ErrorNotification> = {}) => {
-    const id = options.id || generateId();
-    const notification: ErrorNotification = {
-      id,
-      type: 'success',
-      title: options.title || '成功',
-      message,
-      duration: options.duration || 4000, // 成功消息默认较短时间
-      persistent: options.persistent,
-      actions: options.actions,
-      metadata: options.metadata,
-      timestamp: Date.now()
-    };
-    
-    addNotification(notification);
-    return id;
-  }, [addNotification, generateId]);
+      addNotification(notification);
+      return id;
+    },
+    [addNotification, generateId]
+  );
 
-  const handleError = useCallback((
-    error: Error | string,
-    context: string = '操作',
-    retryAction?: () => void
-  ) => {
-    const errorMessage = typeof error === 'string' ? error : error.message;
-    const errorObj = typeof error === 'string' ? new Error(error) : error;
-    
-    // 记录错误到日志系统
-    const errorId = ErrorLogger.logError(errorObj, { context });
-    
-    // 生成用户友好的错误消息
-    const { title, message, actions } = generateUserFriendlyError(errorObj, context, retryAction);
-    
-    return showError(message, {
-      title,
-      actions,
-      persistent: errorObj.name === 'NetworkError' || errorObj.message.includes('网络'),
-      metadata: { errorId, context, originalError: errorMessage }
-    });
-  }, [showError]);
+  const showInfo = useCallback(
+    (message: string, options: Partial<ErrorNotification> = {}) => {
+      const id = options.id || generateId();
+      const notification: ErrorNotification = {
+        id,
+        type: 'info',
+        title: options.title || '提示',
+        message,
+        duration: options.duration,
+        persistent: options.persistent,
+        actions: options.actions,
+        metadata: options.metadata,
+        timestamp: Date.now(),
+      };
+
+      addNotification(notification);
+      return id;
+    },
+    [addNotification, generateId]
+  );
+
+  const showSuccess = useCallback(
+    (message: string, options: Partial<ErrorNotification> = {}) => {
+      const id = options.id || generateId();
+      const notification: ErrorNotification = {
+        id,
+        type: 'success',
+        title: options.title || '成功',
+        message,
+        duration: options.duration || 4000, // 成功消息默认较短时间
+        persistent: options.persistent,
+        actions: options.actions,
+        metadata: options.metadata,
+        timestamp: Date.now(),
+      };
+
+      addNotification(notification);
+      return id;
+    },
+    [addNotification, generateId]
+  );
+
+  const handleError = useCallback(
+    (error: Error | string, context: string = '操作', retryAction?: () => void) => {
+      const errorMessage = typeof error === 'string' ? error : error.message;
+      const errorObj = typeof error === 'string' ? new Error(error) : error;
+
+      // 记录错误到日志系统
+      const errorId = ErrorLogger.logError(errorObj, { context });
+
+      // 生成用户友好的错误消息
+      const { title, message, actions } = generateUserFriendlyError(errorObj, context, retryAction);
+
+      return showError(message, {
+        title,
+        actions,
+        persistent: errorObj.name === 'NetworkError' || errorObj.message.includes('网络'),
+        metadata: { errorId, context, originalError: errorMessage },
+      });
+    },
+    [showError]
+  );
 
   const value: ErrorNotificationContextType = {
     notifications,
@@ -221,13 +235,13 @@ export const ErrorNotificationProvider: React.FC<ErrorNotificationProviderProps>
     showSuccess,
     hideNotification,
     clearAll,
-    handleError
+    handleError,
   };
 
   return (
     <ErrorNotificationContext.Provider value={value}>
       {children}
-      <NotificationContainer 
+      <NotificationContainer
         notifications={notifications}
         onClose={hideNotification}
         position={position}
@@ -248,15 +262,19 @@ interface NotificationContainerProps {
 const NotificationContainer: React.FC<NotificationContainerProps> = ({
   notifications,
   onClose,
-  position
+  position,
 }) => {
   const getIcon = (type: ErrorNotification['type']) => {
     const iconProps = { fontSize: 'inherit' as const };
     switch (type) {
-      case 'error': return <ErrorIcon {...iconProps} />;
-      case 'warning': return <WarningIcon {...iconProps} />;
-      case 'info': return <InfoIcon {...iconProps} />;
-      case 'success': return <SuccessIcon {...iconProps} />;
+      case 'error':
+        return <ErrorIcon {...iconProps} />;
+      case 'warning':
+        return <WarningIcon {...iconProps} />;
+      case 'info':
+        return <InfoIcon {...iconProps} />;
+      case 'success':
+        return <SuccessIcon {...iconProps} />;
     }
   };
 
@@ -265,7 +283,7 @@ const NotificationContainer: React.FC<NotificationContainerProps> = ({
       position: 'fixed',
       zIndex: 1400,
       maxWidth: 400,
-      width: '100%'
+      width: '100%',
     };
 
     if (position.vertical === 'top') {
@@ -294,7 +312,7 @@ const NotificationContainer: React.FC<NotificationContainerProps> = ({
     <Portal>
       <Box sx={getPositionStyles()}>
         <Stack spacing={1}>
-          {notifications.map((notification) => (
+          {notifications.map(notification => (
             <Slide
               key={notification.id}
               direction={position.horizontal === 'right' ? 'left' : 'right'}
@@ -309,7 +327,7 @@ const NotificationContainer: React.FC<NotificationContainerProps> = ({
                     {notification.actions?.map((action, index) => (
                       <Button
                         key={index}
-                        size="small"
+                        size='small'
                         variant={action.variant || 'text'}
                         color={action.color || 'inherit'}
                         onClick={action.action}
@@ -319,30 +337,30 @@ const NotificationContainer: React.FC<NotificationContainerProps> = ({
                       </Button>
                     ))}
                     <IconButton
-                      size="small"
+                      size='small'
                       onClick={() => onClose(notification.id)}
-                      color="inherit"
+                      color='inherit'
                     >
-                      <CloseIcon fontSize="small" />
+                      <CloseIcon fontSize='small' />
                     </IconButton>
                   </Box>
                 }
                 sx={{
                   width: '100%',
                   boxShadow: 3,
-                  '& .MuiAlert-message': { width: '100%' }
+                  '& .MuiAlert-message': { width: '100%' },
                 }}
               >
                 <AlertTitle>{notification.title}</AlertTitle>
-                <Typography variant="body2" component="div">
+                <Typography variant='body2' component='div'>
                   {notification.message}
                 </Typography>
-                
+
                 {notification.metadata?.errorId && (
                   <Chip
                     label={`错误ID: ${notification.metadata.errorId.slice(-8)}`}
-                    size="small"
-                    variant="outlined"
+                    size='small'
+                    variant='outlined'
                     sx={{ mt: 1, fontSize: '0.75rem', height: 20 }}
                   />
                 )}
@@ -370,20 +388,24 @@ function generateUserFriendlyError(
   const actions: NotificationAction[] = [];
 
   // 网络错误
-  if (error.name === 'NetworkError' || error.message.includes('网络') || error.message.includes('fetch')) {
+  if (
+    error.name === 'NetworkError' ||
+    error.message.includes('网络') ||
+    error.message.includes('fetch')
+  ) {
     if (retryAction) {
       actions.push({
         label: '重试',
         action: retryAction,
         variant: 'contained',
-        color: 'primary'
+        color: 'primary',
       });
     }
-    
+
     return {
       title: '网络连接失败',
       message: '请检查您的网络连接，然后重试操作',
-      actions
+      actions,
     };
   }
 
@@ -392,7 +414,7 @@ function generateUserFriendlyError(
     return {
       title: '权限不足',
       message: '您没有执行此操作的权限，请联系管理员',
-      actions
+      actions,
     };
   }
 
@@ -401,7 +423,7 @@ function generateUserFriendlyError(
     return {
       title: '数据验证失败',
       message: '请检查输入的数据格式是否正确',
-      actions
+      actions,
     };
   }
 
@@ -411,13 +433,13 @@ function generateUserFriendlyError(
       label: '刷新页面',
       action: () => window.location.reload(),
       variant: 'contained',
-      color: 'primary'
+      color: 'primary',
     });
 
     return {
       title: '资源加载失败',
       message: '应用程序资源加载失败，请刷新页面重试',
-      actions
+      actions,
     };
   }
 
@@ -427,14 +449,14 @@ function generateUserFriendlyError(
       label: '重试',
       action: retryAction,
       variant: 'outlined',
-      color: 'primary'
+      color: 'primary',
     });
   }
 
   return {
     title: `${context}失败`,
     message: error.message || '发生未知错误，请稍后重试',
-    actions
+    actions,
   };
 }
 

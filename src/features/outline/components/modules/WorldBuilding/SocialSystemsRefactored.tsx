@@ -13,7 +13,7 @@ import {
   ReligiousSystem,
   TechnologySystem,
   SocialClassSystem,
-  SocialSystemsTips
+  SocialSystemsTips,
 } from './systems';
 
 const SocialSystemsRefactored: React.FC = () => {
@@ -21,10 +21,10 @@ const SocialSystemsRefactored: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto' }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         社会体系设定
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant='body2' color='text.secondary' paragraph>
         定义故事世界的社会结构、政治制度、经济体系和文化特征。
       </Typography>
 
@@ -36,10 +36,7 @@ const SocialSystemsRefactored: React.FC = () => {
       />
 
       {/* 经济体系 */}
-      <EconomicSystem
-        value={state.economic}
-        onChange={handlers.setEconomic}
-      />
+      <EconomicSystem value={state.economic} onChange={handlers.setEconomic} />
 
       {/* 文化传统 */}
       <CulturalSystem
@@ -52,16 +49,10 @@ const SocialSystemsRefactored: React.FC = () => {
       />
 
       {/* 宗教信仰 */}
-      <ReligiousSystem
-        value={state.religious}
-        onChange={handlers.setReligious}
-      />
+      <ReligiousSystem value={state.religious} onChange={handlers.setReligious} />
 
       {/* 科技/魔法水平 */}
-      <TechnologySystem
-        value={state.technology}
-        onChange={handlers.setTechnology}
-      />
+      <TechnologySystem value={state.technology} onChange={handlers.setTechnology} />
 
       {/* 社会阶层 */}
       <SocialClassSystem

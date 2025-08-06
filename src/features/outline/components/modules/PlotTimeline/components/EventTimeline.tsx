@@ -8,7 +8,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Chip
+  Chip,
 } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { PlotEvent, PlotEventType, Character } from '../../../../types/outline.types';
@@ -28,7 +28,7 @@ const EventTimeline: React.FC<EventTimelineProps> = ({
   characters,
   onEdit,
   onDelete,
-  onAddEvent
+  onAddEvent,
 }) => {
   const eventsByType = groupEventsByType(plotEvents);
 
@@ -36,13 +36,13 @@ const EventTimeline: React.FC<EventTimelineProps> = ({
     return (
       <Card>
         <CardContent sx={{ textAlign: 'center', py: 4 }}>
-          <Typography variant="h6" color="text.secondary" gutterBottom>
+          <Typography variant='h6' color='text.secondary' gutterBottom>
             暂无情节事件
           </Typography>
-          <Typography variant="body2" color="text.secondary" paragraph>
+          <Typography variant='body2' color='text.secondary' paragraph>
             开始添加情节事件来构建您的故事时间线
           </Typography>
-          <Button variant="outlined" onClick={onAddEvent}>
+          <Button variant='outlined' onClick={onAddEvent}>
             添加第一个事件
           </Button>
         </CardContent>
@@ -55,11 +55,11 @@ const EventTimeline: React.FC<EventTimelineProps> = ({
       {Object.entries(eventsByType).map(([type, events]) => (
         <Accordion key={type} defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">
-              <Chip 
-                label={type} 
+            <Typography variant='h6'>
+              <Chip
+                label={type}
                 color={getEventTypeColor(type as PlotEventType)}
-                size="small"
+                size='small'
                 sx={{ mr: 2 }}
               />
               ({events.length} 个事件)
@@ -67,7 +67,7 @@ const EventTimeline: React.FC<EventTimelineProps> = ({
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
-              {events.map((event) => (
+              {events.map(event => (
                 <Grid item xs={12} md={6} lg={4} key={event.id}>
                   <EventCard
                     event={event}

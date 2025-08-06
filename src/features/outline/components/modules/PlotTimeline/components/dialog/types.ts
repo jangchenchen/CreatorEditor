@@ -35,14 +35,14 @@ export interface EventEditDialogContainerProps {
   characters: Character[];
   onClose: () => void;
   onSave: () => void;
-  onFormChange: (field: keyof PlotEvent) => (
-    event: React.ChangeEvent<HTMLInputElement | { value: unknown }>
-  ) => void;
-  onArrayFieldChange: (field: keyof Pick<PlotEvent, 'characters' | 'locations' | 'consequences' | 'relatedEvents' | 'tags'>) => (
-    event: any,
-    newValue: string[]
-  ) => void;
-  onSwitchChange: (field: keyof PlotEvent) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  onFormChange: (
+    field: keyof PlotEvent
+  ) => (event: React.ChangeEvent<HTMLInputElement | { value: unknown }>) => void;
+  onArrayFieldChange: (
+    field: keyof Pick<
+      PlotEvent,
+      'characters' | 'locations' | 'consequences' | 'relatedEvents' | 'tags'
+    >
+  ) => (event: any, newValue: string[]) => void;
+  onSwitchChange: (field: keyof PlotEvent) => (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

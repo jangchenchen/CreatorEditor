@@ -21,7 +21,7 @@ export {
   selectWorld,
   selectGeography,
   selectSociety,
-  selectWorldHistory
+  selectWorldHistory,
 } from './basicSelectors';
 
 // Filtered selectors
@@ -31,12 +31,12 @@ export {
   selectCharacterRelationships,
   selectIdeasByStatus,
   selectIdeasByType,
-  selectTimelineEvents
+  selectTimelineEvents,
 } from './filteredSelectors';
 
 // Derived selectors
 export {
   selectOutlineStats,
   selectOutlineData,
-  selectModuleCompletionRates
+  selectModuleCompletionRates,
 } from './derivedSelectors';

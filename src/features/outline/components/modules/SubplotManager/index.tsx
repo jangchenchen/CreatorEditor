@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { 
-  Box, 
-  Paper, 
-  Tabs, 
-  Tab, 
-  Typography,
-  Toolbar,
-  IconButton,
-  Tooltip
-} from '@mui/material';
+import { Box, Paper, Tabs, Tab, Typography, Toolbar, IconButton, Tooltip } from '@mui/material';
 import {
   AccountTree as SubplotIcon,
   PersonOutline as SecondaryIcon,
   Hub as StrategyIcon,
   Add as AddIcon,
-  Save as SaveIcon
+  Save as SaveIcon,
 } from '@mui/icons-material';
 import SubplotManagement from './SubplotManagement';
 import SecondaryCharacterStories from './SecondaryCharacterStories';
@@ -32,17 +23,13 @@ interface TabPanelProps {
 const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other }) => {
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`subplot-tabpanel-${index}`}
       aria-labelledby={`subplot-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };
@@ -67,7 +54,7 @@ const SubplotManager: React.FC = () => {
       relationship: 'parallel',
       priority: 'medium',
       status: 'planned',
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     };
     dispatch(addSubplot(newSubplot));
     console.log('已添加新副线:', newSubplot);
@@ -82,19 +69,19 @@ const SubplotManager: React.FC = () => {
   return (
     <Paper elevation={2} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* 工具栏 */}
-      <Toolbar variant="dense" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <Toolbar variant='dense' sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
           副线情节管理
         </Typography>
-        
-        <Tooltip title="添加副线">
-          <IconButton size="small" onClick={handleAddSubplot}>
+
+        <Tooltip title='添加副线'>
+          <IconButton size='small' onClick={handleAddSubplot}>
             <AddIcon />
           </IconButton>
         </Tooltip>
-        
-        <Tooltip title="保存">
-          <IconButton size="small" onClick={handleSave}>
+
+        <Tooltip title='保存'>
+          <IconButton size='small' onClick={handleSave}>
             <SaveIcon />
           </IconButton>
         </Tooltip>
@@ -102,28 +89,24 @@ const SubplotManager: React.FC = () => {
 
       {/* 标签页导航 */}
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs 
-          value={activeTab} 
-          onChange={handleTabChange}
-          aria-label="subplot manager tabs"
-        >
-          <Tab 
-            icon={<SubplotIcon />} 
-            label="副线管理" 
-            id="subplot-tab-0"
-            aria-controls="subplot-tabpanel-0"
+        <Tabs value={activeTab} onChange={handleTabChange} aria-label='subplot manager tabs'>
+          <Tab
+            icon={<SubplotIcon />}
+            label='副线管理'
+            id='subplot-tab-0'
+            aria-controls='subplot-tabpanel-0'
           />
-          <Tab 
-            icon={<SecondaryIcon />} 
-            label="配角故事" 
-            id="subplot-tab-1"
-            aria-controls="subplot-tabpanel-1"
+          <Tab
+            icon={<SecondaryIcon />}
+            label='配角故事'
+            id='subplot-tab-1'
+            aria-controls='subplot-tabpanel-1'
           />
-          <Tab 
-            icon={<StrategyIcon />} 
-            label="编织策略" 
-            id="subplot-tab-2"
-            aria-controls="subplot-tabpanel-2"
+          <Tab
+            icon={<StrategyIcon />}
+            label='编织策略'
+            id='subplot-tab-2'
+            aria-controls='subplot-tabpanel-2'
           />
         </Tabs>
       </Box>
@@ -133,11 +116,11 @@ const SubplotManager: React.FC = () => {
         <TabPanel value={activeTab} index={0}>
           <SubplotManagement />
         </TabPanel>
-        
+
         <TabPanel value={activeTab} index={1}>
           <SecondaryCharacterStories />
         </TabPanel>
-        
+
         <TabPanel value={activeTab} index={2}>
           <WeavingStrategy />
         </TabPanel>

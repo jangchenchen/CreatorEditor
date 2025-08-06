@@ -19,10 +19,15 @@ export interface RelationshipMapActions {
 export interface RelationshipMapUtils {
   getRelationshipIcon: (type: RelationshipType) => React.ReactNode;
   getRelationshipLabel: (type: RelationshipType) => string;
-  getRelationshipColor: (type: RelationshipType) => "primary" | "secondary" | "error" | "warning" | "info" | "success";
+  getRelationshipColor: (
+    type: RelationshipType
+  ) => 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
   getCharacterName: (characterId: string) => string;
 }
 
-export interface UseRelationshipMapReturn extends RelationshipMapState, RelationshipMapActions, RelationshipMapUtils {
+export interface UseRelationshipMapReturn
+  extends RelationshipMapState,
+    RelationshipMapActions,
+    RelationshipMapUtils {
   characters: Character[];
 }

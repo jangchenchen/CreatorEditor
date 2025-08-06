@@ -9,7 +9,7 @@ import {
   FormControlLabel,
   Checkbox,
   Grid,
-  TextField
+  TextField,
 } from '@mui/material';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { ExportOptions } from '../../services/documentExportService';
@@ -23,17 +23,17 @@ interface OptionsConfigurationStepProps {
 export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> = ({
   exportOptions,
   onModuleToggle,
-  onFormattingChange
+  onFormattingChange,
 }) => {
   return (
     <Box>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         配置导出选项
       </Typography>
 
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="subtitle1">包含模块</Typography>
+          <Typography variant='subtitle1'>包含模块</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <FormGroup>
@@ -46,7 +46,7 @@ export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> =
                       onChange={() => onModuleToggle('story')}
                     />
                   }
-                  label="故事概述"
+                  label='故事概述'
                 />
               </Grid>
               <Grid item xs={6}>
@@ -57,7 +57,7 @@ export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> =
                       onChange={() => onModuleToggle('characters')}
                     />
                   }
-                  label="角色设定"
+                  label='角色设定'
                 />
               </Grid>
               <Grid item xs={6}>
@@ -68,7 +68,7 @@ export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> =
                       onChange={() => onModuleToggle('timeline')}
                     />
                   }
-                  label="情节时间线"
+                  label='情节时间线'
                 />
               </Grid>
               <Grid item xs={6}>
@@ -79,7 +79,7 @@ export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> =
                       onChange={() => onModuleToggle('world')}
                     />
                   }
-                  label="世界设定"
+                  label='世界设定'
                 />
               </Grid>
               <Grid item xs={6}>
@@ -90,7 +90,7 @@ export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> =
                       onChange={() => onModuleToggle('chapters')}
                     />
                   }
-                  label="章节大纲"
+                  label='章节大纲'
                 />
               </Grid>
               <Grid item xs={6}>
@@ -101,7 +101,7 @@ export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> =
                       onChange={() => onModuleToggle('themes')}
                     />
                   }
-                  label="主题分析"
+                  label='主题分析'
                 />
               </Grid>
               <Grid item xs={6}>
@@ -112,7 +112,7 @@ export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> =
                       onChange={() => onModuleToggle('subplots')}
                     />
                   }
-                  label="副线情节"
+                  label='副线情节'
                 />
               </Grid>
               <Grid item xs={6}>
@@ -123,7 +123,7 @@ export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> =
                       onChange={() => onModuleToggle('ideas')}
                     />
                   }
-                  label="创意想法"
+                  label='创意想法'
                 />
               </Grid>
             </Grid>
@@ -134,44 +134,44 @@ export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> =
       {(exportOptions.format === 'docx' || exportOptions.format === 'pdf') && (
         <Accordion defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="subtitle1">格式设置</Typography>
+            <Typography variant='subtitle1'>格式设置</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
                   fullWidth
-                  label="文档标题"
+                  label='文档标题'
                   value={exportOptions.formatting.title}
-                  onChange={(e) => onFormattingChange('title', e.target.value)}
-                  placeholder="输入文档标题"
+                  onChange={e => onFormattingChange('title', e.target.value)}
+                  placeholder='输入文档标题'
                 />
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   fullWidth
-                  label="作者姓名"
+                  label='作者姓名'
                   value={exportOptions.formatting.author}
-                  onChange={(e) => onFormattingChange('author', e.target.value)}
-                  placeholder="输入作者姓名"
+                  onChange={e => onFormattingChange('author', e.target.value)}
+                  placeholder='输入作者姓名'
                 />
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   fullWidth
-                  type="number"
-                  label="字体大小"
+                  type='number'
+                  label='字体大小'
                   value={exportOptions.formatting.fontSize}
-                  onChange={(e) => onFormattingChange('fontSize', parseInt(e.target.value))}
+                  onChange={e => onFormattingChange('fontSize', parseInt(e.target.value))}
                   InputProps={{ inputProps: { min: 8, max: 24 } }}
                 />
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   fullWidth
-                  label="字体族"
+                  label='字体族'
                   value={exportOptions.formatting.fontFamily}
-                  onChange={(e) => onFormattingChange('fontFamily', e.target.value)}
+                  onChange={e => onFormattingChange('fontFamily', e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -180,30 +180,32 @@ export const OptionsConfigurationStep: React.FC<OptionsConfigurationStepProps> =
                     control={
                       <Checkbox
                         checked={exportOptions.formatting.includeCoverPage}
-                        onChange={(e) => onFormattingChange('includeCoverPage', e.target.checked)}
+                        onChange={e => onFormattingChange('includeCoverPage', e.target.checked)}
                       />
                     }
-                    label="包含封面页"
+                    label='包含封面页'
                   />
                   {exportOptions.format === 'docx' && (
                     <FormControlLabel
                       control={
                         <Checkbox
                           checked={exportOptions.formatting.includeTableOfContents}
-                          onChange={(e) => onFormattingChange('includeTableOfContents', e.target.checked)}
+                          onChange={e =>
+                            onFormattingChange('includeTableOfContents', e.target.checked)
+                          }
                         />
                       }
-                      label="包含目录"
+                      label='包含目录'
                     />
                   )}
                   <FormControlLabel
                     control={
                       <Checkbox
                         checked={exportOptions.formatting.pageNumbers}
-                        onChange={(e) => onFormattingChange('pageNumbers', e.target.checked)}
+                        onChange={e => onFormattingChange('pageNumbers', e.target.checked)}
                       />
                     }
-                    label="页码"
+                    label='页码'
                   />
                 </FormGroup>
               </Grid>

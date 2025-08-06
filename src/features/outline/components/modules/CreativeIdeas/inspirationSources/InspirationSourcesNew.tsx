@@ -6,13 +6,13 @@ import {
   AccordionSummary,
   AccordionDetails,
   Button,
-  Divider
+  Divider,
 } from '@mui/material';
 import {
   ExpandMore as ExpandMoreIcon,
   Save as SaveIcon,
   AutoAwesome as InspirationIcon,
-  Psychology as BrainstormingIcon
+  Psychology as BrainstormingIcon,
 } from '@mui/icons-material';
 import { useInspirationSources } from './useInspirationSources';
 import { InspirationSourcesManager } from './InspirationSourcesManager';
@@ -32,21 +32,21 @@ const InspirationSourcesNew: React.FC = () => {
     handleRemoveSource,
     handleAddSession,
     handleRemoveSession,
-    handleSave
+    handleSave,
   } = useInspirationSources();
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto' }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         灵感来源与创意管理
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant='body2' color='text.secondary' paragraph>
         系统地管理和记录创作灵感的来源，以及头脑风暴的思考过程。
       </Typography>
 
       <Accordion defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center' }}>
             <InspirationIcon sx={{ mr: 1, color: 'primary.main' }} />
             灵感来源 ({inspirationSources.length})
           </Typography>
@@ -64,7 +64,7 @@ const InspirationSourcesNew: React.FC = () => {
 
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center' }}>
             <BrainstormingIcon sx={{ mr: 1, color: 'secondary.main' }} />
             头脑风暴记录 ({brainstormingSessions.length})
           </Typography>
@@ -82,8 +82,8 @@ const InspirationSourcesNew: React.FC = () => {
 
       <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
         <Button
-          variant="contained"
-          size="large"
+          variant='contained'
+          size='large'
           onClick={handleSave}
           startIcon={<SaveIcon />}
           sx={{ minWidth: 140 }}
@@ -95,7 +95,7 @@ const InspirationSourcesNew: React.FC = () => {
       <Divider sx={{ my: 3 }} />
 
       <InspirationCategoriesReference onSelectExample={setNewSource} />
-      
+
       <BrainstormingTechniquesGuide />
     </Box>
   );

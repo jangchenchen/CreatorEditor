@@ -12,9 +12,9 @@ export class CleanupActionGenerator {
           module: error.module,
           entityId: error.entityId,
           field: 'characters', // This could be made more specific
-          description: `Remove orphaned character reference from ${error.module}`
+          description: `Remove orphaned character reference from ${error.module}`,
         };
-        
+
       case 'invalid_chapter_range':
         return {
           type: 'update_field',
@@ -22,9 +22,9 @@ export class CleanupActionGenerator {
           entityId: error.entityId,
           field: error.message.includes('start') ? 'startChapter' : 'endChapter',
           newValue: null,
-          description: `Clear invalid chapter reference`
+          description: `Clear invalid chapter reference`,
         };
-        
+
       default:
         return null;
     }

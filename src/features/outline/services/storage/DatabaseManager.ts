@@ -23,7 +23,7 @@ export class DatabaseManager {
   async initialize(): Promise<void> {
     try {
       await this.db.read();
-      
+
       // Ensure database has proper structure
       if (!this.db.data) {
         this.db.data = { ...defaultData };
@@ -87,7 +87,7 @@ export class DatabaseManager {
     if (typeof window !== 'undefined' && (window as any).electronAPI) {
       return (window as any).electronAPI.getDataPath(STORAGE_CONFIG.fileName);
     }
-    
+
     // Fallback for development/web
     return `./${STORAGE_CONFIG.fileName}`;
   }

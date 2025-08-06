@@ -4,17 +4,17 @@
 export {
   outlineReducer as default,
   type OutlineState,
-  
+
   // Project actions
   setProjectName,
   initializeProject,
   updateLastModified,
-  
+
   // Story actions
   updateStoryBackground,
   updateCoreTheme,
   updateSynopsis,
-  
+
   // Character actions
   addCharacter,
   updateCharacter,
@@ -22,19 +22,19 @@ export {
   addRelationship,
   updateRelationship,
   deleteRelationship,
-  
+
   // Timeline actions
   addPlotEvent,
   updatePlotEvent,
   deletePlotEvent,
   updateTimelineInfo,
-  
+
   // Chapter actions
   addChapter,
   updateChapter,
   deleteChapter,
   updateChapterStructure,
-  
+
   // Subplot actions
   addSubplot,
   updateSubplot,
@@ -42,7 +42,7 @@ export {
   addSecondaryStory,
   updateSecondaryStory,
   deleteSecondaryStory,
-  
+
   // Ideas actions
   addCreativeIdea,
   updateCreativeIdea,
@@ -51,7 +51,7 @@ export {
   addPlotAlternative,
   updatePlotAlternative,
   deletePlotAlternative,
-  
+
   // Selectors
   selectOutline,
   selectProject,
@@ -75,7 +75,7 @@ export {
   selectIdeasByStatus,
   selectIdeasByType,
   selectOutlineStats,
-  selectModuleCompletionRates
+  selectModuleCompletionRates,
 } from './slices/rootOutlineSlice';
 
 // Additional actions for backward compatibility
@@ -92,17 +92,17 @@ const compatibilitySlice = createSlice({
       // For now, we'll just return the action for the store to handle
       return action.payload;
     },
-    
+
     resetOutline: () => {
       // This would need to reset all slices
       return {};
     },
-    
+
     markModuleUpdated: (state, action) => {
       // This can be handled by individual slice update actions
       return state;
-    }
-  }
+    },
+  },
 });
 
 export const { loadOutlineData, resetOutline, markModuleUpdated } = compatibilitySlice.actions;

@@ -20,4 +20,7 @@ export interface DocumentExportUtils {
   validateExportData: () => { isValid: boolean; issues: string[] };
 }
 
-export interface UseDocumentExportResult extends DocumentExportState, DocumentExportActions, DocumentExportUtils {}
+export interface UseDocumentExportResult
+  extends DocumentExportState,
+    DocumentExportActions,
+    DocumentExportUtils {}

@@ -41,16 +41,16 @@ export interface TimelineEventNodeProps {
 
 export const DEFAULT_EVENT_COLORS: Record<PlotEventType, string> = {
   beginning: '#2196f3',
-  development: '#4caf50', 
+  development: '#4caf50',
   climax: '#ff9800',
   resolution: '#9c27b0',
-  transition: '#607d8b'
+  transition: '#607d8b',
 };
 
 export const DEFAULT_EVENT_SIZES: Record<EventImportance, string> = {
   critical: '120px',
-  important: '100px', 
-  minor: '80px'
+  important: '100px',
+  minor: '80px',
 };
 
 export const DEFAULT_TYPE_POSITIONS: Record<PlotEventType, number> = {
@@ -58,13 +58,13 @@ export const DEFAULT_TYPE_POSITIONS: Record<PlotEventType, number> = {
   development: 150,
   climax: 100,
   resolution: 200,
-  transition: 250
+  transition: 250,
 };
 
 export const DEFAULT_IMPORTANCE_OFFSETS: Record<EventImportance, number> = {
   critical: -20,
   important: 0,
-  minor: 20
+  minor: 20,
 };
 
 export const EVENT_TYPE_LABELS = {
@@ -72,5 +72,5 @@ export const EVENT_TYPE_LABELS = {
   development: '发展',
   climax: '高潮',
   resolution: '结局',
-  transition: '过渡'
+  transition: '过渡',
 } as const;

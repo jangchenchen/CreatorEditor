@@ -38,22 +38,22 @@ const editorSlice = createSlice({
       const numbers = (text.match(/[0-9]+/g) || []).length;
       state.wordCount = chineseChars + englishWords + numbers;
     },
-    
+
     // 设置文件信息
     setFileInfo: (state, action: PayloadAction<{ path: string; name: string }>) => {
       state.filePath = action.payload.path;
       state.fileName = action.payload.name;
       state.isDirty = false;
     },
-    
+
     // 标记为已保存
-    markAsSaved: (state) => {
+    markAsSaved: state => {
       state.isDirty = false;
       state.lastSaved = new Date();
     },
-    
+
     // 新建文件
-    newFile: (state) => {
+    newFile: state => {
       state.content = '';
       state.filePath = null;
       state.fileName = null;
@@ -61,22 +61,17 @@ const editorSlice = createSlice({
       state.wordCount = 0;
       state.lastSaved = null;
     },
-    
+
     // 切换自动保存
-    toggleAutoSave: (state) => {
+    toggleAutoSave: state => {
       state.autoSaveEnabled = !state.autoSaveEnabled;
     },
   },
 });
 
 // 导出动作
-export const { 
-  setContent, 
-  setFileInfo, 
-  markAsSaved, 
-  newFile, 
-  toggleAutoSave 
-} = editorSlice.actions;
+export const { setContent, setFileInfo, markAsSaved, newFile, toggleAutoSave } =
+  editorSlice.actions;
 
 // 导出reducer
 export default editorSlice.reducer;

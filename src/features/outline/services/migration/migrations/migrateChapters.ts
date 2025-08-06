@@ -26,12 +26,12 @@ export function migrateChaptersData(data: any) {
       transitions: {
         from: chapter.transitions?.from || '',
         to: chapter.transitions?.to || '',
-        method: chapter.transitions?.method || ''
+        method: chapter.transitions?.method || '',
       },
-      notes: chapter.notes || ''
+      notes: chapter.notes || '',
     })),
     totalChapters: data.chapters?.totalChapters || (data.chapters?.chapters || []).length,
-    overallStructure: data.chapters?.overallStructure || ''
+    overallStructure: data.chapters?.overallStructure || '',
   };
 }
 
@@ -47,6 +47,6 @@ function migrateScenes(scenes: any[]) {
     characters: ensureArray(scene.characters),
     purpose: scene.purpose || '',
     conflict: scene.conflict || '',
-    outcome: scene.outcome || ''
+    outcome: scene.outcome || '',
   }));
 }

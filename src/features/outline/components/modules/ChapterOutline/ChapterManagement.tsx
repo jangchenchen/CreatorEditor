@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Box,
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  Button
-} from '@mui/material';
+import { Box, Grid, Card, CardContent, Typography, Button } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import {
   selectChapterList,
   selectCharacters,
   addChapter,
   updateChapter,
-  deleteChapter
+  deleteChapter,
 } from '../../../outlineSlice';
 import { Chapter } from '../../../types/outline.types';
 import ChapterStatistics from './components/ChapterStatistics';
@@ -25,7 +18,7 @@ const ChapterManagement: React.FC = () => {
   const dispatch = useDispatch();
   const chapters = useSelector(selectChapterList);
   const characters = useSelector(selectCharacters);
-  
+
   const [editingChapter, setEditingChapter] = useState<Chapter | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -60,14 +53,8 @@ const ChapterManagement: React.FC = () => {
 
       {/* 工具栏 */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h6">
-          章节列表
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => handleOpenDialog()}
-        >
+        <Typography variant='h6'>章节列表</Typography>
+        <Button variant='contained' startIcon={<AddIcon />} onClick={() => handleOpenDialog()}>
           添加章节
         </Button>
       </Box>
@@ -76,20 +63,20 @@ const ChapterManagement: React.FC = () => {
       {chapters.length === 0 ? (
         <Card>
           <CardContent sx={{ textAlign: 'center', py: 4 }}>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
+            <Typography variant='h6' color='text.secondary' gutterBottom>
               暂无章节
             </Typography>
-            <Typography variant="body2" color="text.secondary" paragraph>
+            <Typography variant='body2' color='text.secondary' paragraph>
               开始添加章节来构建您的小说结构
             </Typography>
-            <Button variant="outlined" onClick={() => handleOpenDialog()}>
+            <Button variant='outlined' onClick={() => handleOpenDialog()}>
               添加第一章
             </Button>
           </CardContent>
         </Card>
       ) : (
         <Grid container spacing={2}>
-          {chapters.map((chapter) => (
+          {chapters.map(chapter => (
             <Grid item xs={12} md={6} lg={4} key={chapter.id}>
               <ChapterCard
                 chapter={chapter}

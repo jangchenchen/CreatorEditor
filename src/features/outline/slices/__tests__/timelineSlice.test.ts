@@ -4,14 +4,14 @@
  */
 
 import { configureStore } from '@reduxjs/toolkit';
-import { 
-  timelineSlice, 
-  addPlotEvent, 
-  updatePlotEvent, 
+import {
+  timelineSlice,
+  addPlotEvent,
+  updatePlotEvent,
   deletePlotEvent,
   updateTimelineSettings,
   selectTimelineEvents,
-  selectTimelineSettings
+  selectTimelineSettings,
 } from '../timelineSlice';
 import { createMockOutlineState } from '../../../../../tests/utils/testUtils';
 import { mockPlotEvent, mockEvents } from '../../../../../tests/fixtures/outlineData';
@@ -23,15 +23,15 @@ describe('timelineSlice', () => {
   beforeEach(() => {
     store = configureStore({
       reducer: {
-        outline: (state = createMockOutlineState()) => state
-      }
+        outline: (state = createMockOutlineState()) => state,
+      },
     });
   });
 
   describe('actions', () => {
     it('should create addPlotEvent action', () => {
       const action = addPlotEvent(mockPlotEvent);
-      
+
       expect(action.type).toBe('timeline/addPlotEvent');
       expect(action.payload).toEqual(mockPlotEvent);
     });
@@ -39,14 +39,14 @@ describe('timelineSlice', () => {
     it('should create updatePlotEvent action', () => {
       const updates = { title: '更新的事件', importance: 'minor' as const };
       const action = updatePlotEvent({ id: 'event-001', updates });
-      
+
       expect(action.type).toBe('timeline/updatePlotEvent');
       expect(action.payload).toEqual({ id: 'event-001', updates });
     });
 
     it('should create deletePlotEvent action', () => {
       const action = deletePlotEvent('event-001');
-      
+
       expect(action.type).toBe('timeline/deletePlotEvent');
       expect(action.payload).toBe('event-001');
     });
@@ -54,7 +54,7 @@ describe('timelineSlice', () => {
     it('should create updateTimelineSettings action', () => {
       const settings = { startTime: '2025-01-01', endTime: '2025-12-31' };
       const action = updateTimelineSettings(settings);
-      
+
       expect(action.type).toBe('timeline/updateTimelineSettings');
       expect(action.payload).toEqual(settings);
     });
@@ -66,12 +66,12 @@ describe('timelineSlice', () => {
       events: [],
       startTime: '',
       endTime: '',
-      timelineNotes: ''
+      timelineNotes: '',
     };
 
     it('should return initial state', () => {
       const state = timelineSlice.reducer(undefined, { type: '@@INIT' });
-      
+
       expect(state.events).toEqual([]);
       expect(state.startTime).toBe('');
       expect(state.endTime).toBe('');
@@ -88,13 +88,13 @@ describe('timelineSlice', () => {
     it('should handle updatePlotEvent', () => {
       const stateWithEvent = {
         ...initialState,
-        events: [mockPlotEvent]
+        events: [mockPlotEvent],
       };
 
-      const updates = { 
-        title: '英雄崛起', 
+      const updates = {
+        title: '英雄崛起',
         importance: 'critical' as const,
-        description: '主角觉醒力量'
+        description: '主角觉醒力量',
       };
       const action = updatePlotEvent({ id: 'event-001', updates });
       const newState = timelineSlice.reducer(stateWithEvent, action);
@@ -109,7 +109,7 @@ describe('timelineSlice', () => {
     it('should handle deletePlotEvent', () => {
       const stateWithEvents = {
         ...initialState,
-        events: mockEvents
+        events: mockEvents,
       };
 
       const action = deletePlotEvent('event-001');
@@ -120,10 +120,10 @@ describe('timelineSlice', () => {
     });
 
     it('should handle updateTimelineSettings', () => {
-      const settings = { 
-        startTime: '2025-01-01', 
+      const settings = {
+        startTime: '2025-01-01',
         endTime: '2025-12-31',
-        timelineNotes: '新的时间线设置'
+        timelineNotes: '新的时间线设置',
       };
       const action = updateTimelineSettings(settings);
       const newState = timelineSlice.reducer(initialState, action);
@@ -145,13 +145,13 @@ describe('timelineSlice', () => {
       const event1: PlotEvent = {
         ...mockPlotEvent,
         id: 'event-1',
-        timestamp: '2024-01-02T00:00:00.000Z'
+        timestamp: '2024-01-02T00:00:00.000Z',
       };
 
       const event2: PlotEvent = {
         ...mockPlotEvent,
-        id: 'event-2', 
-        timestamp: '2024-01-01T00:00:00.000Z'
+        id: 'event-2',
+        timestamp: '2024-01-01T00:00:00.000Z',
       };
 
       let state = timelineSlice.reducer(initialState, addPlotEvent(event1));
@@ -167,41 +167,41 @@ describe('timelineSlice', () => {
     it('should select timeline events from state', () => {
       const mockState = {
         outline: createMockOutlineState({
-          timeline: { 
+          timeline: {
             id: 'test-timeline',
-            events: mockEvents, 
+            events: mockEvents,
             startTime: '2024-01-01',
             endTime: '2024-12-31',
-            timelineNotes: '测试时间线'
-          }
-        })
+            timelineNotes: '测试时间线',
+          },
+        }),
       };
 
       const events = selectTimelineEvents(mockState as any);
-      
+
       expect(events).toEqual(mockEvents);
     });
 
     it('should select timeline settings from state', () => {
       const mockState = {
         outline: createMockOutlineState({
-          timeline: { 
+          timeline: {
             id: 'test-timeline',
-            events: [], 
+            events: [],
             startTime: '2024-01-01',
             endTime: '2024-12-31',
-            timelineNotes: '测试时间线设置'
-          }
-        })
+            timelineNotes: '测试时间线设置',
+          },
+        }),
       };
 
       const settings = selectTimelineSettings(mockState as any);
-      
+
       expect(settings).toEqual({
         id: 'test-timeline',
         startTime: '2024-01-01',
         endTime: '2024-12-31',
-        timelineNotes: '测试时间线设置'
+        timelineNotes: '测试时间线设置',
       });
     });
 
@@ -209,30 +209,30 @@ describe('timelineSlice', () => {
       const criticalEvent: PlotEvent = {
         ...mockPlotEvent,
         id: 'critical-event',
-        importance: 'critical'
+        importance: 'critical',
       };
 
       const minorEvent: PlotEvent = {
         ...mockPlotEvent,
         id: 'minor-event',
-        importance: 'minor'
+        importance: 'minor',
       };
 
       const mockState = {
         outline: createMockOutlineState({
-          timeline: { 
+          timeline: {
             id: 'test-timeline',
-            events: [criticalEvent, minorEvent], 
+            events: [criticalEvent, minorEvent],
             startTime: '2024-01-01',
             endTime: '2024-12-31',
-            timelineNotes: ''
-          }
-        })
+            timelineNotes: '',
+          },
+        }),
       };
 
       const events = selectTimelineEvents(mockState as any);
       const criticalEvents = events.filter(e => e.importance === 'critical');
-      
+
       expect(criticalEvents).toHaveLength(1);
       expect(criticalEvents[0].id).toBe('critical-event');
     });

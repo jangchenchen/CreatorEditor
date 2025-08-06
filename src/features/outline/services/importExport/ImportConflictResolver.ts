@@ -10,11 +10,11 @@ export class ImportConflictResolver {
       // Generate new ID
       const timestamp = Date.now();
       const newId = `${projectData.id}_imported_${timestamp}`;
-      
+
       return {
         ...projectData,
         id: newId,
-        projectName: `${projectData.projectName} (Imported)`
+        projectName: `${projectData.projectName} (Imported)`,
       };
     }
 
@@ -30,7 +30,7 @@ export class ImportConflictResolver {
       const timestamp = new Date().toISOString().split('T')[0];
       return {
         ...projectData,
-        projectName: `${projectData.projectName} (${timestamp})`
+        projectName: `${projectData.projectName} (${timestamp})`,
       };
     }
 

@@ -18,49 +18,49 @@ export function createNewProject(projectName: string): OutlineData {
     version: '1.0.0',
     createdAt: now,
     lastUpdated: now,
-    
+
     story: {
       id: `story_${projectId}`,
       background: {
         era: '',
         location: '',
         socialEnvironment: '',
-        historicalContext: ''
+        historicalContext: '',
       },
       coreTheme: {
         theme: '',
         conflict: '',
         message: '',
-        keywords: []
+        keywords: [],
       },
       synopsis: {
         beginning: '',
         development: '',
         climax: '',
         ending: '',
-        overallTone: ''
+        overallTone: '',
       },
-      lastUpdated: now
+      lastUpdated: now,
     },
-    
+
     characters: [],
     relationships: [],
-    
+
     timeline: {
       id: `timeline_${projectId}`,
       events: [],
       startTime: '',
       endTime: '',
-      timelineNotes: ''
+      timelineNotes: '',
     },
-    
+
     world: {
       id: `world_${projectId}`,
       geography: {
         regions: [],
         climate: '',
         landmarks: [],
-        naturalFeatures: []
+        naturalFeatures: [],
       },
       society: {
         political: '',
@@ -68,25 +68,25 @@ export function createNewProject(projectName: string): OutlineData {
         cultural: [],
         religious: '',
         technology: '',
-        socialClasses: []
+        socialClasses: [],
       },
       history: {
         timeline: [],
         legends: [],
         familySecrets: [],
-        mysteries: []
+        mysteries: [],
       },
       customRules: [],
-      inspirationSources: []
+      inspirationSources: [],
     },
-    
+
     chapters: {
       id: `chapters_${projectId}`,
       chapters: [],
       totalChapters: 0,
-      overallStructure: ''
+      overallStructure: '',
     },
-    
+
     themes: {
       id: `themes_${projectId}`,
       themes: {
@@ -94,28 +94,28 @@ export function createNewProject(projectName: string): OutlineData {
         secondary: [],
         symbols: [],
         metaphors: [],
-        motifs: []
+        motifs: [],
       },
       characterMotivations: [],
       philosophicalQuestions: [],
       socialCommentary: [],
-      personalReflections: []
+      personalReflections: [],
     },
-    
+
     subplots: {
       id: `subplots_${projectId}`,
       subplots: [],
       secondaryStories: [],
-      weavingStrategy: ''
+      weavingStrategy: '',
     },
-    
+
     ideas: {
       id: `ideas_${projectId}`,
       ideas: [],
       alternatives: [],
       inspirationSources: [],
-      brainstormingSessions: []
-    }
+      brainstormingSessions: [],
+    },
   };
 }
 
@@ -131,7 +131,7 @@ export function createDefaultProject(): OutlineData {
  */
 export function createTemplateProject(templateName: string): OutlineData {
   const project = createNewProject(templateName);
-  
+
   // Add some template content based on project type
   switch (templateName.toLowerCase()) {
     case 'fantasy novel':
@@ -150,7 +150,7 @@ export function createTemplateProject(templateName: string): OutlineData {
       // Keep it empty for generic projects
       break;
   }
-  
+
   return project;
 }
 
@@ -168,16 +168,16 @@ export function validateProjectName(name: string): { valid: boolean; error?: str
   if (!name || name.trim().length === 0) {
     return { valid: false, error: 'Project name cannot be empty' };
   }
-  
+
   if (name.length > 100) {
     return { valid: false, error: 'Project name is too long (max 100 characters)' };
   }
-  
+
   // Check for invalid characters
   const invalidChars = /[<>:"|?*\\\/]/;
   if (invalidChars.test(name)) {
     return { valid: false, error: 'Project name contains invalid characters' };
   }
-  
+
   return { valid: true };
 }

@@ -8,7 +8,7 @@ export const STORAGE_CONFIG = {
   backupFileName: 'novel-editor-data.backup.json',
   currentVersion: '1.0.0',
   autoSaveInterval: 5000, // 5 seconds
-  maxBackups: 5
+  maxBackups: 5,
 } as const;
 
 // Database schema
@@ -36,11 +36,11 @@ export const defaultData: DatabaseSchema = {
   settings: {
     autoSave: true,
     backupEnabled: true,
-    lastBackup: null
+    lastBackup: null,
   },
   metadata: {
     created: new Date().toISOString(),
     lastModified: new Date().toISOString(),
-    totalProjects: 0
-  }
+    totalProjects: 0,
+  },
 };

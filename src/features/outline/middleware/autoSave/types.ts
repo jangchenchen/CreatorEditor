@@ -53,7 +53,7 @@ export const DEFAULT_AUTO_SAVE_CONFIG: AutoSaveConfig = {
   debounceDelay: 2000,
   maxRetries: 3,
   retryDelay: 1000,
-  enabledByDefault: true
+  enabledByDefault: true,
 };
 
 // Actions that should trigger auto-save
@@ -62,12 +62,12 @@ export const SAVE_TRIGGERING_ACTIONS = [
   'outline/project/setProjectName',
   'outline/project/initializeProject',
   'outline/project/updateLastModified',
-  
+
   // Story actions
   'outline/story/updateStoryBackground',
   'outline/story/updateCoreTheme',
   'outline/story/updateSynopsis',
-  
+
   // Character actions
   'outline/characters/addCharacter',
   'outline/characters/updateCharacter',
@@ -75,19 +75,19 @@ export const SAVE_TRIGGERING_ACTIONS = [
   'outline/characters/addRelationship',
   'outline/characters/updateRelationship',
   'outline/characters/deleteRelationship',
-  
+
   // Timeline actions
   'outline/timeline/addPlotEvent',
   'outline/timeline/updatePlotEvent',
   'outline/timeline/deletePlotEvent',
   'outline/timeline/updateTimelineInfo',
-  
+
   // Chapter actions
   'outline/chapters/addChapter',
   'outline/chapters/updateChapter',
   'outline/chapters/deleteChapter',
   'outline/chapters/updateChapterStructure',
-  
+
   // Subplot actions
   'outline/subplots/addSubplot',
   'outline/subplots/updateSubplot',
@@ -95,7 +95,7 @@ export const SAVE_TRIGGERING_ACTIONS = [
   'outline/subplots/addSecondaryStory',
   'outline/subplots/updateSecondaryStory',
   'outline/subplots/deleteSecondaryStory',
-  
+
   // Ideas actions
   'outline/ideas/addCreativeIdea',
   'outline/ideas/updateCreativeIdea',
@@ -103,5 +103,5 @@ export const SAVE_TRIGGERING_ACTIONS = [
   'outline/ideas/updateIdeaStatus',
   'outline/ideas/addPlotAlternative',
   'outline/ideas/updatePlotAlternative',
-  'outline/ideas/deletePlotAlternative'
+  'outline/ideas/deletePlotAlternative',
 ] as const;

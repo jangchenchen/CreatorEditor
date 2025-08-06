@@ -11,12 +11,12 @@ import {
   IconButton,
   Accordion,
   AccordionSummary,
-  AccordionDetails
+  AccordionDetails,
 } from '@mui/material';
 import {
   Delete as DeleteIcon,
   ExpandMore as ExpandMoreIcon,
-  Help as MysteriesIcon
+  Help as MysteriesIcon,
 } from '@mui/icons-material';
 
 interface MysteriesManagerProps {
@@ -32,12 +32,12 @@ const MysteriesManager: React.FC<MysteriesManagerProps> = ({
   newMystery,
   onNewMysteryChange,
   onAddMystery,
-  onRemoveMystery
+  onRemoveMystery,
 }) => {
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center' }}>
           <MysteriesIcon sx={{ mr: 1, color: 'error.main' }} />
           未解之谜 ({mysteries.length})
         </Typography>
@@ -47,16 +47,16 @@ const MysteriesManager: React.FC<MysteriesManagerProps> = ({
           <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
             <TextField
               fullWidth
-              size="small"
+              size='small'
               multiline
               rows={2}
-              label="添加未解之谜"
+              label='添加未解之谜'
               value={newMystery}
-              onChange={(e) => onNewMysteryChange(e.target.value)}
-              placeholder="描述一个尚未解开的谜团..."
+              onChange={e => onNewMysteryChange(e.target.value)}
+              placeholder='描述一个尚未解开的谜团...'
             />
-            <Button 
-              variant="contained" 
+            <Button
+              variant='contained'
               onClick={onAddMystery}
               disabled={!newMystery.trim()}
               sx={{ minWidth: 80 }}
@@ -64,21 +64,14 @@ const MysteriesManager: React.FC<MysteriesManagerProps> = ({
               添加
             </Button>
           </Box>
-          
+
           {mysteries.length > 0 ? (
             <List>
               {mysteries.map((mystery, index) => (
                 <ListItem key={index} sx={{ bgcolor: 'error.50', mb: 1, borderRadius: 1 }}>
-                  <ListItemText 
-                    primary={`未解之谜 ${index + 1}`}
-                    secondary={mystery}
-                  />
+                  <ListItemText primary={`未解之谜 ${index + 1}`} secondary={mystery} />
                   <ListItemSecondaryAction>
-                    <IconButton 
-                      edge="end" 
-                      color="error"
-                      onClick={() => onRemoveMystery(index)}
-                    >
+                    <IconButton edge='end' color='error' onClick={() => onRemoveMystery(index)}>
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
@@ -86,7 +79,7 @@ const MysteriesManager: React.FC<MysteriesManagerProps> = ({
               ))}
             </List>
           ) : (
-            <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
+            <Typography variant='body2' color='text.secondary' sx={{ textAlign: 'center', py: 2 }}>
               暂无未解之谜记录
             </Typography>
           )}

@@ -9,11 +9,9 @@ import {
   Stepper,
   Step,
   StepLabel,
-  Divider
+  Divider,
 } from '@mui/material';
-import {
-  FileDownload as ExportIcon
-} from '@mui/icons-material';
+import { FileDownload as ExportIcon } from '@mui/icons-material';
 import { useExportDialogState } from '../../hooks/useExportDialogState';
 import { FormatSelectionStep } from './export/FormatSelectionStep';
 import { OptionsConfigurationStep } from './export/OptionsConfigurationStep';
@@ -28,7 +26,7 @@ interface DocumentExportDialogProps {
 const DocumentExportDialog: React.FC<DocumentExportDialogProps> = ({
   open,
   onClose,
-  defaultFormat = 'docx'
+  defaultFormat = 'docx',
 }) => {
   const {
     state,
@@ -42,7 +40,7 @@ const DocumentExportDialog: React.FC<DocumentExportDialogProps> = ({
     canProceed,
     isExporting,
     progress,
-    lastExportError
+    lastExportError,
   } = useExportDialogState(defaultFormat);
 
   const steps = ['选择格式', '配置选项', '确认导出'];
@@ -95,7 +93,7 @@ const DocumentExportDialog: React.FC<DocumentExportDialogProps> = ({
     <Dialog
       open={open}
       onClose={handleClose}
-      maxWidth="md"
+      maxWidth='md'
       fullWidth
       disableEscapeKeyDown={isExporting}
     >
@@ -109,7 +107,7 @@ const DocumentExportDialog: React.FC<DocumentExportDialogProps> = ({
       <DialogContent>
         <Box sx={{ mb: 3 }}>
           <Stepper activeStep={state.activeStep} alternativeLabel>
-            {steps.map((label) => (
+            {steps.map(label => (
               <Step key={label}>
                 <StepLabel>{label}</StepLabel>
               </Step>
@@ -126,25 +124,21 @@ const DocumentExportDialog: React.FC<DocumentExportDialogProps> = ({
         <Button onClick={handleClose} disabled={isExporting}>
           {progress?.stage === 'complete' ? '关闭' : '取消'}
         </Button>
-        
+
         {state.activeStep > 0 && (
           <Button onClick={handleBack} disabled={isExporting}>
             上一步
           </Button>
         )}
-        
+
         {state.activeStep < steps.length - 1 ? (
-          <Button 
-            onClick={handleNext} 
-            variant="contained"
-            disabled={!canProceed()}
-          >
+          <Button onClick={handleNext} variant='contained' disabled={!canProceed()}>
             下一步
           </Button>
         ) : (
           <Button
             onClick={handleExport}
-            variant="contained"
+            variant='contained'
             disabled={isExporting || !canProceed()}
             startIcon={isExporting ? undefined : <ExportIcon />}
           >

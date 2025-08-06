@@ -14,7 +14,7 @@ const EditorContentArea: React.FC<EditorContentAreaProps> = ({ editor }) => {
       {editor ? (
         <EditorContent editor={editor} />
       ) : (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+        <Box display='flex' justifyContent='center' alignItems='center' height='100%'>
           <CircularProgress />
         </Box>
       )}

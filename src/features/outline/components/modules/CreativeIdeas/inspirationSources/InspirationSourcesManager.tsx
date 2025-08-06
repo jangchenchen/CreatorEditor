@@ -9,7 +9,7 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   IconButton,
-  Typography
+  Typography,
 } from '@mui/material';
 import { Add as AddIcon, Remove as RemoveIcon } from '@mui/icons-material';
 import { getSourceIcon } from './utils';
@@ -27,7 +27,7 @@ export const InspirationSourcesManager: React.FC<InspirationSourcesManagerProps>
   newSource,
   setNewSource,
   handleAddSource,
-  handleRemoveSource
+  handleRemoveSource,
 }) => {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -40,15 +40,15 @@ export const InspirationSourcesManager: React.FC<InspirationSourcesManagerProps>
       <Box sx={{ display: 'flex', gap: 1, mb: 3 }}>
         <TextField
           fullWidth
-          size="small"
-          label="添加灵感来源"
+          size='small'
+          label='添加灵感来源'
           value={newSource}
-          onChange={(e) => setNewSource(e.target.value)}
+          onChange={e => setNewSource(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="例如: 《百年孤独》、宫崎骏电影、古典音乐..."
+          placeholder='例如: 《百年孤独》、宫崎骏电影、古典音乐...'
         />
-        <Button 
-          variant="contained" 
+        <Button
+          variant='contained'
           onClick={handleAddSource}
           disabled={!newSource.trim()}
           startIcon={<AddIcon />}
@@ -64,15 +64,11 @@ export const InspirationSourcesManager: React.FC<InspirationSourcesManagerProps>
             return (
               <ListItem key={index} sx={{ bgcolor: 'grey.50', mb: 1, borderRadius: 1 }}>
                 <ListItemIcon>
-                  <IconComponent color="primary" />
+                  <IconComponent color='primary' />
                 </ListItemIcon>
                 <ListItemText primary={source} />
                 <ListItemSecondaryAction>
-                  <IconButton 
-                    size="small" 
-                    color="error"
-                    onClick={() => handleRemoveSource(index)}
-                  >
+                  <IconButton size='small' color='error' onClick={() => handleRemoveSource(index)}>
                     <RemoveIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -81,7 +77,7 @@ export const InspirationSourcesManager: React.FC<InspirationSourcesManagerProps>
           })}
         </List>
       ) : (
-        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
+        <Typography variant='body2' color='text.secondary' sx={{ textAlign: 'center', py: 2 }}>
           暂无灵感来源记录
         </Typography>
       )}

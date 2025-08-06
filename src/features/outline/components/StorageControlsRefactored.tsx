@@ -12,7 +12,7 @@ import {
   Alert,
   LinearProgress,
   Snackbar,
-  Divider
+  Divider,
 } from '@mui/material';
 import { Settings as SettingsIcon } from '@mui/icons-material';
 import { useStorageControls } from '../../hooks/useStorageControls';
@@ -29,7 +29,7 @@ interface StorageControlsProps {
 
 export const StorageControls: React.FC<StorageControlsProps> = ({
   currentProjectId,
-  onProjectLoad
+  onProjectLoad,
 }) => {
   const { storage, state, handlers, fileInputRef } = useStorageControls(
     currentProjectId,
@@ -40,17 +40,17 @@ export const StorageControls: React.FC<StorageControlsProps> = ({
     <Box>
       {/* Hidden file input for import */}
       <input
-        type="file"
+        type='file'
         ref={fileInputRef}
         style={{ display: 'none' }}
-        accept=".json"
+        accept='.json'
         onChange={handlers.handleFileSelected}
       />
 
       {/* Main Storage Card */}
       <Card>
         <CardHeader
-          title="Storage Controls"
+          title='Storage Controls'
           action={
             <StorageStatusIndicator
               isInitialized={storage.isInitialized}
@@ -65,19 +65,13 @@ export const StorageControls: React.FC<StorageControlsProps> = ({
         <CardContent>
           {/* Error Display */}
           {storage.error && (
-            <Alert 
-              severity="error" 
-              onClose={storage.clearError}
-              sx={{ mb: 2 }}
-            >
+            <Alert severity='error' onClose={storage.clearError} sx={{ mb: 2 }}>
               {storage.error}
             </Alert>
           )}
 
           {/* Loading Indicator */}
-          {storage.isLoading && (
-            <LinearProgress sx={{ mb: 2 }} />
-          )}
+          {storage.isLoading && <LinearProgress sx={{ mb: 2 }} />}
 
           {/* Auto-save Controls */}
           <Box sx={{ mb: 3 }}>
@@ -126,11 +120,7 @@ export const StorageControls: React.FC<StorageControlsProps> = ({
       />
 
       {/* Snackbar for notifications */}
-      <Snackbar
-        open={state.snackbar.open}
-        autoHideDuration={6000}
-        onClose={handlers.closeSnackbar}
-      >
+      <Snackbar open={state.snackbar.open} autoHideDuration={6000} onClose={handlers.closeSnackbar}>
         <Alert onClose={handlers.closeSnackbar} severity={state.snackbar.severity}>
           {state.snackbar.message}
         </Alert>

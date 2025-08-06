@@ -15,7 +15,7 @@ export const calculateProgress = (state: CharacterArcState): CharacterProgress =
     percentage,
     currentStep,
     totalSteps,
-    isCompleted
+    isCompleted,
   };
 };
 
@@ -29,8 +29,8 @@ export const generateSteps = (state: CharacterArcState): CharacterStepData[] => 
       content: state.selectedCharacter.arc.startState,
       index: 0,
       isCompleted: state.activeStep > 0,
-      isActive: state.activeStep === 0
-    }
+      isActive: state.activeStep === 0,
+    },
   ];
 
   state.selectedCharacter.arc.keyEvents.forEach((event, index) => {
@@ -40,7 +40,7 @@ export const generateSteps = (state: CharacterArcState): CharacterStepData[] => 
       content: event,
       index: index + 1,
       isCompleted: state.activeStep > index + 1,
-      isActive: state.activeStep === index + 1
+      isActive: state.activeStep === index + 1,
     });
   });
 
@@ -50,7 +50,7 @@ export const generateSteps = (state: CharacterArcState): CharacterStepData[] => 
     content: state.selectedCharacter.arc.endState,
     index: state.selectedCharacter.arc.keyEvents.length + 1,
     isCompleted: state.activeStep >= state.selectedCharacter.arc.keyEvents.length + 1,
-    isActive: state.activeStep === state.selectedCharacter.arc.keyEvents.length + 1
+    isActive: state.activeStep === state.selectedCharacter.arc.keyEvents.length + 1,
   });
 
   return steps;

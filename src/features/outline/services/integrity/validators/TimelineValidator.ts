@@ -13,24 +13,24 @@ export class TimelineValidator {
   ): void {
     events.forEach(event => {
       const orphanedCharacters = event.characters.filter(charId => !validCharacterIds.has(charId));
-      
+
       orphanedCharacters.forEach(charId => {
         errors.push({
           type: 'orphaned_reference',
           module: 'timeline',
           entityId: event.id,
           message: `Timeline event "${event.title}" references deleted character: ${charId}`,
-          severity: 'medium'
+          severity: 'medium',
         });
       });
-      
+
       // Check for empty events
       if (!event.title.trim()) {
         warnings.push({
           type: 'potential_inconsistency',
           module: 'timeline',
           entityId: event.id,
-          message: `Timeline event has empty title`
+          message: `Timeline event has empty title`,
         });
       }
     });

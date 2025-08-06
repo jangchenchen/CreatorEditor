@@ -13,12 +13,9 @@ import {
   Box,
   Grid,
   TextField,
-  Autocomplete
+  Autocomplete,
 } from '@mui/material';
-import {
-  Save as SaveIcon,
-  Cancel as CancelIcon
-} from '@mui/icons-material';
+import { Save as SaveIcon, Cancel as CancelIcon } from '@mui/icons-material';
 import { Region } from '../../../../types/outline.types';
 
 interface RegionDialogProps {
@@ -40,20 +37,18 @@ export const RegionDialog: React.FC<RegionDialogProps> = ({
   onClose,
   onSave,
   onFormChange,
-  onConnectedRegionsChange
+  onConnectedRegionsChange,
 }) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>
-        {editingRegion ? '编辑地区' : '添加新地区'}
-      </DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth='md' fullWidth>
+      <DialogTitle>{editingRegion ? '编辑地区' : '添加新地区'}</DialogTitle>
       <DialogContent>
-        <Box component="form" sx={{ mt: 2 }}>
+        <Box component='form' sx={{ mt: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="地区名称"
+                label='地区名称'
                 value={formData.name || ''}
                 onChange={onFormChange('name')}
                 required
@@ -64,19 +59,19 @@ export const RegionDialog: React.FC<RegionDialogProps> = ({
                 fullWidth
                 multiline
                 rows={3}
-                label="地区描述"
+                label='地区描述'
                 value={formData.description || ''}
                 onChange={onFormChange('description')}
-                placeholder="详细描述这个地区的特点、环境、文化等..."
+                placeholder='详细描述这个地区的特点、环境、文化等...'
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="故事重要性"
+                label='故事重要性'
                 value={formData.significance || ''}
                 onChange={onFormChange('significance')}
-                placeholder="这个地区在故事中的重要性和作用..."
+                placeholder='这个地区在故事中的重要性和作用...'
               />
             </Grid>
             <Grid item xs={12}>
@@ -86,12 +81,8 @@ export const RegionDialog: React.FC<RegionDialogProps> = ({
                 options={availableRegions.filter(name => name !== formData.name)}
                 value={formData.connectedRegions || []}
                 onChange={onConnectedRegionsChange}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="相连地区"
-                    placeholder="选择或输入相连的地区名称"
-                  />
+                renderInput={params => (
+                  <TextField {...params} label='相连地区' placeholder='选择或输入相连的地区名称' />
                 )}
               />
             </Grid>
@@ -102,9 +93,9 @@ export const RegionDialog: React.FC<RegionDialogProps> = ({
         <Button onClick={onClose} startIcon={<CancelIcon />}>
           取消
         </Button>
-        <Button 
-          onClick={onSave} 
-          variant="contained" 
+        <Button
+          onClick={onSave}
+          variant='contained'
           startIcon={<SaveIcon />}
           disabled={!formData.name}
         >

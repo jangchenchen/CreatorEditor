@@ -21,22 +21,22 @@ export const reorderChaptersWithSync = createAsyncThunk<
   async ({ newOrder, updateSubplotReferences = true }, { dispatch, getState }) => {
     const state = getState().outline;
     const currentChapters = state.chapters.chapters;
-    
+
     // Create mapping of old to new chapter numbers
     const chapterMapping = createChapterMapping(newOrder, currentChapters);
-    
+
     // Reorder chapters
     dispatch(reorderChapters(newOrder));
-    
+
     if (updateSubplotReferences) {
       // Update subplot chapter references
       await updateSubplotChapterReferences(state, chapterMapping, dispatch);
     }
-    
+
     // Validate state after reordering
     const newState = getState().outline;
     const validationResult = ReferentialIntegrityService.validateState(newState);
-    
+
     if (!validationResult.isValid) {
       console.warn('Data integrity issues after chapter reordering:', validationResult.errors);
     }
@@ -48,14 +48,14 @@ export const reorderChaptersWithSync = createAsyncThunk<
  */
 function createChapterMapping(newOrder: string[], currentChapters: any[]): Record<number, number> {
   const chapterMapping: Record<number, number> = {};
-  
+
   newOrder.forEach((chapterId, newIndex) => {
     const chapter = currentChapters.find(c => c.id === chapterId);
     if (chapter) {
       chapterMapping[chapter.number] = newIndex + 1;
     }
   });
-  
+
   return chapterMapping;
 }
 
@@ -69,18 +69,18 @@ async function updateSubplotChapterReferences(
 ): Promise<void> {
   const updatedSubplots = state.subplots.subplots.map((subplot: any) => {
     const updatedSubplot = { ...subplot };
-    
+
     if (subplot.startChapter && chapterMapping[subplot.startChapter]) {
       updatedSubplot.startChapter = chapterMapping[subplot.startChapter];
     }
-    
+
     if (subplot.endChapter && chapterMapping[subplot.endChapter]) {
       updatedSubplot.endChapter = chapterMapping[subplot.endChapter];
     }
-    
+
     return updatedSubplot;
   });
-  
+
   // Dispatch updates for modified subplots
   updatedSubplots.forEach((subplot: any) => {
     const original = state.subplots.subplots.find((s: any) => s.id === subplot.id);
@@ -95,7 +95,6 @@ async function updateSubplotChapterReferences(
  */
 function hasChapterReferencesChanged(original: any, updated: any): boolean {
   return (
-    original.startChapter !== updated.startChapter ||
-    original.endChapter !== updated.endChapter
+    original.startChapter !== updated.startChapter || original.endChapter !== updated.endChapter
   );
 }

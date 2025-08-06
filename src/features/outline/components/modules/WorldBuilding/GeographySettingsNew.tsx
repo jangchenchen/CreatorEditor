@@ -4,12 +4,7 @@
  */
 
 import React from 'react';
-import {
-  Box,
-  Grid,
-  Typography,
-  Divider
-} from '@mui/material';
+import { Box, Grid, Typography, Divider } from '@mui/material';
 import { useGeographySettings } from './hooks/useGeographySettings';
 import { ClimateSettings } from './components/ClimateSettings';
 import { LandmarksManager } from './components/LandmarksManager';
@@ -29,7 +24,7 @@ export const GeographySettings: React.FC = () => {
     formData,
     newLandmark,
     newFeature,
-    
+
     // Actions
     setClimate,
     setNewLandmark,
@@ -41,25 +36,22 @@ export const GeographySettings: React.FC = () => {
     handleFormChange,
     handleConnectedRegionsChange,
     handleAddItem,
-    handleRemoveItem
+    handleRemoveItem,
   } = useGeographySettings();
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto' }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         地理环境设定
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant='body2' color='text.secondary' paragraph>
         构建故事世界的地理背景，包括气候条件、重要地标和自然特征。
       </Typography>
 
       <Grid container spacing={3}>
         {/* 气候设定 */}
         <Grid item xs={12}>
-          <ClimateSettings
-            climate={climate}
-            onChange={setClimate}
-          />
+          <ClimateSettings climate={climate} onChange={setClimate} />
         </Grid>
 
         {/* 重要地标 */}
@@ -69,7 +61,7 @@ export const GeographySettings: React.FC = () => {
             newLandmark={newLandmark}
             onNewLandmarkChange={setNewLandmark}
             onAddLandmark={() => handleAddItem('landmark')}
-            onRemoveLandmark={(index) => handleRemoveItem('landmark', index)}
+            onRemoveLandmark={index => handleRemoveItem('landmark', index)}
           />
         </Grid>
 
@@ -80,7 +72,7 @@ export const GeographySettings: React.FC = () => {
             newFeature={newFeature}
             onNewFeatureChange={setNewFeature}
             onAddFeature={() => handleAddItem('feature')}
-            onRemoveFeature={(index) => handleRemoveItem('feature', index)}
+            onRemoveFeature={index => handleRemoveItem('feature', index)}
           />
         </Grid>
 
@@ -110,8 +102,9 @@ export const GeographySettings: React.FC = () => {
       <Divider sx={{ my: 3 }} />
 
       <Box sx={{ mt: 3, p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
-        <Typography variant="caption" color="text.secondary">
-          💡 提示：地理设定应该与故事情节密切相关，避免过度复杂。重点关注对角色行动和情节发展有影响的地理要素。
+        <Typography variant='caption' color='text.secondary'>
+          💡
+          提示：地理设定应该与故事情节密切相关，避免过度复杂。重点关注对角色行动和情节发展有影响的地理要素。
         </Typography>
       </Box>
     </Box>

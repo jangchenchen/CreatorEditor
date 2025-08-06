@@ -23,7 +23,7 @@ export interface OutlineData {
   themes: ThemeExploration;
   subplots: SubplotManager;
   ideas: CreativeIdeas;
-  version: string;               // 数据版本
+  version: string; // 数据版本
   createdAt: Date;
   lastUpdated: Date;
 }

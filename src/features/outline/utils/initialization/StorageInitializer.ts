@@ -7,10 +7,10 @@ import { Store } from '@reduxjs/toolkit';
 import { RootState } from '../../../../app/store';
 import { localStorageService } from '../../services/localStorageService';
 import { initializeProject } from '../../slices/rootOutlineSlice';
-import { 
-  InitializationResult, 
-  InitializationConfig, 
-  DEFAULT_INIT_CONFIG 
+import {
+  InitializationResult,
+  InitializationConfig,
+  DEFAULT_INIT_CONFIG,
 } from '../../types/storageInitializerTypes';
 import { createDefaultProject } from './ProjectFactory';
 import { loadLastProject, displayStartupMessages } from './StartupHelpers';
@@ -42,7 +42,7 @@ export async function initializeStorageSystem(
         loadedProject = result.projectName;
         migrationApplied = result.migrationApplied;
         warnings.push(...result.warnings);
-        
+
         if (result.projectName) {
           console.log(`📖 Loaded project: ${result.projectName}`);
         } else {
@@ -84,7 +84,7 @@ export async function initializeStorageSystem(
       isNewProject,
       migrationApplied,
       warnings,
-      errors
+      errors,
     };
 
     if (result.success) {
@@ -94,18 +94,17 @@ export async function initializeStorageSystem(
     }
 
     return result;
-
   } catch (error) {
     console.error('💥 Storage initialization failed:', error);
     errors.push(`Storage initialization failed: ${error.message}`);
-    
+
     return {
       success: false,
       loadedProject: null,
       isNewProject: false,
       migrationApplied: false,
       warnings,
-      errors
+      errors,
     };
   }
 }
@@ -115,7 +114,7 @@ export async function initializeStorageSystem(
  */
 export function shutdownStorageSystem(): void {
   console.log('🔄 Shutting down storage system...');
-  
+
   try {
     // Dispose of storage service resources
     localStorageService.dispose();
@@ -124,4 +123,3 @@ export function shutdownStorageSystem(): void {
     console.error('❌ Error during storage shutdown:', error);
   }
 }
-

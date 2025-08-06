@@ -14,7 +14,7 @@ export function migrateIdeasData(data: any) {
     ideas: ensureArray(data.ideas?.ideas || data.ideas).map(migrateIdeaItem),
     alternatives: ensureArray(data.ideas?.alternatives),
     inspirationSources: ensureArray(data.ideas?.inspirationSources),
-    brainstormingSessions: ensureArray(data.ideas?.brainstormingSessions)
+    brainstormingSessions: ensureArray(data.ideas?.brainstormingSessions),
   };
 }
 
@@ -35,6 +35,6 @@ function migrateIdeaItem(idea: any) {
     inspiration: idea.inspiration || '',
     potentialImpact: idea.potentialImpact || '',
     createdAt: safeDate(idea.createdAt),
-    lastUpdated: safeDate(idea.lastUpdated)
+    lastUpdated: safeDate(idea.lastUpdated),
   };
 }

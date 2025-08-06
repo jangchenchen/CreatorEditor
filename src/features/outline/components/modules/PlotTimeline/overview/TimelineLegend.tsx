@@ -6,28 +6,26 @@ interface TimelineLegendProps {
   showSizeLegend?: boolean;
 }
 
-export const TimelineLegend: React.FC<TimelineLegendProps> = ({ 
-  showSizeLegend = true 
-}) => {
+export const TimelineLegend: React.FC<TimelineLegendProps> = ({ showSizeLegend = true }) => {
   return (
     <Paper elevation={1} sx={{ p: 2, mt: 2 }}>
-      <Typography variant="subtitle2" gutterBottom>
+      <Typography variant='subtitle2' gutterBottom>
         图例说明
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <Typography variant="caption" display="block" gutterBottom>
+          <Typography variant='caption' display='block' gutterBottom>
             事件类型：
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {Object.entries(EVENT_TYPE_LABELS).map(([type, label]) => (
-              <Chip 
+              <Chip
                 key={type}
                 label={label}
-                size="small"
-                sx={{ 
+                size='small'
+                sx={{
                   bgcolor: DEFAULT_EVENT_COLORS[type as keyof typeof DEFAULT_EVENT_COLORS],
-                  color: 'white' 
+                  color: 'white',
                 }}
               />
             ))}
@@ -35,7 +33,7 @@ export const TimelineLegend: React.FC<TimelineLegendProps> = ({
         </Grid>
         {showSizeLegend && (
           <Grid item xs={12} sm={6}>
-            <Typography variant="caption" display="block" gutterBottom>
+            <Typography variant='caption' display='block' gutterBottom>
               重要性：大卡片=关键，中卡片=重要，小卡片=次要
             </Typography>
           </Grid>

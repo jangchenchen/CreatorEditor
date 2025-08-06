@@ -15,7 +15,7 @@ export const getRoleColor = (role: Character['role']) => {
     protagonist: 'primary',
     antagonist: 'error',
     supporting: 'secondary',
-    minor: 'default'
+    minor: 'default',
   } as const;
   return colors[role] || 'default';
 };
@@ -25,7 +25,7 @@ export const getRoleLabel = (role: Character['role']) => {
     protagonist: '主角',
     antagonist: '反角',
     supporting: '配角',
-    minor: '次要'
+    minor: '次要',
   };
   return labels[role] || role;
 };

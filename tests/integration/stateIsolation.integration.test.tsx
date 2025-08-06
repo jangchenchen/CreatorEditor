@@ -1,7 +1,7 @@
 /**
  * 状态隔离集成测试
  * 测试不同功能模块的状态管理不会意外地相互影响
- * 
+ *
  * 工作流程：确保模块间状态隔离和一致性
  */
 
@@ -16,14 +16,17 @@ import {
   createUserInteractionHelper,
   createTestData,
   waitForMiddlewareToProcess,
-  AppState
+  AppState,
 } from '../utils/integrationTestUtils';
 
 // 引入要测试的组件
 import App from '../../src/App';
 
 // 引入 actions
-import { updateStory } from '../../src/features/outline/slices/storySlice';
+import {
+  updateStoryBackground,
+  updateSynopsis,
+} from '../../src/features/outline/slices/storySlice';
 import { addCharacter, deleteCharacter } from '../../src/features/outline/slices/charactersSlice';
 import { addChapter } from '../../src/features/outline/slices/chaptersSlice';
 import { addPlotEvent } from '../../src/features/outline/slices/timelineSlice';
@@ -53,23 +56,20 @@ describe('状态隔离集成测试', () => {
         const initialEditorState = createTestData.editorState({
           content: '# 重要的编辑器内容\n\n这是我正在编写的章节。',
           fileName: 'important-chapter.md',
-          isDirty: false
+          isDirty: false,
         });
 
         const initialOutlineState = createTestData.outlineState();
 
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: {
-              editor: initialEditorState,
-              outline: initialOutlineState
-            }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: {
+            editor: initialEditorState,
+            outline: initialOutlineState,
+          },
+        });
+
         store = renderResult.store;
 
         // 验证初始状态
@@ -80,7 +80,7 @@ describe('状态隔离集成测试', () => {
 
         // 切换到大纲标签
         await user.switchTab('小说大纲');
-        await user.clickButton('故事概述');
+        await user.clickButton('整体故事概述');
 
         await waitFor(() => {
           expect(screen.getByLabelText(/地点|位置/i)).toBeInTheDocument();
@@ -121,37 +121,36 @@ describe('状态隔离集成测试', () => {
               era: '现代',
               location: '上海',
               socialEnvironment: '都市生活',
-              historicalContext: '2024年'
-            }
+              historicalContext: '2024年',
+            },
           },
           timeline: {
             id: 'test-timeline',
-            events: [{
-              id: 'existing-event',
-              title: '重要事件',
-              description: '故事中的重要转折点',
-              timestamp: '2024-01-01T10:00:00Z',
-              type: 'major',
-              characters: [],
-              location: '上海',
-              consequences: [],
-              notes: ''
-            }],
+            events: [
+              {
+                id: 'existing-event',
+                title: '重要事件',
+                description: '故事中的重要转折点',
+                timestamp: '2024-01-01T10:00:00Z',
+                type: 'major',
+                characters: [],
+                location: '上海',
+                consequences: [],
+                notes: '',
+              },
+            ],
             startTime: '2024-01-01',
             endTime: '2024-12-31',
-            timelineNotes: '主要时间线'
-          }
+            timelineNotes: '主要时间线',
+          },
         });
 
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: initialState }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: initialState },
+        });
+
         store = renderResult.store;
 
         // 记录初始状态
@@ -160,7 +159,7 @@ describe('状态隔离集成测试', () => {
 
         // 切换到角色关系模块
         await user.switchTab('小说大纲');
-        await user.clickButton('角色关系');
+        await user.clickButton('人物与角色关系');
 
         await waitFor(() => {
           expect(screen.getByRole('button', { name: /新增角色/i })).toBeInTheDocument();
@@ -174,9 +173,9 @@ describe('状态隔离集成测试', () => {
         });
 
         await user.fillForm({
-          '角色姓名': '测试角色',
-          '角色描述': '用于隔离测试的角色',
-          '角色类型': '配角'
+          角色姓名: '测试角色',
+          角色描述: '用于隔离测试的角色',
+          角色类型: '配角',
         });
 
         await user.submitForm();
@@ -214,7 +213,7 @@ describe('状态隔离集成测试', () => {
           traits: ['勇敢', '聪明'],
           relationships: [],
           scenes: [],
-          notes: '重要角色'
+          notes: '重要角色',
         };
 
         const testEvent: PlotEvent = {
@@ -226,32 +225,29 @@ describe('状态隔离集成测试', () => {
           characters: ['test-character-1'], // 引用了角色
           location: '学校',
           consequences: ['推动故事发展'],
-          notes: '关键场景'
+          notes: '关键场景',
         };
 
         const initialState = createTestData.outlineState({
           characters: {
             characters: [testCharacter],
-            relationships: []
+            relationships: [],
           },
           timeline: {
             id: 'test-timeline',
             events: [testEvent],
             startTime: '2024-01-01',
             endTime: '2024-12-31',
-            timelineNotes: '测试时间线'
-          }
+            timelineNotes: '测试时间线',
+          },
         });
 
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: initialState }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: initialState },
+        });
+
         store = renderResult.store;
 
         // 验证初始状态
@@ -261,7 +257,7 @@ describe('状态隔离集成测试', () => {
 
         // 切换到角色管理
         await user.switchTab('小说大纲');
-        await user.clickButton('角色关系');
+        await user.clickButton('人物与角色关系');
 
         await waitFor(() => {
           expect(screen.getByText('主角张三')).toBeInTheDocument();
@@ -289,7 +285,9 @@ describe('状态隔离集成测试', () => {
         expect(currentState.outline.characters.characters).toHaveLength(0);
 
         // 验证时间线事件中的角色引用已被清理
-        const timelineEvent = currentState.outline.timeline.events.find(e => e.id === 'test-event-1');
+        const timelineEvent = currentState.outline.timeline.events.find(
+          e => e.id === 'test-event-1'
+        );
         expect(timelineEvent).toBeDefined();
         expect(timelineEvent!.characters).not.toContain('test-character-1');
         expect(timelineEvent!.characters).toEqual([]);
@@ -305,7 +303,7 @@ describe('状态隔离集成测试', () => {
           traits: [],
           relationships: [],
           scenes: [],
-          notes: ''
+          notes: '',
         };
 
         const existingEvent: PlotEvent = {
@@ -317,38 +315,35 @@ describe('状态隔离集成测试', () => {
           characters: ['existing-char'],
           location: '现有地点',
           consequences: [],
-          notes: ''
+          notes: '',
         };
 
         const initialState = createTestData.outlineState({
           characters: {
             characters: [existingCharacter],
-            relationships: []
+            relationships: [],
           },
           timeline: {
             id: 'test-timeline',
             events: [existingEvent],
             startTime: '2024-01-01',
             endTime: '2024-12-31',
-            timelineNotes: '现有时间线'
+            timelineNotes: '现有时间线',
           },
           chapters: {
             id: 'test-chapters',
             chapters: [],
             totalChapters: 0,
-            overallStructure: '测试结构'
-          }
+            overallStructure: '测试结构',
+          },
         });
 
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: initialState }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: initialState },
+        });
+
         store = renderResult.store;
 
         // 记录初始状态
@@ -371,9 +366,9 @@ describe('状态隔离集成测试', () => {
         });
 
         await user.fillForm({
-          '章节标题': '第一章：开始',
-          '章节描述': '故事的开始部分',
-          '预计字数': '5000'
+          章节标题: '第一章：开始',
+          章节描述: '故事的开始部分',
+          预计字数: '5000',
         });
 
         await user.submitForm();
@@ -403,15 +398,12 @@ describe('状态隔离集成测试', () => {
     describe('测试用例 3.3: 并发状态更新处理', () => {
       it('应当正确处理同时进行的多个模块更新', async () => {
         // 准备 (Arrange)
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: createTestData.outlineState() }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: createTestData.outlineState() },
+        });
+
         store = renderResult.store;
 
         // 操作 (Act) - 同时分发多个不同模块的 actions
@@ -423,7 +415,7 @@ describe('状态隔离集成测试', () => {
           traits: [],
           relationships: [],
           scenes: [],
-          notes: ''
+          notes: '',
         };
 
         const testChapter: Chapter = {
@@ -434,18 +426,18 @@ describe('状态隔离集成测试', () => {
           wordCount: 0,
           status: 'draft',
           notes: '',
-          order: 1
+          order: 1,
         };
 
         // 同时分发多个 actions
-        store.dispatch(updateStory({
-          background: {
+        store.dispatch(
+          updateStoryBackground({
             era: '并发时代',
             location: '并发城市',
             socialEnvironment: '并发环境',
-            historicalContext: '并发背景'
-          }
-        }));
+            historicalContext: '并发背景',
+          })
+        );
 
         store.dispatch(addCharacter(testCharacter));
         store.dispatch(addChapter(testChapter));
@@ -476,29 +468,26 @@ describe('状态隔离集成测试', () => {
         // 准备 (Arrange)
         const initialState = createTestData.outlineState();
 
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: initialState }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: initialState },
+        });
+
         store = renderResult.store;
 
         // 操作 (Act) - 分别更新不同模块
-        
+
         // 1. 更新故事模块
-        store.dispatch(updateStory({
-          synopsis: {
+        store.dispatch(
+          updateSynopsis({
             beginning: '隔离测试开始',
             development: '隔离测试发展',
             climax: '隔离测试高潮',
             ending: '隔离测试结尾',
-            overallTone: '测试基调'
-          }
-        }));
+            overallTone: '测试基调',
+          })
+        );
 
         // 等待保存
         await waitForMiddlewareToProcess(200);
@@ -512,7 +501,7 @@ describe('状态隔离集成测试', () => {
           traits: ['隔离特质'],
           relationships: [],
           scenes: [],
-          notes: '隔离笔记'
+          notes: '隔离笔记',
         };
 
         store.dispatch(addCharacter(isolationCharacter));
@@ -521,10 +510,10 @@ describe('状态隔离集成测试', () => {
         await waitForMiddlewareToProcess(200);
 
         // 断言 (Assert)
-        
+
         // 验证数据正确保存到存储
         const storedData = mockStorage.getStoredData('creation-editor-project');
-        
+
         // 验证故事数据独立保存
         expect(storedData.outline.story.synopsis.beginning).toBe('隔离测试开始');
         expect(storedData.outline.story.synopsis.development).toBe('隔离测试发展');

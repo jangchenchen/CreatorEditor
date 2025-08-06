@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { PlotAlternative } from '../../../../types/outline.types';
-import { 
-  initializeAlternativeFormData, 
-  updateListField, 
-  addListItem, 
-  removeListItem 
+import {
+  initializeAlternativeFormData,
+  updateListField,
+  addListItem,
+  removeListItem,
 } from '../utils/alternativeUtils';
 
 export const useAlternativeState = () => {
@@ -24,14 +24,13 @@ export const useAlternativeState = () => {
     setFormData({});
   };
 
-  const handleFormChange = (field: keyof PlotAlternative) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: event.target.value
-    }));
-  };
+  const handleFormChange =
+    (field: keyof PlotAlternative) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData(prev => ({
+        ...prev,
+        [field]: event.target.value,
+      }));
+    };
 
   const handleListFieldChange = (field: 'pros' | 'cons', index: number, value: string) => {
     setFormData(prev => updateListField(prev, field, index, value));
@@ -54,6 +53,6 @@ export const useAlternativeState = () => {
     handleFormChange,
     handleListFieldChange,
     handleAddListItem,
-    handleRemoveListItem
+    handleRemoveListItem,
   };
 };

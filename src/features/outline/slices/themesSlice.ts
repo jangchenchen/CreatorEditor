@@ -10,12 +10,12 @@ const initialState: ThemesState = {
     secondary: [],
     symbols: [],
     metaphors: [],
-    motifs: []
+    motifs: [],
   },
   characterMotivations: [],
   philosophicalQuestions: [],
   socialCommentary: [],
-  personalReflections: []
+  personalReflections: [],
 };
 
 const themesSlice = createSlice({
@@ -54,7 +54,9 @@ const themesSlice = createSlice({
     },
 
     removeMetaphor: (state, action: PayloadAction<string>) => {
-      state.themes.metaphors = state.themes.metaphors.filter(metaphor => metaphor !== action.payload);
+      state.themes.metaphors = state.themes.metaphors.filter(
+        metaphor => metaphor !== action.payload
+      );
     },
 
     addMotif: (state, action: PayloadAction<string>) => {
@@ -107,7 +109,10 @@ const themesSlice = createSlice({
       );
     },
 
-    updatePhilosophicalQuestion: (state, action: PayloadAction<{ index: number; question: string }>) => {
+    updatePhilosophicalQuestion: (
+      state,
+      action: PayloadAction<{ index: number; question: string }>
+    ) => {
       if (state.philosophicalQuestions[action.payload.index]) {
         state.philosophicalQuestions[action.payload.index] = action.payload.question;
       }
@@ -126,7 +131,10 @@ const themesSlice = createSlice({
       );
     },
 
-    updateSocialCommentary: (state, action: PayloadAction<{ index: number; commentary: string }>) => {
+    updateSocialCommentary: (
+      state,
+      action: PayloadAction<{ index: number; commentary: string }>
+    ) => {
       if (state.socialCommentary[action.payload.index]) {
         state.socialCommentary[action.payload.index] = action.payload.commentary;
       }
@@ -145,7 +153,10 @@ const themesSlice = createSlice({
       );
     },
 
-    updatePersonalReflection: (state, action: PayloadAction<{ index: number; reflection: string }>) => {
+    updatePersonalReflection: (
+      state,
+      action: PayloadAction<{ index: number; reflection: string }>
+    ) => {
       if (state.personalReflections[action.payload.index]) {
         state.personalReflections[action.payload.index] = action.payload.reflection;
       }
@@ -158,8 +169,8 @@ const themesSlice = createSlice({
 
     resetThemes: () => {
       return initialState;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -185,7 +196,7 @@ export const {
   removePersonalReflection,
   updatePersonalReflection,
   loadThemesData,
-  resetThemes
+  resetThemes,
 } = themesSlice.actions;
 
 export default themesSlice.reducer;
@@ -193,13 +204,17 @@ export default themesSlice.reducer;
 // Selectors
 export const selectThemes = (state: { themes: ThemesState }) => state.themes;
 export const selectThemeAnalysis = (state: { themes: ThemesState }) => state.themes.themes;
-export const selectCharacterMotivations = (state: { themes: ThemesState }) => state.themes.characterMotivations;
-export const selectPhilosophicalQuestions = (state: { themes: ThemesState }) => state.themes.philosophicalQuestions;
-export const selectSocialCommentary = (state: { themes: ThemesState }) => state.themes.socialCommentary;
-export const selectPersonalReflections = (state: { themes: ThemesState }) => state.themes.personalReflections;
+export const selectCharacterMotivations = (state: { themes: ThemesState }) =>
+  state.themes.characterMotivations;
+export const selectPhilosophicalQuestions = (state: { themes: ThemesState }) =>
+  state.themes.philosophicalQuestions;
+export const selectSocialCommentary = (state: { themes: ThemesState }) =>
+  state.themes.socialCommentary;
+export const selectPersonalReflections = (state: { themes: ThemesState }) =>
+  state.themes.personalReflections;
 
-export const selectCharacterMotivationById = (characterId: string) => 
-  (state: { themes: ThemesState }) => 
+export const selectCharacterMotivationById =
+  (characterId: string) => (state: { themes: ThemesState }) =>
     state.themes.characterMotivations.find(m => m.characterId === characterId);
 
 export const selectThemeStats = (state: { themes: ThemesState }) => ({
@@ -211,5 +226,5 @@ export const selectThemeStats = (state: { themes: ThemesState }) => ({
   characterMotivationsCount: state.themes.characterMotivations.length,
   philosophicalQuestionsCount: state.themes.philosophicalQuestions.length,
   socialCommentaryCount: state.themes.socialCommentary.length,
-  personalReflectionsCount: state.themes.personalReflections.length
+  personalReflectionsCount: state.themes.personalReflections.length,
 });

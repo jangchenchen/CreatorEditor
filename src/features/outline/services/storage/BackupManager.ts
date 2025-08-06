@@ -18,19 +18,19 @@ export class BackupManager {
     try {
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const backupPath = this.getBackupPath(timestamp);
-      
+
       const db = this.dbManager.getDb();
       const { JSONFile } = await import('lowdb/node');
       const backupAdapter = new JSONFile(backupPath);
       const { Low } = await import('lowdb');
       const backupDb = new Low(backupAdapter, db.data!);
-      
+
       await backupDb.write();
-      
+
       // Update backup timestamp
       db.data!.settings.lastBackup = new Date().toISOString();
       await this.dbManager.write();
-      
+
       console.log(`Backup created: ${backupPath}`);
       return backupPath;
     } catch (error) {
@@ -66,7 +66,7 @@ export class BackupManager {
     if (this.autoSaveTimer) {
       clearInterval(this.autoSaveTimer);
     }
-    
+
     this.autoSaveTimer = setInterval(() => {
       // Auto-save will be triggered by middleware
       console.log('Auto-save timer tick');
@@ -98,7 +98,7 @@ export class BackupManager {
       const dir = basePath.substring(0, basePath.lastIndexOf('/'));
       return `${dir}/backup_${timestamp}_${STORAGE_CONFIG.backupFileName}`;
     }
-    
+
     // Fallback for development/web
     return `./backup_${timestamp}_${STORAGE_CONFIG.backupFileName}`;
   }

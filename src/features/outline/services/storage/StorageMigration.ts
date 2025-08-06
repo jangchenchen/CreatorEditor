@@ -15,13 +15,15 @@ export class StorageMigration {
   async performMigrationIfNeeded(): Promise<void> {
     const db = this.dbManager.getDb();
     const currentVersion = db.data!.version;
-    
+
     if (currentVersion !== STORAGE_CONFIG.currentVersion) {
-      console.log(`Migrating data from version ${currentVersion} to ${STORAGE_CONFIG.currentVersion}`);
-      
+      console.log(
+        `Migrating data from version ${currentVersion} to ${STORAGE_CONFIG.currentVersion}`
+      );
+
       // Perform migration based on version differences
       await this.migrateData(currentVersion, STORAGE_CONFIG.currentVersion);
-      
+
       db.data!.version = STORAGE_CONFIG.currentVersion;
       await this.dbManager.write();
     }
@@ -33,7 +35,7 @@ export class StorageMigration {
   async getStorageStats(): Promise<any> {
     try {
       await this.dbManager.read();
-      
+
       const db = this.dbManager.getDb();
       return {
         version: db.data!.version,
@@ -46,8 +48,8 @@ export class StorageMigration {
           name: p.projectName,
           lastUpdated: p.lastUpdated,
           charactersCount: p.characters?.length || 0,
-          chaptersCount: p.chapters?.chapters?.length || 0
-        }))
+          chaptersCount: p.chapters?.chapters?.length || 0,
+        })),
       };
     } catch (error) {
       console.error('Failed to get storage stats:', error);
@@ -58,13 +60,13 @@ export class StorageMigration {
   private async migrateData(fromVersion: string, toVersion: string): Promise<void> {
     // Implementation for data migration between versions
     // This would contain version-specific migration logic
-    
+
     // Example migration logic:
     if (fromVersion === '0.9.0' && toVersion === '1.0.0') {
       // Migrate from 0.9.0 to 1.0.0
       console.log('Applying migration from 0.9.0 to 1.0.0');
     }
-    
+
     console.log(`Migration from ${fromVersion} to ${toVersion} completed`);
   }
 }

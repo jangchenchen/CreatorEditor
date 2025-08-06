@@ -2,7 +2,7 @@ import {
   PlayArrow as ActiveIcon,
   CheckCircle as ResolvedIcon,
   Schedule as PlannedIcon,
-  Close as AbandonedIcon
+  Close as AbandonedIcon,
 } from '@mui/icons-material';
 import { SubplotPurpose, SubplotStatus } from '../../../../types/outline.types';
 
@@ -11,7 +11,7 @@ export const getStatusColor = (status: SubplotStatus) => {
     planned: 'default',
     active: 'primary',
     resolved: 'success',
-    abandoned: 'error'
+    abandoned: 'error',
   } as const;
   return colors[status] || 'default';
 };
@@ -21,7 +21,7 @@ export const getStatusIcon = (status: SubplotStatus) => {
     planned: PlannedIcon,
     active: ActiveIcon,
     resolved: ResolvedIcon,
-    abandoned: AbandonedIcon
+    abandoned: AbandonedIcon,
   };
   return icons[status] || PlannedIcon;
 };
@@ -32,7 +32,7 @@ export const getPurposeLabel = (purpose: SubplotPurpose) => {
     contrast: '对比衬托',
     suspense: '悬念营造',
     'character-development': '角色发展',
-    'comic-relief': '轻松调剂'
+    'comic-relief': '轻松调剂',
   };
   return labels[purpose] || purpose;
 };
@@ -42,17 +42,20 @@ export const getStatusLabel = (status: SubplotStatus) => {
     planned: '计划中',
     active: '进行中',
     resolved: '已解决',
-    abandoned: '已放弃'
+    abandoned: '已放弃',
   };
   return labels[status] || status;
 };
 
 export const groupSubplotsByStatus = (subplots: any[]) => {
-  return subplots.reduce((acc, subplot) => {
-    if (!acc[subplot.status]) {
-      acc[subplot.status] = [];
-    }
-    acc[subplot.status].push(subplot);
-    return acc;
-  }, {} as Record<SubplotStatus, any[]>);
+  return subplots.reduce(
+    (acc, subplot) => {
+      if (!acc[subplot.status]) {
+        acc[subplot.status] = [];
+      }
+      acc[subplot.status].push(subplot);
+      return acc;
+    },
+    {} as Record<SubplotStatus, any[]>
+  );
 };

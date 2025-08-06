@@ -16,7 +16,7 @@ export const DescriptionImpactFields: React.FC<DescriptionImpactFieldsProps> = (
   consequences,
   onDescriptionChange,
   onImpactChange,
-  onConsequencesChange
+  onConsequencesChange,
 }) => {
   return (
     <>
@@ -25,9 +25,9 @@ export const DescriptionImpactFields: React.FC<DescriptionImpactFieldsProps> = (
           fullWidth
           multiline
           rows={3}
-          label="事件描述"
+          label='事件描述'
           value={description}
-          onChange={(e) => onDescriptionChange(e.target.value)}
+          onChange={e => onDescriptionChange(e.target.value)}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -35,9 +35,9 @@ export const DescriptionImpactFields: React.FC<DescriptionImpactFieldsProps> = (
           fullWidth
           multiline
           rows={2}
-          label="对故事的影响"
+          label='对故事的影响'
           value={impact}
-          onChange={(e) => onImpactChange(e.target.value)}
+          onChange={e => onImpactChange(e.target.value)}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -47,12 +47,8 @@ export const DescriptionImpactFields: React.FC<DescriptionImpactFieldsProps> = (
           options={[]}
           value={consequences}
           onChange={onConsequencesChange}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="后续影响"
-              placeholder="输入后果并按回车"
-            />
+          renderInput={params => (
+            <TextField {...params} label='后续影响' placeholder='输入后果并按回车' />
           )}
         />
       </Grid>

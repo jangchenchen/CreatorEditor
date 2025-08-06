@@ -1,15 +1,17 @@
 import { Scene, Character } from '../../../../types/outline.types';
 
 export const initializeSceneFormData = (scene?: Scene) => {
-  return scene ? { ...scene } : {
-    title: '',
-    description: '',
-    location: '',
-    characters: [],
-    purpose: '',
-    conflict: '',
-    outcome: ''
-  };
+  return scene
+    ? { ...scene }
+    : {
+        title: '',
+        description: '',
+        location: '',
+        characters: [],
+        purpose: '',
+        conflict: '',
+        outcome: '',
+      };
 };
 
 export const createSceneData = (formData: Partial<Scene>, editingScene?: Scene): Scene => {
@@ -21,7 +23,7 @@ export const createSceneData = (formData: Partial<Scene>, editingScene?: Scene):
     characters: formData.characters || [],
     purpose: formData.purpose || '',
     conflict: formData.conflict || '',
-    outcome: formData.outcome || ''
+    outcome: formData.outcome || '',
   };
 };
 
@@ -46,9 +48,6 @@ export const updateChapterScenes = (
   return [...currentScenes, sceneData];
 };
 
-export const removeSceneFromChapter = (
-  currentScenes: Scene[],
-  sceneId: string
-): Scene[] => {
+export const removeSceneFromChapter = (currentScenes: Scene[], sceneId: string): Scene[] => {
   return currentScenes.filter(s => s.id !== sceneId);
 };

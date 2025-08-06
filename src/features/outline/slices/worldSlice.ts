@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { 
-  WorldBuilding, 
-  GeographySetting, 
-  SocialSystem, 
-  WorldHistory, 
+import {
+  WorldBuilding,
+  GeographySetting,
+  SocialSystem,
+  WorldHistory,
   HistoricalEvent,
-  Region 
+  Region,
 } from '../types/outline.types';
 
 export interface WorldState extends WorldBuilding {}
@@ -16,7 +16,7 @@ const initialState: WorldState = {
     regions: [],
     climate: '',
     landmarks: [],
-    naturalFeatures: []
+    naturalFeatures: [],
   },
   society: {
     political: '',
@@ -24,16 +24,16 @@ const initialState: WorldState = {
     cultural: [],
     religious: '',
     technology: '',
-    socialClasses: []
+    socialClasses: [],
   },
   history: {
     timeline: [],
     legends: [],
     familySecrets: [],
-    mysteries: []
+    mysteries: [],
   },
   customRules: [],
-  inspirationSources: []
+  inspirationSources: [],
 };
 
 const worldSlice = createSlice({
@@ -121,8 +121,8 @@ const worldSlice = createSlice({
 
     resetWorld: () => {
       return initialState;
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -142,7 +142,7 @@ export const {
   removeInspirationSource,
   updateInspirationSource,
   loadWorldData,
-  resetWorld
+  resetWorld,
 } = worldSlice.actions;
 
 export default worldSlice.reducer;
@@ -153,20 +153,19 @@ export const selectGeography = (state: { world: WorldState }) => state.world.geo
 export const selectSociety = (state: { world: WorldState }) => state.world.society;
 export const selectWorldHistory = (state: { world: WorldState }) => state.world.history;
 export const selectCustomRules = (state: { world: WorldState }) => state.world.customRules;
-export const selectInspirationSources = (state: { world: WorldState }) => state.world.inspirationSources;
+export const selectInspirationSources = (state: { world: WorldState }) =>
+  state.world.inspirationSources;
 
-export const selectRegionById = (regionId: string) => 
-  (state: { world: WorldState }) => 
-    state.world.geography.regions.find(r => r.id === regionId);
+export const selectRegionById = (regionId: string) => (state: { world: WorldState }) =>
+  state.world.geography.regions.find(r => r.id === regionId);
 
-export const selectHistoricalEventById = (eventId: string) => 
-  (state: { world: WorldState }) => 
-    state.world.history.timeline.find(e => e.id === eventId);
+export const selectHistoricalEventById = (eventId: string) => (state: { world: WorldState }) =>
+  state.world.history.timeline.find(e => e.id === eventId);
 
 export const selectWorldStats = (state: { world: WorldState }) => ({
   regionsCount: state.world.geography.regions.length,
   historicalEventsCount: state.world.history.timeline.length,
   legendsCount: state.world.history.legends.length,
   customRulesCount: state.world.customRules.length,
-  inspirationSourcesCount: state.world.inspirationSources.length
+  inspirationSourcesCount: state.world.inspirationSources.length,
 });

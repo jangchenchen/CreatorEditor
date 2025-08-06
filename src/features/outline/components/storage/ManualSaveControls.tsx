@@ -4,12 +4,7 @@
  */
 
 import React from 'react';
-import {
-  Box,
-  Button,
-  Typography,
-  Tooltip
-} from '@mui/material';
+import { Box, Button, Typography, Tooltip } from '@mui/material';
 import { Save as SaveIcon } from '@mui/icons-material';
 
 interface ManualSaveControlsProps {
@@ -23,27 +18,27 @@ export const ManualSaveControls: React.FC<ManualSaveControlsProps> = ({
   onSave,
   onForceSave,
   disabled = false,
-  isLoading = false
+  isLoading = false,
 }) => {
   return (
     <Box>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         Manual Save
       </Typography>
-      
+
       <Box sx={{ display: 'flex', gap: 1 }}>
         <Button
-          variant="contained"
+          variant='contained'
           startIcon={<SaveIcon />}
           onClick={onSave}
           disabled={disabled || isLoading}
         >
           Save Now
         </Button>
-        
-        <Tooltip title="Force immediate save bypassing debounce">
+
+        <Tooltip title='Force immediate save bypassing debounce'>
           <Button
-            variant="outlined"
+            variant='outlined'
             startIcon={<SaveIcon />}
             onClick={onForceSave}
             disabled={disabled || isLoading}

@@ -1,7 +1,7 @@
 /**
  * 文件操作集成测试
  * 测试文件打开、编辑、保存的完整工作流程
- * 
+ *
  * 工作流程：UI (React) -> 状态 (Redux) -> 存储 (Browser Storage)
  */
 
@@ -18,7 +18,7 @@ import {
   createUserInteractionHelper,
   createTestData,
   waitForMiddlewareToProcess,
-  AppState
+  AppState,
 } from '../utils/integrationTestUtils';
 
 // 引入要测试的组件
@@ -27,7 +27,7 @@ import Editor from '../../src/features/editor/Editor';
 import OutlineNavigator from '../../src/features/outline/components/OutlineNavigator';
 
 // 引入 actions 用于测试状态变化
-import { updateStory } from '../../src/features/outline/slices/storySlice';
+import { updateStoryBackground } from '../../src/features/outline/slices/storySlice';
 
 describe('文件操作集成测试', () => {
   let mockStorage: ReturnType<typeof createMockStorageAPI>;
@@ -51,31 +51,28 @@ describe('文件操作集成测试', () => {
               era: '现代',
               location: '北京',
               socialEnvironment: '都市生活',
-              historicalContext: '2024年'
+              historicalContext: '2024年',
             },
             synopsis: {
               beginning: '故事开始于一个寒冷的冬日',
               development: '主人公遇到了困难',
               climax: '最终的对决',
-              ending: '美好的结局'
-            }
-          }
+              ending: '美好的结局',
+            },
+          },
         });
 
         mockFileAPI.setInitialFile('test-project.json', testContent);
         mockFileAPI.openFile.mockResolvedValue('test-project.json');
         mockFileAPI.readFile.mockResolvedValue(testContent);
 
-        const { store } = renderWithIntegrationProviders(
-          <App />, 
-          { 
-            mockStorage,
-            mockFileAPI,
-            initialState: {
-              outline: createTestData.outlineState()
-            }
-          }
-        );
+        const { store } = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          mockFileAPI,
+          initialState: {
+            outline: createTestData.outlineState(),
+          },
+        });
 
         // 切换到大纲标签
         await user.switchTab('小说大纲');
@@ -112,14 +109,11 @@ describe('文件操作集成测试', () => {
         mockFileAPI.openFile = mockFileAPI.mockUserCancelFileSelection();
 
         const initialState = createTestData.outlineState();
-        const { store } = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            mockFileAPI,
-            initialState: { outline: initialState }
-          }
-        );
+        const { store } = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          mockFileAPI,
+          initialState: { outline: initialState },
+        });
 
         // 切换到大纲标签
         await user.switchTab('小说大纲');
@@ -142,30 +136,27 @@ describe('文件操作集成测试', () => {
       it('应当能够编辑故事内容并保存到存储', async () => {
         // 准备 (Arrange)
         mockStorage.setInitialData('creation-editor-project', {
-          outline: createTestData.outlineState()
+          outline: createTestData.outlineState(),
         });
 
-        const { store } = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            mockFileAPI,
-            initialState: {
-              outline: createTestData.outlineState()
-            }
-          }
-        );
+        const { store } = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          mockFileAPI,
+          initialState: {
+            outline: createTestData.outlineState(),
+          },
+        });
 
         // 切换到大纲标签
         await user.switchTab('小说大纲');
-        
+
         // 等待加载完成
         await waitFor(() => {
-          expect(screen.getByText('故事概述')).toBeInTheDocument();
+          expect(screen.getByText('整体故事概述')).toBeInTheDocument();
         });
 
         // 点击进入故事概述模块
-        await user.clickButton('故事概述');
+        await user.clickButton('整体故事概述');
 
         // 等待故事概述界面加载
         await waitFor(() => {
@@ -176,7 +167,7 @@ describe('文件操作集成测试', () => {
         const locationField = screen.getByLabelText(/地点|位置/i);
         await user.typeText(locationField, '上海');
 
-        const eraField = screen.getByLabelText(/时代|年代/i);  
+        const eraField = screen.getByLabelText(/时代|年代/i);
         await user.typeText(eraField, '未来');
 
         // 模拟用户保存
@@ -186,7 +177,7 @@ describe('文件操作集成测试', () => {
         await waitForMiddlewareToProcess(500);
 
         // 断言 (Assert)
-        
+
         // 验证 Redux 状态更新
         const state = store.getState();
         expect(state.outline.story.background.location).toBe('上海');
@@ -198,26 +189,24 @@ describe('文件操作集成测试', () => {
         expect(storedData.outline.story.background.era).toBe('未来');
 
         // 验证 lastUpdated 时间戳更新
-        expect(new Date(state.outline.story.lastUpdated).getTime())
-          .toBeGreaterThan(new Date('2024-01-01').getTime());
+        expect(new Date(state.outline.story.lastUpdated).getTime()).toBeGreaterThan(
+          new Date('2024-01-01').getTime()
+        );
       });
 
       it('应当能够编辑角色信息并保存', async () => {
         // 准备 (Arrange)
-        const { store } = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            mockFileAPI,
-            initialState: {
-              outline: createTestData.outlineState()
-            }
-          }
-        );
+        const { store } = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          mockFileAPI,
+          initialState: {
+            outline: createTestData.outlineState(),
+          },
+        });
 
         // 切换到大纲标签并进入角色关系模块
         await user.switchTab('小说大纲');
-        await user.clickButton('角色关系');
+        await user.clickButton('人物与角色关系');
 
         // 等待角色管理界面加载
         await waitFor(() => {
@@ -234,9 +223,9 @@ describe('文件操作集成测试', () => {
 
         // 填写角色信息
         await user.fillForm({
-          '角色姓名': '张三',
-          '角色描述': '主要角色，程序员',
-          '角色类型': '主角'
+          角色姓名: '张三',
+          角色描述: '主要角色，程序员',
+          角色类型: '主角',
         });
 
         // 提交表单
@@ -266,25 +255,22 @@ describe('文件操作集成测试', () => {
             ...createTestData.outlineState().story,
             background: {
               era: '现代',
-              location: '深圳', 
+              location: '深圳',
               socialEnvironment: '科技行业',
-              historicalContext: '2024年AI发展期'
-            }
-          }
+              historicalContext: '2024年AI发展期',
+            },
+          },
         });
 
-        renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            mockFileAPI,
-            initialState: { outline: testState }
-          }
-        );
+        renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          mockFileAPI,
+          initialState: { outline: testState },
+        });
 
         // 切换到大纲标签
         await user.switchTab('小说大纲');
-        
+
         // 等待导出按钮出现
         await waitFor(() => {
           expect(screen.getByRole('button', { name: /导出/i })).toBeInTheDocument();
@@ -309,11 +295,11 @@ describe('文件操作集成测试', () => {
 
         // 断言 (Assert)
         expect(global.URL.createObjectURL).toHaveBeenCalled();
-        
+
         // 验证下载链接的创建
         const createObjectURLMock = global.URL.createObjectURL as jest.Mock;
         const blobArg = createObjectURLMock.mock.calls[0][0];
-        
+
         // 验证导出的数据包含正确信息
         await blobArg.text().then((content: string) => {
           const exportedData = JSON.parse(content);
@@ -330,13 +316,10 @@ describe('文件操作集成测试', () => {
       mockFileAPI.openFile.mockResolvedValue('error-file.json');
       mockFileAPI.readFile.mockRejectedValue(new Error('文件读取失败'));
 
-      renderWithIntegrationProviders(
-        <App />,
-        {
-          mockStorage,
-          mockFileAPI
-        }
-      );
+      renderWithIntegrationProviders(<App />, {
+        mockStorage,
+        mockFileAPI,
+      });
 
       // 切换到大纲标签
       await user.switchTab('小说大纲');
@@ -363,20 +346,17 @@ describe('文件操作集成测试', () => {
         throw new Error('存储空间不足');
       });
 
-      const { store } = renderWithIntegrationProviders(
-        <App />,
-        {
-          mockStorage,
-          mockFileAPI,
-          initialState: {
-            outline: createTestData.outlineState()
-          }
-        }
-      );
+      const { store } = renderWithIntegrationProviders(<App />, {
+        mockStorage,
+        mockFileAPI,
+        initialState: {
+          outline: createTestData.outlineState(),
+        },
+      });
 
       // 切换到大纲标签并编辑内容
       await user.switchTab('小说大纲');
-      await user.clickButton('故事概述');
+      await user.clickButton('整体故事概述');
 
       // 等待界面加载
       await waitFor(() => {

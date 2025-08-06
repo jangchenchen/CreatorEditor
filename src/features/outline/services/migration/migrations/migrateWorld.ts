@@ -15,7 +15,7 @@ export function migrateWorldData(data: any) {
     society: migrateSocietyData(data.world?.society),
     history: migrateHistoryData(data.world?.history),
     customRules: ensureArray(data.world?.customRules),
-    inspirationSources: ensureArray(data.world?.inspirationSources)
+    inspirationSources: ensureArray(data.world?.inspirationSources),
   };
 }
 
@@ -27,7 +27,7 @@ function migrateGeographyData(geography: any) {
     regions: ensureArray(geography?.regions),
     climate: geography?.climate || '',
     landmarks: ensureArray(geography?.landmarks),
-    naturalFeatures: ensureArray(geography?.naturalFeatures)
+    naturalFeatures: ensureArray(geography?.naturalFeatures),
   };
 }
 
@@ -41,7 +41,7 @@ function migrateSocietyData(society: any) {
     cultural: ensureArray(society?.cultural),
     religious: society?.religious || '',
     technology: society?.technology || '',
-    socialClasses: ensureArray(society?.socialClasses)
+    socialClasses: ensureArray(society?.socialClasses),
   };
 }
 
@@ -53,6 +53,6 @@ function migrateHistoryData(history: any) {
     timeline: ensureArray(history?.timeline),
     legends: ensureArray(history?.legends),
     familySecrets: ensureArray(history?.familySecrets),
-    mysteries: ensureArray(history?.mysteries)
+    mysteries: ensureArray(history?.mysteries),
   };
 }

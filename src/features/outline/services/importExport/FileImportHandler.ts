@@ -10,17 +10,17 @@ export class FileImportHandler {
       warnings: [],
       errors: [],
       migrationApplied: false,
-      originalVersion: undefined
+      originalVersion: undefined,
     };
 
     try {
       // Read and parse file
       const fileData = await FileIOService.readImportFile(filePath);
-      
+
       if (!fileData) {
         return ImportDataProcessor.createImportResult(false, undefined, {
           ...context,
-          errors: ['Failed to read import file']
+          errors: ['Failed to read import file'],
         });
       }
 
@@ -29,15 +29,15 @@ export class FileImportHandler {
       context.originalVersion = metadata?.version || projectData?.version;
 
       // Process import data
-      const { data: migratedData, context: updatedContext } = await ImportDataProcessor.processImportData(
-        projectData, 
-        context
-      );
+      const { data: migratedData, context: updatedContext } =
+        await ImportDataProcessor.processImportData(projectData, context);
 
       // Handle ID conflicts
       const resolvedData = await ImportConflictResolver.resolveAllConflicts(migratedData);
       if (resolvedData.id !== migratedData.id) {
-        updatedContext.warnings.push(`Project ID changed due to conflict: ${migratedData.id} → ${resolvedData.id}`);
+        updatedContext.warnings.push(
+          `Project ID changed due to conflict: ${migratedData.id} → ${resolvedData.id}`
+        );
       }
 
       // Success case
@@ -47,12 +47,11 @@ export class FileImportHandler {
       } else {
         return ImportDataProcessor.createImportResult(false, undefined, updatedContext);
       }
-
     } catch (error) {
       console.error('Import failed:', error);
       return ImportDataProcessor.createImportResult(false, undefined, {
         ...context,
-        errors: [`Import failed: ${error.message}`]
+        errors: [`Import failed: ${error.message}`],
       });
     }
   }
@@ -60,12 +59,12 @@ export class FileImportHandler {
   static handleFileImport(file: File): Promise<ImportResult> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      
-      reader.onload = async (event) => {
+
+      reader.onload = async event => {
         try {
           const content = event.target?.result as string;
           const data = JSON.parse(content);
-          
+
           // Simulate file path for consistency
           const result = await this.importProjectData(data);
           resolve(result);
@@ -73,11 +72,11 @@ export class FileImportHandler {
           reject(error);
         }
       };
-      
+
       reader.onerror = () => {
         reject(new Error('Failed to read file'));
       };
-      
+
       reader.readAsText(file);
     });
   }
@@ -87,21 +86,21 @@ export class FileImportHandler {
       warnings: [],
       errors: [],
       migrationApplied: false,
-      originalVersion: undefined
+      originalVersion: undefined,
     };
 
     try {
       const { projectData, metadata } = ImportDataProcessor.extractProjectMetadata(data);
       context.originalVersion = metadata?.version || projectData?.version;
 
-      const { data: migratedData, context: updatedContext } = await ImportDataProcessor.processImportData(
-        projectData, 
-        context
-      );
+      const { data: migratedData, context: updatedContext } =
+        await ImportDataProcessor.processImportData(projectData, context);
 
       const resolvedData = await ImportConflictResolver.resolveAllConflicts(migratedData);
       if (resolvedData.id !== migratedData.id) {
-        updatedContext.warnings.push(`Project ID changed due to conflict: ${migratedData.id} → ${resolvedData.id}`);
+        updatedContext.warnings.push(
+          `Project ID changed due to conflict: ${migratedData.id} → ${resolvedData.id}`
+        );
       }
 
       if (updatedContext.errors.length === 0) {
@@ -109,11 +108,10 @@ export class FileImportHandler {
       } else {
         return ImportDataProcessor.createImportResult(false, undefined, updatedContext);
       }
-
     } catch (error) {
       return ImportDataProcessor.createImportResult(false, undefined, {
         ...context,
-        errors: [`Import processing failed: ${error.message}`]
+        errors: [`Import processing failed: ${error.message}`],
       });
     }
   }

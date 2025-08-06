@@ -11,12 +11,7 @@ interface AutoSaveState {
   setError: (error: string | null) => void;
 }
 
-export const useAutoSaveControls = ({ 
-  isInitialized, 
-  currentState, 
-  setError 
-}: AutoSaveState) => {
-  
+export const useAutoSaveControls = ({ isInitialized, currentState, setError }: AutoSaveState) => {
   const enableAutoSave = useCallback(() => {
     autoSaveUtils.enable();
   }, []);
@@ -44,6 +39,6 @@ export const useAutoSaveControls = ({
   return {
     enableAutoSave,
     disableAutoSave,
-    forceSave
+    forceSave,
   };
 };

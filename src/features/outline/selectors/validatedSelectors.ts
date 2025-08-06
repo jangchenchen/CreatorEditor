@@ -19,23 +19,21 @@ export {
   selectValidChapters,
   selectValidScenes,
   selectValidChapterNumbers,
-  selectValidChapterIds
+  selectValidChapterIds,
 } from './characterSelectors';
 
 export {
   selectValidTimelineEvents,
   selectValidSubplots,
   selectValidSecondaryStories,
-  selectValidIdeas
+  selectValidIdeas,
 } from './moduleSelectors';
 
-export {
-  selectDataConsistencyReport
-} from './consistencySelectors';
+export { selectDataConsistencyReport } from './consistencySelectors';
 
 export {
   selectCharacterUsageAnalysis,
   selectCharacterNameMap,
   selectUnusedCharacters,
-  selectMostUsedCharacters
+  selectMostUsedCharacters,
 } from './analysisSelectors';

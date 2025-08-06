@@ -18,23 +18,19 @@ export const EventEditDialog: React.FC<EventEditDialogProps> = ({
   onClose,
   onSave,
   children,
-  isFormValid
+  isFormValid,
 }) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>
-        {editingEvent ? '编辑事件' : '添加新事件'}
-      </DialogTitle>
-      <DialogContent>
-        {children}
-      </DialogContent>
+    <Dialog open={open} onClose={onClose} maxWidth='md' fullWidth>
+      <DialogTitle>{editingEvent ? '编辑事件' : '添加新事件'}</DialogTitle>
+      <DialogContent>{children}</DialogContent>
       <DialogActions>
         <Button onClick={onClose} startIcon={<CancelIcon />}>
           取消
         </Button>
-        <Button 
-          onClick={onSave} 
-          variant="contained" 
+        <Button
+          onClick={onSave}
+          variant='contained'
           startIcon={<SaveIcon />}
           disabled={!isFormValid}
         >

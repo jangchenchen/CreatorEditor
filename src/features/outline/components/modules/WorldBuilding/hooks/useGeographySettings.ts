@@ -16,16 +16,16 @@ const mockGeography = {
       name: '龙脊山脉',
       description: '横贯东西的巨大山脉，蕴藏着丰富的矿产和古老的秘密',
       significance: '战略要地，资源丰富',
-      connectedRegions: ['翡翠湖']
+      connectedRegions: ['翡翠湖'],
     },
     {
       id: 'region-2',
       name: '翡翠湖',
       description: '高山湖泊，湖水清澈见底，传说中有神龙居住',
       significance: '水源地，神秘之地',
-      connectedRegions: ['龙脊山脉', '迷雾森林']
-    }
-  ] as Region[]
+      connectedRegions: ['龙脊山脉', '迷雾森林'],
+    },
+  ] as Region[],
 };
 
 export interface UseGeographySettingsReturn {
@@ -39,7 +39,7 @@ export interface UseGeographySettingsReturn {
   formData: Partial<Region>;
   newLandmark: string;
   newFeature: string;
-  
+
   // Actions
   setClimate: (value: string) => void;
   setNewLandmark: (value: string) => void;
@@ -59,7 +59,7 @@ export const useGeographySettings = (): UseGeographySettingsReturn => {
   const [landmarks, setLandmarks] = useState<string[]>(mockGeography.landmarks);
   const [naturalFeatures, setNaturalFeatures] = useState<string[]>(mockGeography.naturalFeatures);
   const [regions, setRegions] = useState<Region[]>(mockGeography.regions);
-  
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingRegion, setEditingRegion] = useState<Region | null>(null);
   const [formData, setFormData] = useState<Partial<Region>>({});
@@ -68,12 +68,16 @@ export const useGeographySettings = (): UseGeographySettingsReturn => {
 
   const handleOpenRegionDialog = (region?: Region) => {
     setEditingRegion(region || null);
-    setFormData(region ? { ...region } : {
-      name: '',
-      description: '',
-      significance: '',
-      connectedRegions: []
-    });
+    setFormData(
+      region
+        ? { ...region }
+        : {
+            name: '',
+            description: '',
+            significance: '',
+            connectedRegions: [],
+          }
+    );
     setDialogOpen(true);
   };
 
@@ -89,11 +93,11 @@ export const useGeographySettings = (): UseGeographySettingsReturn => {
       name: formData.name || '',
       description: formData.description || '',
       significance: formData.significance || '',
-      connectedRegions: formData.connectedRegions || []
+      connectedRegions: formData.connectedRegions || [],
     };
 
-    let updatedRegions = [...regions];
-    
+    const updatedRegions = [...regions];
+
     if (editingRegion) {
       const index = updatedRegions.findIndex(r => r.id === editingRegion.id);
       if (index !== -1) {
@@ -116,19 +120,18 @@ export const useGeographySettings = (): UseGeographySettingsReturn => {
     }
   };
 
-  const handleFormChange = (field: keyof Region) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: event.target.value
-    }));
-  };
+  const handleFormChange =
+    (field: keyof Region) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData(prev => ({
+        ...prev,
+        [field]: event.target.value,
+      }));
+    };
 
   const handleConnectedRegionsChange = (event: any, newValue: string[]) => {
     setFormData(prev => ({
       ...prev,
-      connectedRegions: newValue
+      connectedRegions: newValue,
     }));
   };
 
@@ -170,6 +173,6 @@ export const useGeographySettings = (): UseGeographySettingsReturn => {
     handleFormChange,
     handleConnectedRegionsChange,
     handleAddItem,
-    handleRemoveItem
+    handleRemoveItem,
   };
 };

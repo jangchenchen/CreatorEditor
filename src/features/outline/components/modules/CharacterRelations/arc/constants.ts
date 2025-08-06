@@ -13,17 +13,11 @@ export const mockCharacters: MockCharacterData[] = [
     motivation: '维护武林正道',
     arc: {
       startState: '隐居修道的老道士',
-      keyEvents: [
-        '收下七名弟子',
-        '创立武当派武学',
-        '抗击外敌入侵',
-        '成为武林盟主',
-        '传承太极心法'
-      ],
+      keyEvents: ['收下七名弟子', '创立武当派武学', '抗击外敌入侵', '成为武林盟主', '传承太极心法'],
       endState: '德高望重的武学宗师',
-      growthDirection: '从隐世高人到武林领袖'
+      growthDirection: '从隐世高人到武林领袖',
     },
-    tags: ['武当', '道教', '宗师']
+    tags: ['武当', '道教', '宗师'],
   },
   {
     id: '2',
@@ -36,16 +30,10 @@ export const mockCharacters: MockCharacterData[] = [
     motivation: '对正邪分明的执着',
     arc: {
       startState: '正义但偏激的师太',
-      keyEvents: [
-        '与其他门派结仇',
-        '偏听偏信谣言',
-        '做出错误判断',
-        '意识到自己的错误',
-        '最终和解'
-      ],
+      keyEvents: ['与其他门派结仇', '偏听偏信谣言', '做出错误判断', '意识到自己的错误', '最终和解'],
       endState: '学会宽容的长者',
-      growthDirection: '从偏激到宽容'
+      growthDirection: '从偏激到宽容',
     },
-    tags: ['峨眉', '师太', '正派']
-  }
+    tags: ['峨眉', '师太', '正派'],
+  },
 ];

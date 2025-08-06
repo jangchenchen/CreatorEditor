@@ -1,5 +1,10 @@
 import { OutlineData } from '../../types/outline.types';
-import { ExportOptions, ExportProgress, ExportProgressCallback, UpdateProgressFunction } from '../../types/exportTypes';
+import {
+  ExportOptions,
+  ExportProgress,
+  ExportProgressCallback,
+  UpdateProgressFunction,
+} from '../../types/exportTypes';
 import { JsonExportService } from './jsonExportService';
 import { WordExportService } from './wordExportService';
 import { PdfExportService } from './pdfExportService';
@@ -19,10 +24,10 @@ export class CoordinatorExportService {
     onProgress?: ExportProgressCallback
   ): Promise<void> {
     const updateProgress = (
-      stage: ExportProgress['stage'], 
-      progress: number, 
-      currentStep: string, 
-      currentStepIndex: number, 
+      stage: ExportProgress['stage'],
+      progress: number,
+      currentStep: string,
+      currentStepIndex: number,
       totalSteps: number
     ) => {
       if (onProgress) {
@@ -32,7 +37,7 @@ export class CoordinatorExportService {
 
     try {
       updateProgress('preparing', 0, '准备导出数据', 0, 4);
-      
+
       switch (options.format) {
         case 'json':
           await this.jsonService.export(data, options, updateProgress);
@@ -46,7 +51,7 @@ export class CoordinatorExportService {
         default:
           throw new Error(`Unsupported export format: ${options.format}`);
       }
-      
+
       updateProgress('complete', 100, '导出完成', 4, 4);
     } catch (error) {
       updateProgress('error', 0, `导出失败: ${error.message}`, 0, 4);
@@ -68,15 +73,15 @@ export class CoordinatorExportService {
     if (!options.format || !['json', 'docx', 'pdf'].includes(options.format)) {
       return false;
     }
-    
+
     if (!options.includeModules || typeof options.includeModules !== 'object') {
       return false;
     }
-    
+
     if (!options.formatting || typeof options.formatting !== 'object') {
       return false;
     }
-    
+
     return true;
   }
 
@@ -87,7 +92,7 @@ export class CoordinatorExportService {
     return [
       { value: 'json', label: 'JSON 数据格式' },
       { value: 'docx', label: 'Word 文档' },
-      { value: 'pdf', label: 'PDF 文档' }
+      { value: 'pdf', label: 'PDF 文档' },
     ];
   }
 }

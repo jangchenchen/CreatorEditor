@@ -10,7 +10,7 @@ import ExportTestRunner from '../ExportTestRunner';
 
 const OutlineNavigatorNew: React.FC = () => {
   const [testRunnerOpen, setTestRunnerOpen] = useState(false);
-  
+
   const {
     selectedModule,
     infoDialogOpen,
@@ -18,20 +18,20 @@ const OutlineNavigatorNew: React.FC = () => {
     stats,
     handleModuleClick,
     handleBackToNavigator,
-    setInfoDialogOpen
+    setInfoDialogOpen,
   } = useOutlineNavigator();
 
   // 如果选中了模块，显示对应的模块组件
   if (selectedModule) {
     return (
       <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        <NavigationToolbar 
+        <NavigationToolbar
           selectedModule={selectedModule}
           onBackToNavigator={handleBackToNavigator}
           onInfoOpen={() => setInfoDialogOpen(true)}
           onTestOpen={() => setTestRunnerOpen(true)}
         />
-        
+
         <ModuleContent moduleId={selectedModule} />
       </Box>
     );
@@ -41,12 +41,12 @@ const OutlineNavigatorNew: React.FC = () => {
   if (testRunnerOpen) {
     return (
       <Box sx={{ height: '100%', overflow: 'auto', p: 3 }}>
-        <NavigationToolbar 
+        <NavigationToolbar
           selectedModule={null}
           onBackToNavigator={() => setTestRunnerOpen(false)}
           onInfoOpen={() => setInfoDialogOpen(true)}
         />
-        
+
         <ExportTestRunner />
       </Box>
     );
@@ -55,7 +55,7 @@ const OutlineNavigatorNew: React.FC = () => {
   // 显示大纲导航主页面
   return (
     <Box sx={{ height: '100%', overflow: 'auto', p: 3 }}>
-      <NavigationToolbar 
+      <NavigationToolbar
         selectedModule={null}
         onBackToNavigator={handleBackToNavigator}
         onInfoOpen={() => setInfoDialogOpen(true)}
@@ -64,15 +64,9 @@ const OutlineNavigatorNew: React.FC = () => {
 
       <ProjectOverview stats={stats} />
 
-      <ModuleGrid 
-        completionRates={completionRates}
-        onModuleClick={handleModuleClick}
-      />
+      <ModuleGrid completionRates={completionRates} onModuleClick={handleModuleClick} />
 
-      <InfoDialog 
-        open={infoDialogOpen}
-        onClose={() => setInfoDialogOpen(false)}
-      />
+      <InfoDialog open={infoDialogOpen} onClose={() => setInfoDialogOpen(false)} />
     </Box>
   );
 };

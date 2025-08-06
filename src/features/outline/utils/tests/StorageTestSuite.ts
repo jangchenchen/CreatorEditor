@@ -31,16 +31,19 @@ export class StorageTestSuite {
    */
   async runAllTests(): Promise<{ passed: number; failed: number; results: any }> {
     console.log('🧪 Starting Storage Integration Tests...');
-    
+
     const tests = [
       { name: 'Storage Initialization', test: () => this.storageTests.testStorageInitialization() },
       { name: 'Auto-save Functionality', test: () => this.storageTests.testAutoSave() },
       { name: 'Manual Save/Load', test: () => this.storageTests.testManualSaveLoad() },
       { name: 'Data Migration', test: () => this.integrationTests.testDataMigration() },
       { name: 'Import/Export', test: () => this.integrationTests.testImportExport() },
-      { name: 'Sync Middleware Integration', test: () => this.integrationTests.testSyncMiddlewareIntegration() },
+      {
+        name: 'Sync Middleware Integration',
+        test: () => this.integrationTests.testSyncMiddlewareIntegration(),
+      },
       { name: 'Error Handling', test: () => this.errorValidationTests.testErrorHandling() },
-      { name: 'Data Validation', test: () => this.errorValidationTests.testDataValidation() }
+      { name: 'Data Validation', test: () => this.errorValidationTests.testDataValidation() },
     ];
 
     for (const testCase of tests) {
@@ -59,7 +62,7 @@ export class StorageTestSuite {
     const failed = Object.values(this.testResults).filter(r => !r).length;
 
     console.log(`\n📊 Test Results: ${passed} passed, ${failed} failed`);
-    
+
     return { passed, failed, results: this.testResults };
   }
 

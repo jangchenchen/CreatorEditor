@@ -19,9 +19,9 @@ export async function loadLastProject(store: Store<RootState>): Promise<{
   warnings: string[];
 }> {
   const warnings: string[] = [];
-  
+
   const projectData = await localStorageService.loadProject();
-  
+
   if (!projectData) {
     return { projectName: null, migrationApplied: false, warnings };
   }
@@ -30,29 +30,29 @@ export async function loadLastProject(store: Store<RootState>): Promise<{
   if (DataMigrationService.needsMigration(projectData)) {
     console.log('🔄 Project data needs migration, applying...');
     const migratedData = await DataMigrationService.migrateToCurrentVersion(projectData);
-    
+
     // Save migrated data
     await localStorageService.saveState({
       ...store.getState(),
-      outline: createOutlineStateFromData(migratedData)
+      outline: createOutlineStateFromData(migratedData),
     });
-    
+
     warnings.push('Project data migrated to current version');
-    
+
     // Load migrated data into store
     store.dispatch(initializeProject(migratedData));
-    return { 
-      projectName: migratedData.projectName, 
-      migrationApplied: true, 
-      warnings 
+    return {
+      projectName: migratedData.projectName,
+      migrationApplied: true,
+      warnings,
     };
   } else {
     // Load project directly
     store.dispatch(initializeProject(projectData));
-    return { 
-      projectName: projectData.projectName, 
-      migrationApplied: false, 
-      warnings 
+    return {
+      projectName: projectData.projectName,
+      migrationApplied: false,
+      warnings,
     };
   }
 }
@@ -71,7 +71,7 @@ export function displayStartupMessages(
       console.log(`✨ Welcome! Created new project: "${loadedProject}"`);
     } else {
       console.log(`📖 Loaded project: "${loadedProject}"`);
-      
+
       if (migrationApplied) {
         console.log('🔄 Project data was migrated to the current version');
       }

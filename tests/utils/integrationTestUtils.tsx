@@ -12,7 +12,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 // Import reducers
 import { outlineReducer } from '../../src/features/outline/slices/rootOutlineSlice';
-import { editorReducer } from '../../src/features/editor/editorSlice';
+import editorReducer from '../../src/features/editor/editorSlice';
 
 // Import middleware
 import { createAutoSaveMiddleware } from '../../src/features/outline/middleware/autoSave/createAutoSaveMiddleware';
@@ -20,10 +20,20 @@ import { syncMiddleware } from '../../src/features/outline/middleware/syncMiddle
 
 // Import types
 import { OutlineState } from '../../src/features/outline/types/outline.types';
-import { EditorState } from '../../src/features/editor/editorSlice';
 
 // 默认主题
 const defaultTheme = createTheme();
+
+// 编辑器状态接口（匹配editorSlice）
+export interface EditorState {
+  content: string;
+  filePath: string | null;
+  fileName: string | null;
+  isDirty: boolean;
+  wordCount: number;
+  lastSaved: Date | null;
+  autoSaveEnabled: boolean;
+}
 
 // 应用状态类型
 export interface AppState {
@@ -34,7 +44,7 @@ export interface AppState {
 // 模拟浏览器存储API
 export const createMockStorageAPI = () => {
   const storage: Record<string, any> = {};
-  
+
   return {
     // localStorage 模拟
     localStorage: {
@@ -51,56 +61,56 @@ export const createMockStorageAPI = () => {
         Object.keys(storage).forEach(key => delete storage[key]);
       }),
     },
-    
+
     // 获取存储的数据（用于测试断言）
     getStoredData: (key: string) => storage[key],
-    
+
     // 设置初始数据（用于测试准备）
     setInitialData: (key: string, data: any) => {
       storage[key] = data;
     },
-    
+
     // 清空所有数据
     clearAll: () => {
       Object.keys(storage).forEach(key => delete storage[key]);
-    }
+    },
   };
 };
 
 // 模拟文件操作API（适用于浏览器环境）
 export const createMockFileAPI = () => {
   const files: Record<string, string> = {};
-  
+
   return {
     // 模拟文件选择
     openFile: jest.fn(() => Promise.resolve('test-file.md')),
-    
+
     // 模拟文件读取
     readFile: jest.fn((filePath: string) => {
       return Promise.resolve(files[filePath] || '# 默认内容\n\n这是一个测试文档。');
     }),
-    
+
     // 模拟文件写入
     writeFile: jest.fn((filePath: string, content: string) => {
       files[filePath] = content;
       return Promise.resolve(true);
     }),
-    
+
     // 模拟文件保存对话框
     saveFile: jest.fn(() => Promise.resolve('test-file.md')),
-    
+
     // 获取文件内容（用于测试断言）
     getFileContent: (filePath: string) => files[filePath],
-    
+
     // 设置初始文件内容
     setInitialFile: (filePath: string, content: string) => {
       files[filePath] = content;
     },
-    
+
     // 模拟用户取消文件选择
     mockUserCancelFileSelection: () => {
       return jest.fn(() => Promise.resolve(null));
-    }
+    },
   };
 };
 
@@ -115,14 +125,16 @@ export const createIntegrationTestStore = (
   });
 
   const middleware = [];
-  
+
   if (enableMiddleware) {
     // 添加自动保存中间件（使用较短的延迟用于测试）
-    middleware.push(createAutoSaveMiddleware({
-      debounceTime: 100, // 100ms for testing
-      maxRetries: 2
-    }));
-    
+    middleware.push(
+      createAutoSaveMiddleware({
+        debounceTime: 100, // 100ms for testing
+        maxRetries: 2,
+      })
+    );
+
     // 添加同步中间件
     middleware.push(syncMiddleware);
   }
@@ -130,12 +142,12 @@ export const createIntegrationTestStore = (
   return configureStore({
     reducer: rootReducer,
     preloadedState: initialState,
-    middleware: (getDefaultMiddleware) => 
+    middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
         serializableCheck: {
-          ignoredActions: ['persist/PERSIST']
-        }
-      }).concat(middleware)
+          ignoredActions: ['persist/PERSIST'],
+        },
+      }).concat(middleware),
   });
 };
 
@@ -162,20 +174,20 @@ export const renderWithIntegrationProviders = (
 ) => {
   // 创建或使用提供的store
   const testStore = store || createIntegrationTestStore(initialState, enableMiddleware);
-  
+
   // 设置全局模拟
   if (mockStorage) {
     Object.defineProperty(global, 'localStorage', {
       value: mockStorage.localStorage,
-      writable: true
+      writable: true,
     });
   }
-  
+
   if (mockFileAPI) {
     // 在浏览器环境中，可能需要模拟文件下载/上传API
     global.URL.createObjectURL = jest.fn(() => 'mock-url');
     global.URL.revokeObjectURL = jest.fn();
-    
+
     // 模拟文件输入元素
     HTMLInputElement.prototype.click = jest.fn();
   }
@@ -183,9 +195,7 @@ export const renderWithIntegrationProviders = (
   const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
       <Provider store={testStore}>
-        <ThemeProvider theme={defaultTheme}>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>
       </Provider>
     );
   };
@@ -196,7 +206,7 @@ export const renderWithIntegrationProviders = (
     store: testStore,
     mockStorage,
     mockFileAPI,
-    ...renderResult
+    ...renderResult,
   };
 };
 
@@ -208,21 +218,24 @@ export const waitForMiddlewareToProcess = async (ms: number = 200) => {
 // 等待自动保存完成
 export const waitForAutoSaveToComplete = async (store: Store, timeout: number = 1000) => {
   const startTime = Date.now();
-  
-  return waitFor(() => {
-    const state = store.getState() as AppState;
-    const isDirty = (state.outline as any)?.isDirty || (state.editor as any)?.isDirty;
-    
-    if (!isDirty) {
-      return; // 自动保存已完成
-    }
-    
-    if (Date.now() - startTime > timeout) {
-      throw new Error('Auto-save did not complete within timeout');
-    }
-    
-    throw new Error('Still waiting for auto-save to complete');
-  }, { timeout });
+
+  return waitFor(
+    () => {
+      const state = store.getState() as AppState;
+      const isDirty = (state.outline as any)?.isDirty || (state.editor as any)?.isDirty;
+
+      if (!isDirty) {
+        return; // 自动保存已完成
+      }
+
+      if (Date.now() - startTime > timeout) {
+        throw new Error('Auto-save did not complete within timeout');
+      }
+
+      throw new Error('Still waiting for auto-save to complete');
+    },
+    { timeout }
+  );
 };
 
 // 模拟用户交互工具
@@ -237,8 +250,14 @@ export class UserInteractionHelper {
 
   // 模拟用户点击按钮
   async clickButton(buttonText: string | RegExp) {
-    const button = screen.getByRole('button', { name: buttonText });
-    await this.user.click(button);
+    try {
+      const button = screen.getByRole('button', { name: buttonText });
+      await this.user.click(button);
+    } catch (error) {
+      // 如果找不到button，尝试找clickable element
+      const clickable = screen.getByText(buttonText);
+      await this.user.click(clickable);
+    }
   }
 
   // 模拟用户选择标签
@@ -253,7 +272,7 @@ export class UserInteractionHelper {
     if (!editor) {
       throw new Error(`Editor not found with selector: ${selector}`);
     }
-    
+
     await this.user.clear(editor as HTMLElement);
     await this.user.type(editor as HTMLElement, text);
   }
@@ -279,122 +298,125 @@ export const createUserInteractionHelper = () => new UserInteractionHelper();
 // 测试数据工厂
 export const createTestData = {
   // 创建测试大纲状态
-  outlineState: (overrides?: Partial<OutlineState>): OutlineState => ({
-    id: 'test-outline',
-    project: {
-      id: 'test-project',
-      name: '测试小说项目',
-      description: '用于集成测试的项目',
-      author: '测试作者',
-      genre: '测试类型',
-      targetWordCount: 50000,
-      createdAt: new Date('2024-01-01'),
-      lastUpdated: new Date('2024-01-01')
-    },
-    story: {
-      id: 'test-story',
-      background: {
-        era: '现代',
-        location: '测试城市',
-        socialEnvironment: '测试社会环境',
-        historicalContext: '测试历史背景'
+  outlineState: (overrides?: Partial<OutlineState>): OutlineState =>
+    ({
+      id: 'test-outline',
+      project: {
+        id: 'test-project',
+        name: '测试小说项目',
+        description: '用于集成测试的项目',
+        author: '测试作者',
+        genre: '测试类型',
+        targetWordCount: 50000,
+        createdAt: new Date('2024-01-01'),
+        lastUpdated: new Date('2024-01-01'),
       },
-      coreTheme: {
-        theme: '测试主题',
-        conflict: '测试冲突',
-        message: '测试信息',
-        keywords: ['测试', '集成']
+      story: {
+        id: 'test-story',
+        background: {
+          era: '现代',
+          location: '测试城市',
+          socialEnvironment: '测试社会环境',
+          historicalContext: '测试历史背景',
+        },
+        coreTheme: {
+          theme: '测试主题',
+          conflict: '测试冲突',
+          message: '测试信息',
+          keywords: ['测试', '集成'],
+        },
+        synopsis: {
+          beginning: '测试开始',
+          development: '测试发展',
+          climax: '测试高潮',
+          ending: '测试结局',
+          overallTone: '测试基调',
+        },
+        lastUpdated: new Date('2024-01-01'),
       },
-      synopsis: {
-        beginning: '测试开始',
-        development: '测试发展', 
-        climax: '测试高潮',
-        ending: '测试结局',
-        overallTone: '测试基调'
+      characters: {
+        characters: [],
+        relationships: [],
       },
-      lastUpdated: new Date('2024-01-01')
-    },
-    characters: {
-      characters: [],
-      relationships: []
-    },
-    timeline: {
-      id: 'test-timeline',
-      events: [],
-      startTime: '2024-01-01',
-      endTime: '2024-12-31',
-      timelineNotes: '测试时间线'
-    },
-    chapters: {
-      id: 'test-chapters',
-      chapters: [],
-      totalChapters: 0,
-      overallStructure: '测试结构'
-    },
-    world: {
-      id: 'test-world',
-      geography: {
-        regions: [],
-        climate: '温带气候',
-        landmarks: [],
-        naturalFeatures: []
+      timeline: {
+        id: 'test-timeline',
+        events: [],
+        startTime: '2024-01-01',
+        endTime: '2024-12-31',
+        timelineNotes: '测试时间线',
       },
-      society: {
-        political: '民主制',
-        economic: '市场经济',
-        cultural: ['多元文化'],
-        religious: '信仰自由',
-        technology: '现代科技',
-        socialClasses: ['平民']
+      chapters: {
+        id: 'test-chapters',
+        chapters: [],
+        totalChapters: 0,
+        overallStructure: '测试结构',
       },
-      history: {
-        timeline: [],
-        legends: [],
-        familySecrets: [],
-        mysteries: []
+      world: {
+        id: 'test-world',
+        geography: {
+          regions: [],
+          climate: '温带气候',
+          landmarks: [],
+          naturalFeatures: [],
+        },
+        society: {
+          political: '民主制',
+          economic: '市场经济',
+          cultural: ['多元文化'],
+          religious: '信仰自由',
+          technology: '现代科技',
+          socialClasses: ['平民'],
+        },
+        history: {
+          timeline: [],
+          legends: [],
+          familySecrets: [],
+          mysteries: [],
+        },
+        customRules: [],
+        inspirationSources: [],
       },
-      customRules: [],
-      inspirationSources: []
-    },
-    subplots: {
-      id: 'test-subplots',
-      subplots: [],
-      secondaryStories: [],
-      weavingStrategy: '并行发展'
-    },
-    ideas: {
-      id: 'test-ideas',
-      ideas: [],
-      alternatives: [],
-      inspirationSources: [],
-      brainstormingSessions: []
-    },
-    themes: {
-      id: 'test-themes',
+      subplots: {
+        id: 'test-subplots',
+        subplots: [],
+        secondaryStories: [],
+        weavingStrategy: '并行发展',
+      },
+      ideas: {
+        id: 'test-ideas',
+        ideas: [],
+        alternatives: [],
+        inspirationSources: [],
+        brainstormingSessions: [],
+      },
       themes: {
-        primary: '测试主题',
-        secondary: [],
-        symbols: [],
-        metaphors: [],
-        motifs: []
+        id: 'test-themes',
+        themes: {
+          primary: '测试主题',
+          secondary: [],
+          symbols: [],
+          metaphors: [],
+          motifs: [],
+        },
+        characterMotivations: [],
+        philosophicalQuestions: [],
+        socialCommentary: [],
+        personalReflections: [],
       },
-      characterMotivations: [],
-      philosophicalQuestions: [],
-      socialCommentary: [],
-      personalReflections: []
-    },
-    ...overrides
-  } as OutlineState),
+      ...overrides,
+    }) as OutlineState,
 
-  // 创建测试编辑器状态  
+  // 创建测试编辑器状态
   editorState: (overrides?: Partial<EditorState>): EditorState => ({
     content: '# 测试文档\n\n这是测试内容。',
+    filePath: '/test/test-document.md',
     fileName: 'test-document.md',
     isDirty: false,
-    lastSaved: new Date().toISOString(),
+    wordCount: 8,
+    lastSaved: new Date(),
     autoSaveEnabled: true,
-    ...overrides
-  } as EditorState)
+    ...overrides,
+  }),
 };
 
 // 导出所有testing-library工具

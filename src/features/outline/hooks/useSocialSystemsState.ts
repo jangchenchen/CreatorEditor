@@ -38,7 +38,7 @@ export const useSocialSystemsState = () => {
   const dispatch = useDispatch();
   const outline = useSelector(selectOutline);
   const society = outline.world.society;
-  
+
   // 社会体系状态
   const [political, setPolitical] = useState(society.political);
   const [economic, setEconomic] = useState(society.economic);
@@ -81,7 +81,7 @@ export const useSocialSystemsState = () => {
       cultural,
       religious,
       technology,
-      socialClasses
+      socialClasses,
     };
     console.log('保存社会体系:', updatedSociety);
   };
@@ -94,7 +94,7 @@ export const useSocialSystemsState = () => {
     technology,
     socialClasses,
     newCulturalElement,
-    newSocialClass
+    newSocialClass,
   };
 
   const handlers: SocialSystemsHandlers = {
@@ -110,7 +110,7 @@ export const useSocialSystemsState = () => {
     handleRemoveCulturalElement,
     handleAddSocialClass,
     handleRemoveSocialClass,
-    handleSave
+    handleSave,
   };
 
   return { state, handlers };

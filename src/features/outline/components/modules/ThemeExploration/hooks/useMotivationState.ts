@@ -9,14 +9,18 @@ export const useMotivationState = () => {
 
   const handleOpenDialog = (motivation?: CharacterMotivation) => {
     setEditingMotivation(motivation || null);
-    setFormData(motivation ? { ...motivation } : {
-      characterId: '',
-      innerConflict: '',
-      growthMotivation: '',
-      emotionalJourney: '',
-      moralDilemma: '',
-      resolution: ''
-    });
+    setFormData(
+      motivation
+        ? { ...motivation }
+        : {
+            characterId: '',
+            innerConflict: '',
+            growthMotivation: '',
+            emotionalJourney: '',
+            moralDilemma: '',
+            resolution: '',
+          }
+    );
     setDialogOpen(true);
   };
 
@@ -26,14 +30,14 @@ export const useMotivationState = () => {
     setFormData({});
   };
 
-  const handleFormChange = (field: keyof CharacterMotivation) => (
-    event: React.ChangeEvent<HTMLInputElement | { value: unknown }>
-  ) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: event.target.value
-    }));
-  };
+  const handleFormChange =
+    (field: keyof CharacterMotivation) =>
+    (event: React.ChangeEvent<HTMLInputElement | { value: unknown }>) => {
+      setFormData(prev => ({
+        ...prev,
+        [field]: event.target.value,
+      }));
+    };
 
   return {
     editingMotivation,
@@ -43,6 +47,6 @@ export const useMotivationState = () => {
     setSelectedCharacterId,
     handleOpenDialog,
     handleCloseDialog,
-    handleFormChange
+    handleFormChange,
   };
 };

@@ -16,12 +16,12 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Typography
+  Typography,
 } from '@mui/material';
 import {
   ExpandMore as ExpandMoreIcon,
   Add as AddIcon,
-  Remove as RemoveIcon
+  Remove as RemoveIcon,
 } from '@mui/icons-material';
 
 interface ThemeDescriptionListProps {
@@ -51,12 +51,12 @@ export const ThemeDescriptionList: React.FC<ThemeDescriptionListProps> = ({
   onRemove,
   icon,
   color,
-  tip
+  tip,
 }) => {
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ mr: 1, color: `${color}.main` }}>{icon}</Box>
           {title} ({items.length})
         </Typography>
@@ -66,16 +66,16 @@ export const ThemeDescriptionList: React.FC<ThemeDescriptionListProps> = ({
           <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
             <TextField
               fullWidth
-              size="small"
+              size='small'
               multiline
               rows={inputRows}
               label={inputLabel}
               value={inputValue}
-              onChange={(e) => onInputChange(e.target.value)}
+              onChange={e => onInputChange(e.target.value)}
               placeholder={inputPlaceholder}
             />
-            <Button 
-              variant="contained" 
+            <Button
+              variant='contained'
               onClick={onAdd}
               disabled={!inputValue.trim()}
               sx={{ minWidth: 80 }}
@@ -83,7 +83,7 @@ export const ThemeDescriptionList: React.FC<ThemeDescriptionListProps> = ({
               添加
             </Button>
           </Box>
-          
+
           {items.length > 0 ? (
             <List>
               {items.map((item, index) => (
@@ -92,26 +92,22 @@ export const ThemeDescriptionList: React.FC<ThemeDescriptionListProps> = ({
                     {React.cloneElement(icon as React.ReactElement, { color })}
                   </ListItemIcon>
                   <ListItemText primary={item} />
-                  <IconButton 
-                    size="small" 
-                    color="error"
-                    onClick={() => onRemove(index)}
-                  >
+                  <IconButton size='small' color='error' onClick={() => onRemove(index)}>
                     <RemoveIcon />
                   </IconButton>
                 </ListItem>
               ))}
             </List>
           ) : (
-            <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
+            <Typography variant='body2' color='text.secondary' sx={{ textAlign: 'center', py: 2 }}>
               暂无{title.toLowerCase()}
             </Typography>
           )}
         </Box>
-        
+
         {tip && (
           <Box sx={{ p: 2, bgcolor: `${color}.50`, borderRadius: 1 }}>
-            <Typography variant="caption" color={`${color}.main`}>
+            <Typography variant='caption' color={`${color}.main`}>
               💡 {tip}
             </Typography>
           </Box>

@@ -8,13 +8,17 @@ export const useStoryState = () => {
 
   const handleOpenDialog = (story?: SecondaryCharacterStory) => {
     setEditingStory(story || null);
-    setFormData(story ? { ...story } : {
-      characterId: '',
-      personalGoal: '',
-      backstory: '',
-      developmentArc: '',
-      resolutionMethod: ''
-    });
+    setFormData(
+      story
+        ? { ...story }
+        : {
+            characterId: '',
+            personalGoal: '',
+            backstory: '',
+            developmentArc: '',
+            resolutionMethod: '',
+          }
+    );
     setDialogOpen(true);
   };
 
@@ -24,19 +28,19 @@ export const useStoryState = () => {
     setFormData({});
   };
 
-  const handleFormChange = (field: keyof SecondaryCharacterStory) => (
-    event: React.ChangeEvent<HTMLInputElement | { value: unknown }>
-  ) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: event.target.value
-    }));
-  };
+  const handleFormChange =
+    (field: keyof SecondaryCharacterStory) =>
+    (event: React.ChangeEvent<HTMLInputElement | { value: unknown }>) => {
+      setFormData(prev => ({
+        ...prev,
+        [field]: event.target.value,
+      }));
+    };
 
   const setFormDataField = (field: keyof SecondaryCharacterStory, value: string) => {
     setFormData(prev => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -47,6 +51,6 @@ export const useStoryState = () => {
     handleOpenDialog,
     handleCloseDialog,
     handleFormChange,
-    setFormDataField
+    setFormDataField,
   };
 };

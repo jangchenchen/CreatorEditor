@@ -27,7 +27,7 @@ class PerformanceMonitor {
   private thresholds: PerformanceThresholds = {
     renderTime: 16, // 60fps 的理想渲染时间
     memoryUsage: 100, // 100MB 内存警告线
-    operationTime: 100 // 100ms 操作延迟警告线
+    operationTime: 100, // 100ms 操作延迟警告线
   };
 
   /**
@@ -60,7 +60,11 @@ class PerformanceMonitor {
   /**
    * 结束计时并记录指标
    */
-  endTimer(key: string, type: 'render' | 'operation' = 'operation', meta?: { component?: string; operation?: string }): number {
+  endTimer(
+    key: string,
+    type: 'render' | 'operation' = 'operation',
+    meta?: { component?: string; operation?: string }
+  ): number {
     const startTime = this.timers.get(key);
     if (!startTime) {
       console.warn(`Performance timer '${key}' was not found`);
@@ -76,7 +80,7 @@ class PerformanceMonitor {
       operationTime: type === 'operation' ? duration : 0,
       timestamp: Date.now(),
       component: meta?.component,
-      operation: meta?.operation
+      operation: meta?.operation,
     };
 
     this.recordMetric(metric);
@@ -88,7 +92,7 @@ class PerformanceMonitor {
    */
   recordMetric(metric: PerformanceMetrics): void {
     this.metrics.push(metric);
-    
+
     // 保持最近的1000条记录
     if (this.metrics.length > 1000) {
       this.metrics = this.metrics.slice(-1000);
@@ -119,15 +123,21 @@ class PerformanceMonitor {
     const warnings: string[] = [];
 
     if (metric.renderTime > this.thresholds.renderTime) {
-      warnings.push(`Render time exceeded threshold: ${metric.renderTime}ms > ${this.thresholds.renderTime}ms`);
+      warnings.push(
+        `Render time exceeded threshold: ${metric.renderTime}ms > ${this.thresholds.renderTime}ms`
+      );
     }
 
     if (metric.memoryUsage > this.thresholds.memoryUsage) {
-      warnings.push(`Memory usage exceeded threshold: ${metric.memoryUsage}MB > ${this.thresholds.memoryUsage}MB`);
+      warnings.push(
+        `Memory usage exceeded threshold: ${metric.memoryUsage}MB > ${this.thresholds.memoryUsage}MB`
+      );
     }
 
     if (metric.operationTime > this.thresholds.operationTime) {
-      warnings.push(`Operation time exceeded threshold: ${metric.operationTime}ms > ${this.thresholds.operationTime}ms`);
+      warnings.push(
+        `Operation time exceeded threshold: ${metric.operationTime}ms > ${this.thresholds.operationTime}ms`
+      );
     }
 
     if (warnings.length > 0) {
@@ -148,9 +158,7 @@ class PerformanceMonitor {
     totalMetrics: number;
   } {
     const now = Date.now();
-    const recentMetrics = this.metrics.filter(
-      metric => now - metric.timestamp <= timeWindow
-    );
+    const recentMetrics = this.metrics.filter(metric => now - metric.timestamp <= timeWindow);
 
     if (recentMetrics.length === 0) {
       return {
@@ -160,7 +168,7 @@ class PerformanceMonitor {
         maxMemoryUsage: 0,
         avgOperationTime: 0,
         maxOperationTime: 0,
-        totalMetrics: 0
+        totalMetrics: 0,
       };
     }
 
@@ -169,13 +177,18 @@ class PerformanceMonitor {
     const operationTimes = recentMetrics.map(m => m.operationTime).filter(t => t > 0);
 
     return {
-      avgRenderTime: renderTimes.length > 0 ? renderTimes.reduce((a, b) => a + b, 0) / renderTimes.length : 0,
+      avgRenderTime:
+        renderTimes.length > 0 ? renderTimes.reduce((a, b) => a + b, 0) / renderTimes.length : 0,
       maxRenderTime: renderTimes.length > 0 ? Math.max(...renderTimes) : 0,
-      avgMemoryUsage: memoryUsages.length > 0 ? memoryUsages.reduce((a, b) => a + b, 0) / memoryUsages.length : 0,
+      avgMemoryUsage:
+        memoryUsages.length > 0 ? memoryUsages.reduce((a, b) => a + b, 0) / memoryUsages.length : 0,
       maxMemoryUsage: memoryUsages.length > 0 ? Math.max(...memoryUsages) : 0,
-      avgOperationTime: operationTimes.length > 0 ? operationTimes.reduce((a, b) => a + b, 0) / operationTimes.length : 0,
+      avgOperationTime:
+        operationTimes.length > 0
+          ? operationTimes.reduce((a, b) => a + b, 0) / operationTimes.length
+          : 0,
       maxOperationTime: operationTimes.length > 0 ? Math.max(...operationTimes) : 0,
-      totalMetrics: recentMetrics.length
+      totalMetrics: recentMetrics.length,
     };
   }
 
@@ -207,30 +220,30 @@ export function performanceTrack(target: any, propertyKey: string, descriptor: P
   descriptor.value = function (...args: any[]) {
     const key = `${target.constructor.name}.${propertyKey}`;
     performanceMonitor.startTimer(key);
-    
+
     try {
       const result = originalMethod.apply(this, args);
-      
+
       // 处理异步方法
       if (result instanceof Promise) {
         return result.finally(() => {
           performanceMonitor.endTimer(key, 'operation', {
             component: target.constructor.name,
-            operation: propertyKey
+            operation: propertyKey,
           });
         });
       }
-      
+
       performanceMonitor.endTimer(key, 'operation', {
         component: target.constructor.name,
-        operation: propertyKey
+        operation: propertyKey,
       });
-      
+
       return result;
     } catch (error) {
       performanceMonitor.endTimer(key, 'operation', {
         component: target.constructor.name,
-        operation: propertyKey
+        operation: propertyKey,
       });
       throw error;
     }
@@ -246,61 +259,70 @@ export function usePerformanceMonitor(componentName: string) {
   React.useEffect(() => {
     const renderKey = `${componentName}.render`;
     performanceMonitor.startTimer(renderKey);
-    
+
     return () => {
       performanceMonitor.endTimer(renderKey, 'render', {
-        component: componentName
+        component: componentName,
       });
     };
   });
 
-  const measureOperation = React.useCallback((operationName: string, operation: () => void | Promise<void>) => {
-    const key = `${componentName}.${operationName}`;
-    performanceMonitor.startTimer(key);
-    
-    try {
-      const result = operation();
-      
-      if (result instanceof Promise) {
-        return result.finally(() => {
-          performanceMonitor.endTimer(key, 'operation', {
-            component: componentName,
-            operation: operationName
+  const measureOperation = React.useCallback(
+    (operationName: string, operation: () => void | Promise<void>) => {
+      const key = `${componentName}.${operationName}`;
+      performanceMonitor.startTimer(key);
+
+      try {
+        const result = operation();
+
+        if (result instanceof Promise) {
+          return result.finally(() => {
+            performanceMonitor.endTimer(key, 'operation', {
+              component: componentName,
+              operation: operationName,
+            });
           });
+        }
+
+        performanceMonitor.endTimer(key, 'operation', {
+          component: componentName,
+          operation: operationName,
         });
+
+        return result;
+      } catch (error) {
+        performanceMonitor.endTimer(key, 'operation', {
+          component: componentName,
+          operation: operationName,
+        });
+        throw error;
       }
-      
+    },
+    [componentName]
+  );
+
+  const startOperation = React.useCallback(
+    (operationName: string) => {
+      const key = `${componentName}.${operationName}`;
+      performanceMonitor.startTimer(key);
+    },
+    [componentName]
+  );
+
+  const endOperation = React.useCallback(
+    (operationName: string) => {
+      const key = `${componentName}.${operationName}`;
       performanceMonitor.endTimer(key, 'operation', {
         component: componentName,
-        operation: operationName
+        operation: operationName,
       });
-      
-      return result;
-    } catch (error) {
-      performanceMonitor.endTimer(key, 'operation', {
-        component: componentName,
-        operation: operationName
-      });
-      throw error;
-    }
-  }, [componentName]);
+    },
+    [componentName]
+  );
 
-  const startOperation = React.useCallback((operationName: string) => {
-    const key = `${componentName}.${operationName}`;
-    performanceMonitor.startTimer(key);
-  }, [componentName]);
-
-  const endOperation = React.useCallback((operationName: string) => {
-    const key = `${componentName}.${operationName}`;
-    performanceMonitor.endTimer(key, 'operation', {
-      component: componentName,
-      operation: operationName
-    });
-  }, [componentName]);
-
-  return { 
+  return {
     measureOperation,
     startOperation,
-    endOperation 
+    endOperation,
   };
 }

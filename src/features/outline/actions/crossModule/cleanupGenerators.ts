@@ -13,22 +13,22 @@ export async function generateCharacterCleanupActions(
   state: any
 ): Promise<CleanupAction[]> {
   const actions: CleanupAction[] = [];
-  
+
   // Timeline events cleanup
   addTimelineCleanupActions(actions, characterId, state);
-  
+
   // Chapter scenes cleanup
   addChapterSceneCleanupActions(actions, characterId, state);
-  
+
   // Subplot cleanup
   addSubplotCleanupActions(actions, characterId, state);
-  
+
   // Secondary stories cleanup
   addSecondaryStoriesCleanupActions(actions, characterId, state);
-  
+
   // Ideas cleanup
   addIdeasCleanupActions(actions, characterId, state);
-  
+
   return actions;
 }
 
@@ -49,7 +49,7 @@ function addTimelineCleanupActions(
         field: 'characters',
         oldValue: event.characters,
         newValue: event.characters.filter((id: string) => id !== characterId),
-        description: `Remove character ${characterId} from timeline event ${event.title}`
+        description: `Remove character ${characterId} from timeline event ${event.title}`,
       });
     }
   });
@@ -73,7 +73,7 @@ function addChapterSceneCleanupActions(
           field: 'characters',
           oldValue: scene.characters,
           newValue: scene.characters.filter((id: string) => id !== characterId),
-          description: `Remove character ${characterId} from scene ${scene.title}`
+          description: `Remove character ${characterId} from scene ${scene.title}`,
         });
       }
     });
@@ -83,11 +83,7 @@ function addChapterSceneCleanupActions(
 /**
  * Add subplot cleanup actions
  */
-function addSubplotCleanupActions(
-  actions: CleanupAction[],
-  characterId: string,
-  state: any
-): void {
+function addSubplotCleanupActions(actions: CleanupAction[], characterId: string, state: any): void {
   state.subplots.subplots.forEach((subplot: any) => {
     if (subplot.relatedCharacters.includes(characterId)) {
       actions.push({
@@ -97,7 +93,7 @@ function addSubplotCleanupActions(
         field: 'relatedCharacters',
         oldValue: subplot.relatedCharacters,
         newValue: subplot.relatedCharacters.filter((id: string) => id !== characterId),
-        description: `Remove character ${characterId} from subplot ${subplot.title}`
+        description: `Remove character ${characterId} from subplot ${subplot.title}`,
       });
     }
   });
@@ -114,13 +110,13 @@ function addSecondaryStoriesCleanupActions(
   const storiesToDelete = state.subplots.secondaryStories.filter(
     (story: any) => story.characterId === characterId
   );
-  
+
   storiesToDelete.forEach((story: any) => {
     actions.push({
       type: 'delete_entity',
       module: 'secondary_stories',
       entityId: story.id,
-      description: `Delete secondary story ${story.title} for character ${characterId}`
+      description: `Delete secondary story ${story.title} for character ${characterId}`,
     });
   });
 }
@@ -128,16 +124,12 @@ function addSecondaryStoriesCleanupActions(
 /**
  * Add ideas cleanup actions
  */
-function addIdeasCleanupActions(
-  actions: CleanupAction[],
-  characterId: string,
-  state: any
-): void {
+function addIdeasCleanupActions(actions: CleanupAction[], characterId: string, state: any): void {
   state.ideas.ideas.forEach((idea: any) => {
     const hasCharacterReference = idea.relatedElements.some(
       (element: any) => element.type === 'character' && element.id === characterId
     );
-    
+
     if (hasCharacterReference) {
       actions.push({
         type: 'remove_reference',
@@ -148,7 +140,7 @@ function addIdeasCleanupActions(
         newValue: idea.relatedElements.filter(
           (element: any) => !(element.type === 'character' && element.id === characterId)
         ),
-        description: `Remove character ${characterId} reference from idea ${idea.title}`
+        description: `Remove character ${characterId} reference from idea ${idea.title}`,
       });
     }
   });

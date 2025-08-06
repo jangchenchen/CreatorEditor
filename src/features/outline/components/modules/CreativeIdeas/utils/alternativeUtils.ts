@@ -1,13 +1,15 @@
 import { PlotAlternative } from '../../../../types/outline.types';
 
 export const initializeAlternativeFormData = (alternative?: PlotAlternative) => {
-  return alternative ? { ...alternative } : {
-    originalElement: '',
-    alternativeVersion: '',
-    pros: [],
-    cons: [],
-    impact: ''
-  };
+  return alternative
+    ? { ...alternative }
+    : {
+        originalElement: '',
+        alternativeVersion: '',
+        pros: [],
+        cons: [],
+        impact: '',
+      };
 };
 
 export const updateListField = (
@@ -21,13 +23,10 @@ export const updateListField = (
   return { ...currentData, [field]: newArray };
 };
 
-export const addListItem = (
-  currentData: Partial<PlotAlternative>,
-  field: 'pros' | 'cons'
-) => {
+export const addListItem = (currentData: Partial<PlotAlternative>, field: 'pros' | 'cons') => {
   return {
     ...currentData,
-    [field]: [...(currentData[field] || []), '']
+    [field]: [...(currentData[field] || []), ''],
   };
 };
 
@@ -38,6 +37,6 @@ export const removeListItem = (
 ) => {
   return {
     ...currentData,
-    [field]: (currentData[field] || []).filter((_, i) => i !== index)
+    [field]: (currentData[field] || []).filter((_, i) => i !== index),
   };
 };

@@ -18,17 +18,17 @@ export class SecondaryStoryValidator {
           module: 'secondary_stories',
           entityId: story.id,
           message: `Secondary story "${story.title}" references deleted character: ${story.characterId}`,
-          severity: 'high'
+          severity: 'high',
         });
       }
-      
+
       // Check for story completeness
       if (!story.title.trim() || !story.description.trim()) {
         warnings.push({
           type: 'potential_inconsistency',
           module: 'secondary_stories',
           entityId: story.id,
-          message: `Secondary story is missing title or description`
+          message: `Secondary story is missing title or description`,
         });
       }
     });

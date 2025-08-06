@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
+import { Box, Typography, Divider } from '@mui/material';
 import {
-  Box,
-  Typography,
-  Divider
-} from '@mui/material';
-import { 
   StrategyDescription,
   SubplotDistributionAnalysis,
   IssuesCheck,
   WeavingTechniquesGuide,
-  StrategyTemplates
+  StrategyTemplates,
 } from './index';
 
 interface Subplot {
@@ -35,7 +31,7 @@ const WeavingStrategy: React.FC = () => {
   // 分析副线分布
   const analyzeSubplotDistribution = () => {
     const distribution: { [chapter: number]: string[] } = {};
-    
+
     subplots.forEach(subplot => {
       for (let i = subplot.startChapter; i <= subplot.endChapter; i++) {
         if (!distribution[i]) {
@@ -52,7 +48,7 @@ const WeavingStrategy: React.FC = () => {
   const checkPotentialIssues = () => {
     const issues: string[] = [];
     const distribution = analyzeSubplotDistribution();
-    
+
     // 检查副线过载的章节
     Object.entries(distribution).forEach(([chapter, subplotTitles]) => {
       if (subplotTitles.length > 3) {
@@ -67,7 +63,7 @@ const WeavingStrategy: React.FC = () => {
         emptyChapters.push(i);
       }
     }
-    
+
     if (emptyChapters.length > 3) {
       issues.push(`连续章节缺少副线支撑: 第${emptyChapters.slice(0, 3).join(', ')}章等`);
     }
@@ -95,25 +91,18 @@ const WeavingStrategy: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto' }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         副线编织策略
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant='body2' color='text.secondary' paragraph>
         制定将副线情节有机融入主线的策略，确保故事节奏和结构的平衡。
       </Typography>
 
       {/* 整体策略描述 */}
-      <StrategyDescription 
-        value={strategy}
-        onChange={setStrategy}
-        onSave={handleSave}
-      />
+      <StrategyDescription value={strategy} onChange={setStrategy} onSave={handleSave} />
 
       {/* 副线分布分析 */}
-      <SubplotDistributionAnalysis 
-        chapters={chapters}
-        distribution={distribution}
-      />
+      <SubplotDistributionAnalysis chapters={chapters} distribution={distribution} />
 
       {/* 潜在问题检查 */}
       <IssuesCheck issues={issues} />

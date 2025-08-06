@@ -3,7 +3,7 @@ export {
   ValidationResult,
   ValidationError,
   ValidationWarning,
-  CleanupAction
+  CleanupAction,
 } from './integrity/integrityTypes';
 
 // Re-export the main service class

@@ -10,7 +10,7 @@ export interface UseLocalStorageReturn {
   isInitialized: boolean;
   isLoading: boolean;
   error: string | null;
-  
+
   // Auto-save status
   autoSave: {
     enabled: boolean;
@@ -18,26 +18,26 @@ export interface UseLocalStorageReturn {
     lastSaveTime: number;
     hasPendingChanges: boolean;
   };
-  
+
   // Storage operations
   saveProject: () => Promise<void>;
   loadProject: (projectId?: string) => Promise<OutlineData | null>;
   deleteProject: (projectId: string) => Promise<void>;
   getProjectList: () => Promise<Array<{ id: string; name: string; lastUpdated: Date }>>;
-  
+
   // Auto-save controls
   enableAutoSave: () => void;
   disableAutoSave: () => void;
   forceSave: () => Promise<void>;
-  
+
   // Import/Export operations
   exportProject: (projectId: string, filePath: string) => Promise<ExportResult>;
   importProject: (file: File) => Promise<ImportResult>;
   exportBackup: (filePath: string) => Promise<ExportResult>;
-  
+
   // Storage statistics
   getStorageStats: () => Promise<any>;
-  
+
   // Utility functions
   clearError: () => void;
 }

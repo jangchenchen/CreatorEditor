@@ -5,9 +5,11 @@ import { selectIdeas, loadIdeasData } from '../../../../slices/ideasSlice';
 export const useInspirationSources = () => {
   const dispatch = useDispatch();
   const ideas = useSelector(selectIdeas);
-  
+
   const [inspirationSources, setInspirationSources] = useState<string[]>(ideas.inspirationSources);
-  const [brainstormingSessions, setBrainstormingSessions] = useState<string[]>(ideas.brainstormingSessions);
+  const [brainstormingSessions, setBrainstormingSessions] = useState<string[]>(
+    ideas.brainstormingSessions
+  );
   const [newSource, setNewSource] = useState('');
   const [newSession, setNewSession] = useState('');
 
@@ -18,9 +20,12 @@ export const useInspirationSources = () => {
     }
   }, [newSource, inspirationSources]);
 
-  const handleRemoveSource = useCallback((index: number) => {
-    setInspirationSources(inspirationSources.filter((_, i) => i !== index));
-  }, [inspirationSources]);
+  const handleRemoveSource = useCallback(
+    (index: number) => {
+      setInspirationSources(inspirationSources.filter((_, i) => i !== index));
+    },
+    [inspirationSources]
+  );
 
   const handleAddSession = useCallback(() => {
     if (newSession.trim()) {
@@ -29,16 +34,21 @@ export const useInspirationSources = () => {
     }
   }, [newSession, brainstormingSessions]);
 
-  const handleRemoveSession = useCallback((index: number) => {
-    setBrainstormingSessions(brainstormingSessions.filter((_, i) => i !== index));
-  }, [brainstormingSessions]);
+  const handleRemoveSession = useCallback(
+    (index: number) => {
+      setBrainstormingSessions(brainstormingSessions.filter((_, i) => i !== index));
+    },
+    [brainstormingSessions]
+  );
 
   const handleSave = useCallback(() => {
-    dispatch(loadIdeasData({
-      ...ideas,
-      inspirationSources,
-      brainstormingSessions
-    }));
+    dispatch(
+      loadIdeasData({
+        ...ideas,
+        inspirationSources,
+        brainstormingSessions,
+      })
+    );
   }, [dispatch, ideas, inspirationSources, brainstormingSessions]);
 
   return {
@@ -52,6 +62,6 @@ export const useInspirationSources = () => {
     handleRemoveSource,
     handleAddSession,
     handleRemoveSession,
-    handleSave
+    handleSave,
   };
 };

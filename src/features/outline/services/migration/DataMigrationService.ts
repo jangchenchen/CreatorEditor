@@ -29,26 +29,28 @@ export class DataMigrationService {
     // Apply migration strategies in sequence
     while (currentVersion !== CURRENT_SCHEMA_VERSION) {
       const strategy = this.findMigrationStrategy(currentVersion);
-      
+
       if (!strategy) {
         throw new Error(`No migration strategy found for version ${currentVersion}`);
       }
 
       console.log(`Applying migration: ${strategy.description}`);
-      
+
       try {
         // Apply migration
         currentData = strategy.migrate(currentData);
         currentVersion = strategy.toVersion;
-        
+
         // Validate migrated data
         if (!strategy.validate(currentData)) {
           throw new Error(`Migration validation failed for version ${strategy.toVersion}`);
         }
-        
+
         console.log(`Successfully migrated to version ${currentVersion}`);
       } catch (error) {
-        throw new Error(`Migration failed from ${strategy.fromVersion} to ${strategy.toVersion}: ${error}`);
+        throw new Error(
+          `Migration failed from ${strategy.fromVersion} to ${strategy.toVersion}: ${error}`
+        );
       }
     }
 
@@ -99,7 +101,7 @@ export class DataMigrationService {
    */
   static getMigrationInfo(fromVersion: string): MigrationInfo {
     const needed = fromVersion !== CURRENT_SCHEMA_VERSION;
-    
+
     if (!needed) {
       return { needed: false, path: [fromVersion], strategies: [] };
     }
@@ -107,7 +109,7 @@ export class DataMigrationService {
     try {
       const path = this.getMigrationPath(fromVersion);
       const strategies: MigrationStrategy[] = [];
-      
+
       for (let i = 0; i < path.length - 1; i++) {
         const strategy = this.findMigrationStrategy(path[i]);
         if (strategy) {
@@ -126,21 +128,21 @@ export class DataMigrationService {
    */
   static async migrateWithResult(data: any): Promise<MigrationResult> {
     const originalVersion = data?.version || '0.9.0';
-    
+
     try {
       const migratedData = await this.migrateToCurrentVersion(data);
       return {
         success: true,
         data: migratedData,
         migratedFrom: originalVersion,
-        migratedTo: CURRENT_SCHEMA_VERSION
+        migratedTo: CURRENT_SCHEMA_VERSION,
       };
     } catch (error) {
       return {
         success: false,
         error: error instanceof Error ? error.message : String(error),
         migratedFrom: originalVersion,
-        migratedTo: CURRENT_SCHEMA_VERSION
+        migratedTo: CURRENT_SCHEMA_VERSION,
       };
     }
   }

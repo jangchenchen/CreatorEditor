@@ -15,14 +15,14 @@ import {
   IconButton,
   Alert,
   AlertTitle,
-  Divider
+  Divider,
 } from '@mui/material';
 import {
   ErrorOutline as ErrorIcon,
   Refresh as RefreshIcon,
   ExpandMore as ExpandMoreIcon,
   BugReport as BugReportIcon,
-  Home as HomeIcon
+  Home as HomeIcon,
 } from '@mui/icons-material';
 import { ErrorLogger } from './ErrorLogger';
 import type { SerializedError } from './ErrorLogger';
@@ -56,14 +56,14 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
       errorInfo: null,
       errorId: null,
       showDetails: false,
-      retryAttempts: 0
+      retryAttempts: 0,
     };
   }
 
   static getDerivedStateFromError(error: Error): Partial<GlobalErrorBoundaryState> {
     return {
       hasError: true,
-      error
+      error,
     };
   }
 
@@ -73,12 +73,12 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
       componentStack: errorInfo.componentStack,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
-      url: window.location.href
+      url: window.location.href,
     });
 
     this.setState({
       errorInfo,
-      errorId
+      errorId,
     });
 
     // 调用外部错误处理器
@@ -108,7 +108,7 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
     }
 
     this.setState(prevState => ({
-      retryAttempts: prevState.retryAttempts + 1
+      retryAttempts: prevState.retryAttempts + 1,
     }));
 
     // 延迟重试，给系统时间恢复
@@ -118,7 +118,7 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
         hasError: false,
         error: null,
         errorInfo: null,
-        errorId: null
+        errorId: null,
       });
     }, retryDelay);
 
@@ -136,7 +136,7 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
       error: null,
       errorInfo: null,
       errorId: null,
-      retryAttempts: 0
+      retryAttempts: 0,
     });
 
     // 如果有路由器，使用路由器导航
@@ -150,7 +150,7 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
 
   private handleToggleDetails = (): void => {
     this.setState(prevState => ({
-      showDetails: !prevState.showDetails
+      showDetails: !prevState.showDetails,
     }));
   };
 
@@ -165,12 +165,12 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
       componentStack: errorInfo?.componentStack,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
-      url: window.location.href
+      url: window.location.href,
     };
 
     // 在实际应用中，这里会发送错误报告到服务器
     console.log('Error Report Data:', reportData);
-    
+
     // 模拟发送报告
     alert('错误报告已发送，感谢您的反馈！');
   };
@@ -188,7 +188,10 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
       return 'medium'; // 网络错误
     }
 
-    if (error.message.includes('Cannot read property') || error.message.includes('is not defined')) {
+    if (
+      error.message.includes('Cannot read property') ||
+      error.message.includes('is not defined')
+    ) {
       return 'high'; // 运行时错误
     }
 
@@ -203,7 +206,7 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
       return {
         title: '未知错误',
         description: '发生了一个未知错误',
-        suggestion: '请尝试刷新页面或联系技术支持'
+        suggestion: '请尝试刷新页面或联系技术支持',
       };
     }
 
@@ -212,7 +215,7 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
       return {
         title: '资源加载失败',
         description: '应用程序的某些资源无法正确加载',
-        suggestion: '这通常是临时网络问题，请尝试刷新页面'
+        suggestion: '这通常是临时网络问题，请尝试刷新页面',
       };
     }
 
@@ -220,23 +223,26 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
       return {
         title: '网络连接问题',
         description: '无法连接到服务器或网络不稳定',
-        suggestion: '请检查您的网络连接，然后重试'
+        suggestion: '请检查您的网络连接，然后重试',
       };
     }
 
     return {
       title: severity === 'high' ? '应用程序错误' : '操作失败',
-      description: severity === 'high' 
-        ? '应用程序遇到了意外错误，可能影响正常功能' 
-        : '当前操作未能成功完成',
-      suggestion: severity === 'high' 
-        ? '建议刷新页面或重启应用程序' 
-        : '请稍后重试，或尝试其他操作'
+      description:
+        severity === 'high' ? '应用程序遇到了意外错误，可能影响正常功能' : '当前操作未能成功完成',
+      suggestion: severity === 'high' ? '建议刷新页面或重启应用程序' : '请稍后重试，或尝试其他操作',
     };
   }
 
   render(): ReactNode {
-    const { children, fallback, maxRetries = 3, enableReporting = true, showErrorDetails = false } = this.props;
+    const {
+      children,
+      fallback,
+      maxRetries = 3,
+      enableReporting = true,
+      showErrorDetails = false,
+    } = this.props;
     const { hasError, error, errorInfo, errorId, showDetails, retryAttempts } = this.state;
 
     if (!hasError) {
@@ -260,31 +266,31 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
           alignItems: 'center',
           justifyContent: 'center',
           bgcolor: 'background.default',
-          p: 3
+          p: 3,
         }}
       >
         <Card
           sx={{
             maxWidth: 600,
             width: '100%',
-            boxShadow: severity === 'high' ? 4 : 2
+            boxShadow: severity === 'high' ? 4 : 2,
           }}
         >
           <CardContent>
             {/* 错误图标和标题 */}
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-              <ErrorIcon 
-                sx={{ 
-                  fontSize: 48, 
+              <ErrorIcon
+                sx={{
+                  fontSize: 48,
                   color: severity === 'high' ? 'error.main' : 'warning.main',
-                  mr: 2 
-                }} 
+                  mr: 2,
+                }}
               />
               <Box>
-                <Typography variant="h5" component="h1" gutterBottom>
+                <Typography variant='h5' component='h1' gutterBottom>
                   {title}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant='body2' color='text.secondary'>
                   错误ID: {errorId || 'Unknown'}
                 </Typography>
               </Box>
@@ -297,15 +303,14 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
             </Alert>
 
             {/* 建议操作 */}
-            <Typography variant="body1" sx={{ mb: 2 }}>
+            <Typography variant='body1' sx={{ mb: 2 }}>
               <strong>建议操作：</strong> {suggestion}
             </Typography>
 
             {/* 重试信息 */}
             {retryAttempts > 0 && (
-              <Alert severity="info" sx={{ mb: 2 }}>
-                已尝试恢复 {retryAttempts} 次
-                {!canRetry && ' (已达最大重试次数)'}
+              <Alert severity='info' sx={{ mb: 2 }}>
+                已尝试恢复 {retryAttempts} 次{!canRetry && ' (已达最大重试次数)'}
               </Alert>
             )}
 
@@ -314,16 +319,16 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
               <>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                   <IconButton
-                    size="small"
+                    size='small'
                     onClick={this.handleToggleDetails}
                     sx={{
                       transform: showDetails ? 'rotate(180deg)' : 'rotate(0deg)',
-                      transition: 'transform 0.2s'
+                      transition: 'transform 0.2s',
                     }}
                   >
                     <ExpandMoreIcon />
                   </IconButton>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant='body2' color='text.secondary'>
                     技术详情
                   </Typography>
                 </Box>
@@ -337,13 +342,18 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
                       fontFamily: 'monospace',
                       fontSize: '0.8rem',
                       overflow: 'auto',
-                      maxHeight: 300
+                      maxHeight: 300,
                     }}
                   >
-                    <Typography variant="caption" color="error" component="div">
+                    <Typography variant='caption' color='error' component='div'>
                       <strong>Error:</strong> {error?.message}
                     </Typography>
-                    <Typography variant="caption" color="text.secondary" component="div" sx={{ mt: 1 }}>
+                    <Typography
+                      variant='caption'
+                      color='text.secondary'
+                      component='div'
+                      sx={{ mt: 1 }}
+                    >
                       <strong>Stack:</strong>
                     </Typography>
                     <pre style={{ whiteSpace: 'pre-wrap', margin: 0, fontSize: 'inherit' }}>
@@ -351,7 +361,12 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
                     </pre>
                     {errorInfo?.componentStack && (
                       <>
-                        <Typography variant="caption" color="text.secondary" component="div" sx={{ mt: 1 }}>
+                        <Typography
+                          variant='caption'
+                          color='text.secondary'
+                          component='div'
+                          sx={{ mt: 1 }}
+                        >
                           <strong>Component Stack:</strong>
                         </Typography>
                         <pre style={{ whiteSpace: 'pre-wrap', margin: 0, fontSize: 'inherit' }}>
@@ -371,7 +386,7 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
             <Box>
               {canRetry && (
                 <Button
-                  variant="contained"
+                  variant='contained'
                   startIcon={<RefreshIcon />}
                   onClick={this.handleRetry}
                   sx={{ mr: 1 }}
@@ -379,31 +394,27 @@ class GlobalErrorBoundary extends Component<GlobalErrorBoundaryProps, GlobalErro
                   重试 ({maxRetries - retryAttempts} 次机会)
                 </Button>
               )}
-              
+
               <Button
-                variant="outlined"
+                variant='outlined'
                 startIcon={<HomeIcon />}
                 onClick={this.handleGoHome}
                 sx={{ mr: 1 }}
               >
                 返回首页
               </Button>
-              
-              <Button
-                variant="outlined"
-                startIcon={<RefreshIcon />}
-                onClick={this.handleReload}
-              >
+
+              <Button variant='outlined' startIcon={<RefreshIcon />} onClick={this.handleReload}>
                 刷新页面
               </Button>
             </Box>
 
             {enableReporting && (
               <Button
-                size="small"
+                size='small'
                 startIcon={<BugReportIcon />}
                 onClick={this.handleReportBug}
-                color="inherit"
+                color='inherit'
               >
                 报告错误
               </Button>

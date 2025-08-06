@@ -4,11 +4,7 @@
  */
 
 import React from 'react';
-import {
-  TextField,
-  TextFieldProps,
-  FormHelperText
-} from '@mui/material';
+import { TextField, TextFieldProps, FormHelperText } from '@mui/material';
 import { ValidationError, hasFieldError, getFieldError } from '../../utils/formValidation';
 
 interface ValidatedTextFieldProps extends Omit<TextFieldProps, 'error' | 'helperText'> {
@@ -25,7 +21,7 @@ export const ValidatedTextField: React.FC<ValidatedTextFieldProps> = ({
 }) => {
   const hasError = hasFieldError(name, errors);
   const errorMessage = getFieldError(name, errors);
-  
+
   return (
     <TextField
       {...textFieldProps}
@@ -33,9 +29,7 @@ export const ValidatedTextField: React.FC<ValidatedTextFieldProps> = ({
       error={hasError}
       helperText={
         hasError ? (
-          <FormHelperText error>
-            {errorMessage}
-          </FormHelperText>
+          <FormHelperText error>{errorMessage}</FormHelperText>
         ) : (
           helperText && <FormHelperText>{helperText}</FormHelperText>
         )

@@ -61,11 +61,12 @@ class ErrorRecoveryService {
 
     // 检查是否过于频繁的重试
     const now = Date.now();
-    if (now - attempt.lastAttempt < 1000) { // 1秒内不重复尝试
+    if (now - attempt.lastAttempt < 1000) {
+      // 1秒内不重复尝试
       return {
         success: false,
         strategy: 'rate-limited',
-        message: '恢复尝试过于频繁，请稍后再试'
+        message: '恢复尝试过于频繁，请稍后再试',
       };
     }
 
@@ -81,18 +82,18 @@ class ErrorRecoveryService {
           // 更新尝试记录
           this.recoveryAttempts.set(errorKey, {
             count: attempt.count + 1,
-            lastAttempt: now
+            lastAttempt: now,
           });
 
           const result = await strategy.recover(error, context);
-          
+
           // 记录恢复结果
           ErrorLogger.logError(new Error(`Recovery attempt: ${strategy.name}`), {
             context: 'Error Recovery',
             strategy: strategy.id,
             success: result.success,
             originalError: error.message,
-            recoveryResult: result
+            recoveryResult: result,
           });
 
           if (result.success) {
@@ -100,7 +101,7 @@ class ErrorRecoveryService {
             this.recoveryAttempts.delete(errorKey);
             return {
               ...result,
-              strategy: strategy.name
+              strategy: strategy.name,
             };
           }
 
@@ -110,7 +111,7 @@ class ErrorRecoveryService {
               this.attemptRecovery(error, {
                 ...context,
                 retryCount: (context.retryCount || 0) + 1,
-                previousAttempts: [...(context.previousAttempts || []), result]
+                previousAttempts: [...(context.previousAttempts || []), result],
               });
             }, result.retryAfter);
           }
@@ -121,7 +122,7 @@ class ErrorRecoveryService {
           ErrorLogger.logError(recoveryError as Error, {
             context: 'Recovery Strategy Error',
             strategy: strategy.id,
-            originalError: error.message
+            originalError: error.message,
           });
 
           continue; // 尝试下一个策略
@@ -133,7 +134,7 @@ class ErrorRecoveryService {
     return {
       success: false,
       strategy: 'no-strategy-found',
-      message: '没有找到适用的错误恢复策略'
+      message: '没有找到适用的错误恢复策略',
     };
   }
 
@@ -163,13 +164,15 @@ class ErrorRecoveryService {
     activeRecoveries: number;
     successRate: number;
   } {
-    const totalAttempts = Array.from(this.recoveryAttempts.values())
-      .reduce((sum, attempt) => sum + attempt.count, 0);
+    const totalAttempts = Array.from(this.recoveryAttempts.values()).reduce(
+      (sum, attempt) => sum + attempt.count,
+      0
+    );
 
     return {
       totalAttempts,
       activeRecoveries: this.recoveryAttempts.size,
-      successRate: 0 // 需要实现成功率跟踪
+      successRate: 0, // 需要实现成功率跟踪
     };
   }
 
@@ -190,14 +193,14 @@ class ErrorRecoveryService {
       id: 'network-retry',
       name: '网络重试',
       description: '网络请求失败时的重试策略',
-      condition: (error) => 
-        error.name === 'NetworkError' || 
-        error.message.includes('Network') || 
+      condition: error =>
+        error.name === 'NetworkError' ||
+        error.message.includes('Network') ||
         error.message.includes('fetch'),
       recover: async (error, context) => {
         // 简单的延迟重试
         await this.delay(1000);
-        
+
         // 如果有重试函数，执行它
         if (context?.operation && typeof context.operation === 'function') {
           try {
@@ -205,14 +208,14 @@ class ErrorRecoveryService {
             return {
               success: true,
               strategy: 'network-retry',
-              message: '网络请求重试成功'
+              message: '网络请求重试成功',
             };
           } catch (retryError) {
             return {
               success: false,
               strategy: 'network-retry',
               message: '网络请求重试失败',
-              retryAfter: 2000
+              retryAfter: 2000,
             };
           }
         }
@@ -220,11 +223,11 @@ class ErrorRecoveryService {
         return {
           success: false,
           strategy: 'network-retry',
-          message: '无法自动重试网络请求'
+          message: '无法自动重试网络请求',
         };
       },
       priority: 1,
-      maxRetries: 3
+      maxRetries: 3,
     });
 
     // 资源加载错误恢复策略
@@ -232,9 +235,8 @@ class ErrorRecoveryService {
       id: 'chunk-reload',
       name: '资源重载',
       description: '动态资源加载失败时的重载策略',
-      condition: (error) => 
-        error.name === 'ChunkLoadError' || 
-        error.message.includes('Loading chunk'),
+      condition: error =>
+        error.name === 'ChunkLoadError' || error.message.includes('Loading chunk'),
       recover: async () => {
         // 清理模块缓存并重新加载
         if ('webpackChunkName' in window) {
@@ -246,11 +248,11 @@ class ErrorRecoveryService {
           success: true,
           strategy: 'chunk-reload',
           message: '页面将自动刷新以重新加载资源',
-          retryAfter: 1000
+          retryAfter: 1000,
         };
       },
       priority: 2,
-      maxRetries: 1
+      maxRetries: 1,
     });
 
     // 数据恢复策略
@@ -258,8 +260,8 @@ class ErrorRecoveryService {
       id: 'data-recovery',
       name: '数据恢复',
       description: '数据操作失败时的恢复策略',
-      condition: (error, context) => 
-        error.message.includes('数据') || 
+      condition: (error, context) =>
+        error.message.includes('数据') ||
         context?.operation === 'data-save' ||
         context?.operation === 'data-load',
       recover: async (error, context) => {
@@ -267,14 +269,14 @@ class ErrorRecoveryService {
           // 尝试从本地存储恢复数据
           const backupKey = `backup_${context?.component || 'unknown'}`;
           const backup = localStorage.getItem(backupKey);
-          
+
           if (backup) {
             const data = JSON.parse(backup);
             return {
               success: true,
               strategy: 'data-recovery',
               message: '成功从备份中恢复数据',
-              data
+              data,
             };
           }
         } catch (recoveryError) {
@@ -284,11 +286,11 @@ class ErrorRecoveryService {
         return {
           success: false,
           strategy: 'data-recovery',
-          message: '无法从备份中恢复数据'
+          message: '无法从备份中恢复数据',
         };
       },
       priority: 3,
-      maxRetries: 1
+      maxRetries: 1,
     });
 
     // 内存清理恢复策略
@@ -296,9 +298,8 @@ class ErrorRecoveryService {
       id: 'memory-cleanup',
       name: '内存清理',
       description: '内存不足时的清理策略',
-      condition: (error) => 
-        error.message.includes('memory') || 
-        error.message.includes('Maximum call stack'),
+      condition: error =>
+        error.message.includes('memory') || error.message.includes('Maximum call stack'),
       recover: async () => {
         // 触发垃圾回收（如果可用）
         if ('gc' in window) {
@@ -308,9 +309,7 @@ class ErrorRecoveryService {
         // 清理缓存
         if ('caches' in window) {
           const cacheNames = await caches.keys();
-          await Promise.all(
-            cacheNames.map(name => caches.delete(name))
-          );
+          await Promise.all(cacheNames.map(name => caches.delete(name)));
         }
 
         // 清理本地存储中的临时数据
@@ -324,11 +323,11 @@ class ErrorRecoveryService {
         return {
           success: true,
           strategy: 'memory-cleanup',
-          message: '内存清理完成，请重试操作'
+          message: '内存清理完成，请重试操作',
         };
       },
       priority: 4,
-      maxRetries: 1
+      maxRetries: 1,
     });
 
     // 权限错误恢复策略
@@ -336,8 +335,8 @@ class ErrorRecoveryService {
       id: 'permission-refresh',
       name: '权限刷新',
       description: '权限验证失败时的刷新策略',
-      condition: (error) => 
-        error.name === 'PermissionError' || 
+      condition: error =>
+        error.name === 'PermissionError' ||
         error.message.includes('权限') ||
         error.message.includes('unauthorized'),
       recover: async () => {
@@ -345,22 +344,22 @@ class ErrorRecoveryService {
         try {
           // 这里应该调用权限刷新API
           // await refreshUserPermissions();
-          
+
           return {
             success: true,
             strategy: 'permission-refresh',
-            message: '用户权限已刷新，请重试操作'
+            message: '用户权限已刷新，请重试操作',
           };
         } catch {
           return {
             success: false,
             strategy: 'permission-refresh',
-            message: '无法刷新用户权限，请重新登录'
+            message: '无法刷新用户权限，请重新登录',
           };
         }
       },
       priority: 5,
-      maxRetries: 1
+      maxRetries: 1,
     });
   }
 
@@ -383,7 +382,7 @@ export function useErrorRecovery() {
     attemptRecovery: errorRecoveryService.attemptRecovery.bind(errorRecoveryService),
     getAvailableStrategies: errorRecoveryService.getAvailableStrategies.bind(errorRecoveryService),
     registerStrategy: errorRecoveryService.registerStrategy.bind(errorRecoveryService),
-    clearRetryHistory: errorRecoveryService.clearRetryHistory.bind(errorRecoveryService)
+    clearRetryHistory: errorRecoveryService.clearRetryHistory.bind(errorRecoveryService),
   };
 }
 

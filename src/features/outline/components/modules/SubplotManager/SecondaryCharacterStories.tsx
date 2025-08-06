@@ -1,10 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Divider } from '@mui/material';
-import {
-  selectCharacters,
-  selectOutline
-} from '../../../outlineSlice';
+import { selectCharacters, selectOutline } from '../../../outlineSlice';
 import { SecondaryCharacterStory } from '../../../types/outline.types';
 import StoryStatistics from './components/StoryStatistics';
 import PendingCharactersAlert from './components/PendingCharactersAlert';
@@ -20,7 +17,7 @@ const SecondaryCharacterStories: React.FC = () => {
   const characters = useSelector(selectCharacters);
   const outline = useSelector(selectOutline);
   const secondaryStories = outline.subplots.secondaryStories;
-  
+
   const {
     editingStory,
     dialogOpen,
@@ -28,7 +25,7 @@ const SecondaryCharacterStories: React.FC = () => {
     handleOpenDialog,
     handleCloseDialog,
     handleFormChange,
-    setFormDataField
+    setFormDataField,
   } = useStoryState();
 
   const handleSaveStory = () => {
@@ -37,7 +34,7 @@ const SecondaryCharacterStories: React.FC = () => {
       personalGoal: formData.personalGoal || '',
       backstory: formData.backstory || '',
       developmentArc: formData.developmentArc || '',
-      resolutionMethod: formData.resolutionMethod || ''
+      resolutionMethod: formData.resolutionMethod || '',
     };
 
     // TODO: 使用 dispatch 更新 Redux state
@@ -61,19 +58,14 @@ const SecondaryCharacterStories: React.FC = () => {
 
   return (
     <Box>
-      <StoryStatistics
-        secondaryStories={secondaryStories}
-        characters={characters}
-      />
+      <StoryStatistics secondaryStories={secondaryStories} characters={characters} />
 
       <PendingCharactersAlert
         charactersWithoutStory={charactersWithoutStory}
         onSelectCharacter={handleSelectCharacter}
       />
 
-      <StoryToolbar
-        onAddStory={() => handleOpenDialog()}
-      />
+      <StoryToolbar onAddStory={() => handleOpenDialog()} />
 
       <StoryList
         secondaryStories={secondaryStories}

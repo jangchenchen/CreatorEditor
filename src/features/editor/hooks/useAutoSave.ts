@@ -12,11 +12,13 @@ export const useAutoSave = () => {
 
   useEffect(() => {
     let autoSaveTimer: NodeJS.Timeout;
-    
-    if (editorState.autoSaveEnabled && 
-        editorState.isDirty && 
-        editorState.filePath && 
-        editorState.content) {
+
+    if (
+      editorState.autoSaveEnabled &&
+      editorState.isDirty &&
+      editorState.filePath &&
+      editorState.content
+    ) {
       // 3秒后自动保存
       autoSaveTimer = setTimeout(async () => {
         try {
@@ -28,11 +30,17 @@ export const useAutoSave = () => {
         }
       }, 3000);
     }
-    
+
     return () => {
       if (autoSaveTimer) {
         clearTimeout(autoSaveTimer);
       }
     };
-  }, [editorState.autoSaveEnabled, editorState.isDirty, editorState.filePath, editorState.content, dispatch]);
+  }, [
+    editorState.autoSaveEnabled,
+    editorState.isDirty,
+    editorState.filePath,
+    editorState.content,
+    dispatch,
+  ]);
 };

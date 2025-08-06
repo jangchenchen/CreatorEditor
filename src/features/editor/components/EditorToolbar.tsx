@@ -26,38 +26,34 @@ const EditorToolbar: React.FC<EditorToolbarProps> = ({
   onSaveAs,
 }) => {
   return (
-    <AppBar position="static" elevation={0}>
+    <AppBar position='static' elevation={0}>
       <StyledToolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
           创作编辑器
           {fileName && ` - ${fileName}`}
           {isDirty && ' *'}
         </Typography>
-        
-        <Tooltip title="新建文件">
-          <IconButton color="inherit" onClick={onNewFile}>
+
+        <Tooltip title='新建文件'>
+          <IconButton color='inherit' onClick={onNewFile}>
             <AddIcon />
           </IconButton>
         </Tooltip>
-        
-        <Tooltip title="打开文件">
-          <IconButton color="inherit" onClick={onOpenFile}>
+
+        <Tooltip title='打开文件'>
+          <IconButton color='inherit' onClick={onOpenFile}>
             <FolderOpenIcon />
           </IconButton>
         </Tooltip>
-        
-        <Tooltip title="保存">
-          <IconButton 
-            color="inherit" 
-            onClick={onSaveFile}
-            disabled={!isDirty}
-          >
+
+        <Tooltip title='保存'>
+          <IconButton color='inherit' onClick={onSaveFile} disabled={!isDirty}>
             <SaveIcon />
           </IconButton>
         </Tooltip>
-        
-        <Tooltip title="另存为">
-          <IconButton color="inherit" onClick={onSaveAs}>
+
+        <Tooltip title='另存为'>
+          <IconButton color='inherit' onClick={onSaveAs}>
             <SaveAsIcon />
           </IconButton>
         </Tooltip>

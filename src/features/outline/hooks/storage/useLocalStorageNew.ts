@@ -21,43 +21,30 @@ export const useLocalStorageNew = (): UseLocalStorageReturn => {
     autoSaveStatus,
     setIsLoading,
     setError,
-    clearError
+    clearError,
   } = useStorageState();
 
   // 存储操作
-  const {
-    saveProject,
-    loadProject,
-    deleteProject,
-    getProjectList,
-    getStorageStats
-  } = useStorageOperations({
-    isInitialized,
-    currentState,
-    setIsLoading,
-    setError
-  });
+  const { saveProject, loadProject, deleteProject, getProjectList, getStorageStats } =
+    useStorageOperations({
+      isInitialized,
+      currentState,
+      setIsLoading,
+      setError,
+    });
 
   // 自动保存控制
-  const {
-    enableAutoSave,
-    disableAutoSave,
-    forceSave
-  } = useAutoSaveControls({
+  const { enableAutoSave, disableAutoSave, forceSave } = useAutoSaveControls({
     isInitialized,
     currentState,
-    setError
+    setError,
   });
 
   // 导入导出操作
-  const {
-    exportProject,
-    importProject,
-    exportBackup
-  } = useImportExportOperations({
+  const { exportProject, importProject, exportBackup } = useImportExportOperations({
     isInitialized,
     setIsLoading,
-    setError
+    setError,
   });
 
   return {
@@ -65,30 +52,30 @@ export const useLocalStorageNew = (): UseLocalStorageReturn => {
     isInitialized,
     isLoading,
     error,
-    
+
     // Auto-save status
     autoSave: autoSaveStatus,
-    
+
     // Storage operations
     saveProject,
     loadProject,
     deleteProject,
     getProjectList,
-    
+
     // Auto-save controls
     enableAutoSave,
     disableAutoSave,
     forceSave,
-    
+
     // Import/Export operations
     exportProject,
     importProject,
     exportBackup,
-    
+
     // Storage statistics
     getStorageStats,
-    
+
     // Utility functions
-    clearError
+    clearError,
   };
 };

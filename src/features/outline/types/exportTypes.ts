@@ -35,10 +35,10 @@ export interface ExportProgress {
 export type ExportProgressCallback = (progress: ExportProgress) => void;
 
 export type UpdateProgressFunction = (
-  stage: ExportProgress['stage'], 
-  progress: number, 
-  currentStep: string, 
-  currentStepIndex: number, 
+  stage: ExportProgress['stage'],
+  progress: number,
+  currentStep: string,
+  currentStepIndex: number,
   totalSteps: number
 ) => void;
 

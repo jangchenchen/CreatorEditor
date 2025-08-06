@@ -9,12 +9,9 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Typography
+  Typography,
 } from '@mui/material';
-import {
-  ExpandMore as ExpandMoreIcon,
-  Lightbulb as InspirationIcon
-} from '@mui/icons-material';
+import { ExpandMore as ExpandMoreIcon, Lightbulb as InspirationIcon } from '@mui/icons-material';
 import { selectOutline } from '../../../outlineSlice';
 import { CreativeIdea, IdeaType, IdeaStatus } from '../../../types/outline.types';
 import IdeasStatistics from './components/IdeasStatistics';
@@ -29,12 +26,16 @@ const IdeasManagement: React.FC = () => {
   const dispatch = useDispatch();
   const outline = useSelector(selectOutline);
   const ideas = outline.ideas.ideas;
-  
+
   const [filterType, setFilterType] = useState<IdeaType | 'all'>('all');
   const [filterStatus, setFilterStatus] = useState<IdeaStatus | 'all'>('all');
 
-  const { filteredAndSortedIdeas, ideasByType } = useIdeasFiltering(ideas, filterType, filterStatus);
-  
+  const { filteredAndSortedIdeas, ideasByType } = useIdeasFiltering(
+    ideas,
+    filterType,
+    filterStatus
+  );
+
   const {
     editingIdea,
     dialogOpen,
@@ -43,7 +44,7 @@ const IdeasManagement: React.FC = () => {
     handleCloseDialog,
     handleFormChange,
     handleArrayFieldChange,
-    handlePriorityChange
+    handlePriorityChange,
   } = useIdeaDialog();
 
   const handleSaveIdea = () => {
@@ -60,7 +61,7 @@ const IdeasManagement: React.FC = () => {
       inspiration: formData.inspiration || '',
       potentialImpact: formData.potentialImpact || '',
       createdAt: editingIdea?.createdAt || new Date(),
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     };
 
     // TODO: 使用 dispatch 更新 Redux state
@@ -78,7 +79,7 @@ const IdeasManagement: React.FC = () => {
   return (
     <Box>
       <IdeasStatistics ideas={ideas} />
-      
+
       <IdeasFilters
         filterType={filterType}
         filterStatus={filterStatus}
@@ -92,13 +93,13 @@ const IdeasManagement: React.FC = () => {
         <Card>
           <CardContent sx={{ textAlign: 'center', py: 4 }}>
             <InspirationIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-            <Typography variant="h6" color="text.secondary" gutterBottom>
+            <Typography variant='h6' color='text.secondary' gutterBottom>
               {ideas.length === 0 ? '暂无创意记录' : '无符合条件的创意'}
             </Typography>
-            <Typography variant="body2" color="text.secondary" paragraph>
+            <Typography variant='body2' color='text.secondary' paragraph>
               {ideas.length === 0 ? '开始记录您的创意想法和灵感' : '尝试调整筛选条件'}
             </Typography>
-            <Button variant="outlined" onClick={() => handleOpenDialog()}>
+            <Button variant='outlined' onClick={() => handleOpenDialog()}>
               添加第一个创意
             </Button>
           </CardContent>
@@ -109,7 +110,7 @@ const IdeasManagement: React.FC = () => {
           return (
             <Accordion key={type} defaultExpanded>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center' }}>
                   <TypeIcon />
                   <Box sx={{ ml: 1 }}>
                     {getTypeLabel(type as IdeaType)} ({typeIdeas.length})
@@ -118,13 +119,9 @@ const IdeasManagement: React.FC = () => {
               </AccordionSummary>
               <AccordionDetails>
                 <Grid container spacing={2}>
-                  {typeIdeas.map((idea) => (
+                  {typeIdeas.map(idea => (
                     <Grid item xs={12} md={6} lg={4} key={idea.id}>
-                      <IdeaCard
-                        idea={idea}
-                        onEdit={handleOpenDialog}
-                        onDelete={handleDeleteIdea}
-                      />
+                      <IdeaCard idea={idea} onEdit={handleOpenDialog} onDelete={handleDeleteIdea} />
                     </Grid>
                   ))}
                 </Grid>

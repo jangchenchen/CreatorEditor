@@ -16,12 +16,12 @@ export function migrateThemesData(data: any) {
       secondary: ensureArray(data.themes?.themes?.secondary),
       symbols: ensureArray(data.themes?.themes?.symbols),
       metaphors: ensureArray(data.themes?.themes?.metaphors),
-      motifs: ensureArray(data.themes?.themes?.motifs)
+      motifs: ensureArray(data.themes?.themes?.motifs),
     },
     characterMotivations: ensureArray(data.themes?.characterMotivations),
     philosophicalQuestions: ensureArray(data.themes?.philosophicalQuestions),
     socialCommentary: ensureArray(data.themes?.socialCommentary),
-    personalReflections: ensureArray(data.themes?.personalReflections)
+    personalReflections: ensureArray(data.themes?.personalReflections),
   };
 }
 
@@ -42,9 +42,9 @@ export function migrateSubplotsData(data: any) {
       endChapter: safeNumber(subplot.endChapter, 1),
       connection: subplot.connection || '',
       resolution: subplot.resolution || '',
-      impact: subplot.impact || ''
+      impact: subplot.impact || '',
     })),
     secondaryStories: ensureArray(data.subplots?.secondaryStories),
-    weavingStrategy: data.subplots?.weavingStrategy || ''
+    weavingStrategy: data.subplots?.weavingStrategy || '',
   };
 }

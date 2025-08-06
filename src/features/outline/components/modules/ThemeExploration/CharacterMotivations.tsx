@@ -1,10 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography, Divider } from '@mui/material';
-import {
-  selectCharacters,
-  selectOutline
-} from '../../../outlineSlice';
+import { selectCharacters, selectOutline } from '../../../outlineSlice';
 import { CharacterMotivation } from '../../../types/outline.types';
 import MotivationStatistics from './components/MotivationStatistics';
 import MotivationToolbar from './components/MotivationToolbar';
@@ -19,14 +16,14 @@ const CharacterMotivations: React.FC = () => {
   const characters = useSelector(selectCharacters);
   const outline = useSelector(selectOutline);
   const characterMotivations = outline.themes.characterMotivations;
-  
+
   const {
     editingMotivation,
     dialogOpen,
     formData,
     handleOpenDialog,
     handleCloseDialog,
-    handleFormChange
+    handleFormChange,
   } = useMotivationState();
 
   const handleSaveMotivation = () => {
@@ -36,7 +33,7 @@ const CharacterMotivations: React.FC = () => {
       growthMotivation: formData.growthMotivation || '',
       emotionalJourney: formData.emotionalJourney || '',
       moralDilemma: formData.moralDilemma || '',
-      resolution: formData.resolution || ''
+      resolution: formData.resolution || '',
     };
 
     // TODO: 使用 dispatch 更新 Redux state
@@ -58,10 +55,10 @@ const CharacterMotivations: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto' }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         角色动机分析
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant='body2' color='text.secondary' paragraph>
         深入分析每个重要角色的内在动机、情感历程和成长轨迹，挖掘角色的心理深度。
       </Typography>
 
@@ -70,9 +67,7 @@ const CharacterMotivations: React.FC = () => {
         charactersWithoutMotivation={charactersWithoutMotivation}
       />
 
-      <MotivationToolbar
-        onAddMotivation={() => handleOpenDialog()}
-      />
+      <MotivationToolbar onAddMotivation={() => handleOpenDialog()} />
 
       <MotivationList
         characterMotivations={characterMotivations}

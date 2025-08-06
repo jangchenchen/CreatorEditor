@@ -1,30 +1,39 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
 import { CharacterUsage } from './selectorTypes';
-import { 
-  selectValidCharacters, 
-  selectValidTimelineEvents, 
-  selectValidScenes, 
-  selectValidSecondaryStories 
+import {
+  selectValidCharacters,
+  selectValidTimelineEvents,
+  selectValidScenes,
+  selectValidSecondaryStories,
 } from './characterSelectors';
 import { selectValidTimelineEvents as selectValidTimelineEventsFromModule } from './moduleSelectors';
 
 // Character usage analysis
 export const selectCharacterUsageAnalysis = createSelector(
-  [selectValidCharacters, selectValidTimelineEventsFromModule, selectValidScenes, selectValidSecondaryStories],
+  [
+    selectValidCharacters,
+    selectValidTimelineEventsFromModule,
+    selectValidScenes,
+    selectValidSecondaryStories,
+  ],
   (characters, events, scenes, stories): CharacterUsage[] => {
     return characters.map(character => {
-      const timelineAppearances = events.filter(event => event.characters.includes(character.id)).length;
-      const sceneAppearances = scenes.filter(scene => scene.characters.includes(character.id)).length;
+      const timelineAppearances = events.filter(event =>
+        event.characters.includes(character.id)
+      ).length;
+      const sceneAppearances = scenes.filter(scene =>
+        scene.characters.includes(character.id)
+      ).length;
       const hasSecondaryStory = stories.some(story => story.characterId === character.id);
-      
+
       return {
         character,
         timelineAppearances,
         sceneAppearances,
         hasSecondaryStory,
         totalAppearances: timelineAppearances + sceneAppearances,
-        isUnused: timelineAppearances === 0 && sceneAppearances === 0 && !hasSecondaryStory
+        isUnused: timelineAppearances === 0 && sceneAppearances === 0 && !hasSecondaryStory,
       };
     });
   }
@@ -42,9 +51,7 @@ export const selectCharacterNameMap = createSelector(
 export const selectUnusedCharacters = createSelector(
   [selectCharacterUsageAnalysis],
   (usageAnalysis): Character[] => {
-    return usageAnalysis
-      .filter(usage => usage.isUnused)
-      .map(usage => usage.character);
+    return usageAnalysis.filter(usage => usage.isUnused).map(usage => usage.character);
   }
 );
 
@@ -52,8 +59,6 @@ export const selectUnusedCharacters = createSelector(
 export const selectMostUsedCharacters = createSelector(
   [selectCharacterUsageAnalysis],
   (usageAnalysis): CharacterUsage[] => {
-    return usageAnalysis
-      .sort((a, b) => b.totalAppearances - a.totalAppearances)
-      .slice(0, 10);
+    return usageAnalysis.sort((a, b) => b.totalAppearances - a.totalAppearances).slice(0, 10);
   }
 );

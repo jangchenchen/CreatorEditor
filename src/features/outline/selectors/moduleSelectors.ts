@@ -4,22 +4,29 @@ import {
   selectTimelineEvents,
   selectSubplots,
   selectSecondaryStories,
-  selectIdeas
+  selectIdeas,
 } from '../slices/rootOutlineSlice';
 import { TimelineEvent, Subplot, SecondaryStory, Idea } from '../types/outline.types';
-import { selectValidCharacterIds, selectValidChapterNumbers, selectValidChapterIds } from './characterSelectors';
+import {
+  selectValidCharacterIds,
+  selectValidChapterNumbers,
+  selectValidChapterIds,
+} from './characterSelectors';
 
 // Validated timeline selectors
 export const selectValidTimelineEvents = createSelector(
   [selectTimelineEvents, selectValidCharacterIds],
   (events, validCharacterIds): TimelineEvent[] => {
-    return events.map(event => ({
-      ...event,
-      characters: event.characters.filter(charId => validCharacterIds.has(charId))
-    })).filter(event => 
-      // Keep events that still have at least some valid data
-      event.title && event.title.trim().length > 0
-    );
+    return events
+      .map(event => ({
+        ...event,
+        characters: event.characters.filter(charId => validCharacterIds.has(charId)),
+      }))
+      .filter(
+        event =>
+          // Keep events that still have at least some valid data
+          event.title && event.title.trim().length > 0
+      );
   }
 );
 
@@ -29,16 +36,16 @@ export const selectValidSubplots = createSelector(
   (subplots, validCharacterIds, validChapterNumbers): Subplot[] => {
     return subplots.map(subplot => ({
       ...subplot,
-      relatedCharacters: subplot.relatedCharacters.filter(charId => 
-        validCharacterIds.has(charId)
-      ),
+      relatedCharacters: subplot.relatedCharacters.filter(charId => validCharacterIds.has(charId)),
       // Validate chapter references
-      startChapter: subplot.startChapter && validChapterNumbers.has(subplot.startChapter) 
-        ? subplot.startChapter 
-        : undefined,
-      endChapter: subplot.endChapter && validChapterNumbers.has(subplot.endChapter) 
-        ? subplot.endChapter 
-        : undefined
+      startChapter:
+        subplot.startChapter && validChapterNumbers.has(subplot.startChapter)
+          ? subplot.startChapter
+          : undefined,
+      endChapter:
+        subplot.endChapter && validChapterNumbers.has(subplot.endChapter)
+          ? subplot.endChapter
+          : undefined,
     }));
   }
 );
@@ -47,9 +54,7 @@ export const selectValidSubplots = createSelector(
 export const selectValidSecondaryStories = createSelector(
   [selectSecondaryStories, selectValidCharacterIds],
   (stories, validCharacterIds): SecondaryStory[] => {
-    return stories.filter(story => 
-      story.characterId && validCharacterIds.has(story.characterId)
-    );
+    return stories.filter(story => story.characterId && validCharacterIds.has(story.characterId));
   }
 );
 
@@ -71,7 +76,7 @@ export const selectValidIdeas = createSelector(
           default:
             return true;
         }
-      })
+      }),
     }));
   }
 );

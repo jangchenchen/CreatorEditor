@@ -3,10 +3,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Box, Tabs, Tab, AppBar } from '@mui/material';
-import { 
-  Edit as EditorIcon, 
-  MenuBook as OutlineIcon 
-} from '@mui/icons-material';
+import { Edit as EditorIcon, MenuBook as OutlineIcon } from '@mui/icons-material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Editor from './features/editor/Editor';
 import OutlineNavigator from './features/outline/components/OutlineNavigator';
@@ -62,24 +59,16 @@ function App() {
         <CssBaseline />
         <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
           {/* 主导航标签栏 */}
-          <AppBar position="static" elevation={1}>
-            <Tabs 
-              value={activeTab} 
+          <AppBar position='static' elevation={1}>
+            <Tabs
+              value={activeTab}
               onChange={handleTabChange}
-              textColor="inherit"
-              indicatorColor="secondary"
-              variant="fullWidth"
+              textColor='inherit'
+              indicatorColor='secondary'
+              variant='fullWidth'
             >
-              <Tab 
-                icon={<EditorIcon />} 
-                label="文本编辑器" 
-                iconPosition="start"
-              />
-              <Tab 
-                icon={<OutlineIcon />} 
-                label="小说大纲" 
-                iconPosition="start"
-              />
+              <Tab icon={<EditorIcon />} label='文本编辑器' iconPosition='start' />
+              <Tab icon={<OutlineIcon />} label='小说大纲' iconPosition='start' />
             </Tabs>
           </AppBar>
 

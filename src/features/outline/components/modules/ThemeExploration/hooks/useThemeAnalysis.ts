@@ -26,7 +26,7 @@ export const useThemeAnalysis = () => {
   const dispatch = useDispatch();
   const outline = useSelector(selectOutline);
   const themes = outline.themes.themes;
-  
+
   // 主题状态
   const [primaryTheme, setPrimaryTheme] = useState(themes.primary);
   const [secondaryThemes, setSecondaryThemes] = useState<string[]>(themes.secondary);
@@ -39,7 +39,7 @@ export const useThemeAnalysis = () => {
     newSecondaryTheme: '',
     newSymbol: '',
     newMetaphor: '',
-    newMotif: ''
+    newMotif: '',
   });
 
   const updateInput = (key: keyof ThemeInputState, value: string) => {
@@ -49,39 +49,39 @@ export const useThemeAnalysis = () => {
   const handleAddItem = (type: keyof Omit<ThemeData, 'primary'>) => {
     const getValues = () => {
       switch (type) {
-        case 'secondary': 
-          return { 
-            value: inputs.newSecondaryTheme, 
-            setter: setSecondaryThemes, 
-            current: secondaryThemes, 
-            reset: () => updateInput('newSecondaryTheme', '') 
+        case 'secondary':
+          return {
+            value: inputs.newSecondaryTheme,
+            setter: setSecondaryThemes,
+            current: secondaryThemes,
+            reset: () => updateInput('newSecondaryTheme', ''),
           };
-        case 'symbol': 
-          return { 
-            value: inputs.newSymbol, 
-            setter: setSymbols, 
-            current: symbols, 
-            reset: () => updateInput('newSymbol', '') 
+        case 'symbol':
+          return {
+            value: inputs.newSymbol,
+            setter: setSymbols,
+            current: symbols,
+            reset: () => updateInput('newSymbol', ''),
           };
-        case 'metaphor': 
-          return { 
-            value: inputs.newMetaphor, 
-            setter: setMetaphors, 
-            current: metaphors, 
-            reset: () => updateInput('newMetaphor', '') 
+        case 'metaphor':
+          return {
+            value: inputs.newMetaphor,
+            setter: setMetaphors,
+            current: metaphors,
+            reset: () => updateInput('newMetaphor', ''),
           };
-        case 'motifs': 
-          return { 
-            value: inputs.newMotif, 
-            setter: setMotifs, 
-            current: motifs, 
-            reset: () => updateInput('newMotif', '') 
+        case 'motifs':
+          return {
+            value: inputs.newMotif,
+            setter: setMotifs,
+            current: motifs,
+            reset: () => updateInput('newMotif', ''),
           };
       }
     };
 
     const { value, setter, current, reset } = getValues();
-    
+
     if (value.trim() && !current.includes(value.trim())) {
       setter([...current, value.trim()]);
       reset();
@@ -112,7 +112,7 @@ export const useThemeAnalysis = () => {
       secondary: secondaryThemes,
       symbols,
       metaphors,
-      motifs
+      motifs,
     };
     console.log('保存主题分析:', updatedThemes);
   };
@@ -126,11 +126,11 @@ export const useThemeAnalysis = () => {
     metaphors,
     motifs,
     inputs,
-    
+
     // Actions
     updateInput,
     handleAddItem,
     handleRemoveItem,
-    handleSave
+    handleSave,
   };
 };

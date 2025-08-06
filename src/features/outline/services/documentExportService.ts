@@ -1,9 +1,5 @@
 // Re-export types and services for backward compatibility
-export { 
-  ExportOptions, 
-  ExportProgress, 
-  ExportProgressCallback 
-} from '../types/exportTypes';
+export { ExportOptions, ExportProgress, ExportProgressCallback } from '../types/exportTypes';
 
 export { CoordinatorExportService as DocumentExportService } from './exports/coordinatorExportService';
 

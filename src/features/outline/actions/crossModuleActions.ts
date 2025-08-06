@@ -3,20 +3,20 @@
  * Re-exports the modularized cross-module actions for backward compatibility
  */
 
-export type { 
-  CharacterDeletionPayload, 
-  ChapterReorderPayload, 
-  CharacterUpdatePayload 
+export type {
+  CharacterDeletionPayload,
+  ChapterReorderPayload,
+  CharacterUpdatePayload,
 } from './crossModule/types';
 
-export { 
-  deleteCharacterWithCleanup, 
+export {
+  deleteCharacterWithCleanup,
   updateCharacterWithPropagation,
   reorderChaptersWithSync,
   validateStateIntegrity,
   executeAutomatedCleanup,
   validateAndCleanup,
-  integrityActions
+  integrityActions,
 } from './crossModule';
 
 // For backward compatibility

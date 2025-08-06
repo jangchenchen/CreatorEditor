@@ -29,9 +29,9 @@ export function createTestData(): OutlineData {
         arc: '从普通人成长为英雄的故事',
         keyMoments: ['遇到导师', '第一次战斗', '面对挫折', '最终胜利'],
         growth: '从软弱变得坚强，从自私变得无私',
-        conflicts: ['内心恐惧', '道德选择', '能力不足']
+        conflicts: ['内心恐惧', '道德选择', '能力不足'],
       },
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     },
     {
       id: 'char2',
@@ -49,10 +49,10 @@ export function createTestData(): OutlineData {
         arc: '从朋友变成敌人，最终得到救赎',
         keyMoments: ['背叛朋友', '走向黑暗', '内心挣扎', '最终觉醒'],
         growth: '从善良变得邪恶，最终回归本性',
-        conflicts: ['内心善恶', '过去创伤', '现实压力']
+        conflicts: ['内心善恶', '过去创伤', '现实压力'],
       },
-      lastUpdated: new Date()
-    }
+      lastUpdated: new Date(),
+    },
   ];
 
   // 创建测试章节
@@ -72,13 +72,13 @@ export function createTestData(): OutlineData {
           characters: ['char1'],
           timeOfDay: 'morning',
           wordCount: 500,
-          lastUpdated: new Date()
-        }
+          lastUpdated: new Date(),
+        },
       ],
       status: 'complete',
       wordCount: 2500,
       estimatedReadingTime: 10,
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     },
     {
       id: 'chap2',
@@ -95,14 +95,14 @@ export function createTestData(): OutlineData {
           characters: ['char1', 'char2'],
           timeOfDay: 'evening',
           wordCount: 800,
-          lastUpdated: new Date()
-        }
+          lastUpdated: new Date(),
+        },
       ],
       status: 'draft',
       wordCount: 3000,
       estimatedReadingTime: 12,
-      lastUpdated: new Date()
-    }
+      lastUpdated: new Date(),
+    },
   ];
 
   // 创建测试时间线事件
@@ -119,7 +119,7 @@ export function createTestData(): OutlineData {
       consequences: '为整个故事奠定基调',
       notes: '重要的开场戏',
       isKeyEvent: true,
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     },
     {
       id: 'event2',
@@ -133,8 +133,8 @@ export function createTestData(): OutlineData {
       consequences: '关系恶化，矛盾加深',
       notes: '推动情节发展的关键事件',
       isKeyEvent: true,
-      lastUpdated: new Date()
-    }
+      lastUpdated: new Date(),
+    },
   ];
 
   return {
@@ -147,7 +147,7 @@ export function createTestData(): OutlineData {
       genre: '奇幻',
       targetWordCount: 50000,
       createdAt: new Date(),
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     },
     story: {
       id: 'test-story',
@@ -155,39 +155,39 @@ export function createTestData(): OutlineData {
         era: '现代',
         location: '虚构城市',
         socialEnvironment: '和平时期',
-        historicalContext: '科技发达的现代社会'
+        historicalContext: '科技发达的现代社会',
       },
       coreTheme: {
         theme: '成长与友谊',
         conflict: '个人成长与现实压力的矛盾',
         message: '真正的力量来自于内心的坚持和朋友的支持',
-        keywords: ['成长', '友谊', '勇气', '坚持']
+        keywords: ['成长', '友谊', '勇气', '坚持'],
       },
       synopsis: {
         beginning: '普通青年张三过着平凡的生活...',
         development: '意外卷入一场争斗，必须做出选择...',
         climax: '与昔日好友李四的最终对决...',
         ending: '通过努力和成长，最终化解矛盾...',
-        overallTone: '积极向上，充满希望'
+        overallTone: '积极向上，充满希望',
       },
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     },
     characters: {
       characters: characters,
-      relationships: []
+      relationships: [],
     },
     timeline: {
       id: 'test-timeline',
       events: timeline,
       startTime: '2024-01-01',
       endTime: '2024-12-31',
-      timelineNotes: '整个故事跨越一年时间'
+      timelineNotes: '整个故事跨越一年时间',
     },
     chapters: {
       id: 'test-chapters',
       chapters: chapters,
       totalChapters: 2,
-      overallStructure: '经典三幕式结构'
+      overallStructure: '经典三幕式结构',
     },
     world: {
       id: 'test-world',
@@ -199,12 +199,12 @@ export function createTestData(): OutlineData {
             description: '故事开始的地方，宁静祥和',
             significance: '主角的故乡',
             connectedRegions: ['region2'],
-            lastUpdated: new Date()
-          }
+            lastUpdated: new Date(),
+          },
         ],
         climate: '温带气候',
         landmarks: ['中央广场', '古老图书馆'],
-        naturalFeatures: ['小河', '森林']
+        naturalFeatures: ['小河', '森林'],
       },
       society: {
         political: '民主制度',
@@ -212,22 +212,22 @@ export function createTestData(): OutlineData {
         cultural: ['多元文化', '包容开放'],
         religious: '信仰自由',
         technology: '现代科技',
-        socialClasses: ['普通市民', '精英阶层']
+        socialClasses: ['普通市民', '精英阶层'],
       },
       history: {
         timeline: [],
         legends: ['古老的传说'],
         familySecrets: [],
-        mysteries: []
+        mysteries: [],
       },
       customRules: ['魔法不存在', '科技为主'],
-      inspirationSources: ['现实生活', '经典文学']
+      inspirationSources: ['现实生活', '经典文学'],
     },
     subplots: {
       id: 'test-subplots',
       subplots: [],
       secondaryStories: [],
-      weavingStrategy: '平行发展'
+      weavingStrategy: '平行发展',
     },
     ideas: {
       id: 'test-ideas',
@@ -242,12 +242,12 @@ export function createTestData(): OutlineData {
           notes: '核心主题之一',
           relatedElements: ['char1', 'char2'],
           potential: 'high',
-          lastUpdated: new Date()
-        }
+          lastUpdated: new Date(),
+        },
       ],
       alternatives: [],
       inspirationSources: ['个人经历', '观察生活'],
-      brainstormingSessions: []
+      brainstormingSessions: [],
     },
     themes: {
       id: 'test-themes',
@@ -256,7 +256,7 @@ export function createTestData(): OutlineData {
         secondary: ['勇气', '坚持', '宽恕'],
         symbols: ['桥梁', '光明'],
         metaphors: ['旅程', '成长之路'],
-        motifs: ['重复出现的梦境', '信物']
+        motifs: ['重复出现的梦境', '信物'],
       },
       characterMotivations: [
         {
@@ -265,13 +265,13 @@ export function createTestData(): OutlineData {
           growthMotivation: '保护重要的人',
           emotionalJourney: '从迷茫到坚定',
           moralDilemma: '个人安全与集体利益的选择',
-          resolution: '通过成长找到平衡'
-        }
+          resolution: '通过成长找到平衡',
+        },
       ],
       philosophicalQuestions: ['什么是真正的友谊？', '成长的代价是什么？'],
       socialCommentary: ['现代社会中的人际关系', '个人价值的体现'],
-      personalReflections: ['友谊的珍贵', '成长的必要性']
-    }
+      personalReflections: ['友谊的珍贵', '成长的必要性'],
+    },
   };
 }
 
@@ -281,7 +281,7 @@ export function createTestData(): OutlineData {
 export async function testJsonExport(): Promise<{ success: boolean; error?: string }> {
   try {
     console.log('🧪 测试JSON导出...');
-    
+
     const testData = createTestData();
     const options: ExportOptions = {
       format: 'json',
@@ -294,21 +294,19 @@ export async function testJsonExport(): Promise<{ success: boolean; error?: stri
         world: true,
         themes: true,
         subplots: true,
-        ideas: true
+        ideas: true,
       },
       formatting: {
         includeMetadata: true,
-        prettyPrint: true
-      }
+        prettyPrint: true,
+      },
     };
 
-    await CoordinatorExportService.exportDocument(
-      testData, 
-      options,
-      (progress) => {
-        console.log(`JSON导出进度: ${progress.stage} - ${progress.progress}% - ${progress.currentStep}`);
-      }
-    );
+    await CoordinatorExportService.exportDocument(testData, options, progress => {
+      console.log(
+        `JSON导出进度: ${progress.stage} - ${progress.progress}% - ${progress.currentStep}`
+      );
+    });
 
     console.log('✅ JSON导出测试成功');
     return { success: true };
@@ -324,7 +322,7 @@ export async function testJsonExport(): Promise<{ success: boolean; error?: stri
 export async function testWordExport(): Promise<{ success: boolean; error?: string }> {
   try {
     console.log('🧪 测试Word导出...');
-    
+
     const testData = createTestData();
     const options: ExportOptions = {
       format: 'docx',
@@ -337,24 +335,22 @@ export async function testWordExport(): Promise<{ success: boolean; error?: stri
         world: true,
         themes: true,
         subplots: false,
-        ideas: false
+        ideas: false,
       },
       formatting: {
         includeMetadata: true,
         fontSize: 12,
         fontFamily: 'Microsoft YaHei',
         pageSize: 'A4',
-        margin: 2.5
-      }
+        margin: 2.5,
+      },
     };
 
-    await CoordinatorExportService.exportDocument(
-      testData, 
-      options,
-      (progress) => {
-        console.log(`Word导出进度: ${progress.stage} - ${progress.progress}% - ${progress.currentStep}`);
-      }
-    );
+    await CoordinatorExportService.exportDocument(testData, options, progress => {
+      console.log(
+        `Word导出进度: ${progress.stage} - ${progress.progress}% - ${progress.currentStep}`
+      );
+    });
 
     console.log('✅ Word导出测试成功');
     return { success: true };
@@ -370,7 +366,7 @@ export async function testWordExport(): Promise<{ success: boolean; error?: stri
 export async function testPdfExport(): Promise<{ success: boolean; error?: string }> {
   try {
     console.log('🧪 测试PDF导出...');
-    
+
     const testData = createTestData();
     const options: ExportOptions = {
       format: 'pdf',
@@ -383,24 +379,22 @@ export async function testPdfExport(): Promise<{ success: boolean; error?: strin
         world: false,
         themes: false,
         subplots: false,
-        ideas: false
+        ideas: false,
       },
       formatting: {
         includeMetadata: true,
         fontSize: 12,
         fontFamily: 'SimSun',
         pageSize: 'A4',
-        margin: 2.5
-      }
+        margin: 2.5,
+      },
     };
 
-    await CoordinatorExportService.exportDocument(
-      testData, 
-      options,
-      (progress) => {
-        console.log(`PDF导出进度: ${progress.stage} - ${progress.progress}% - ${progress.currentStep}`);
-      }
-    );
+    await CoordinatorExportService.exportDocument(testData, options, progress => {
+      console.log(
+        `PDF导出进度: ${progress.stage} - ${progress.progress}% - ${progress.currentStep}`
+      );
+    });
 
     console.log('✅ PDF导出测试成功');
     return { success: true };
@@ -420,12 +414,12 @@ export async function runAllExportTests(): Promise<{
   overall: boolean;
 }> {
   console.log('🚀 开始运行导出功能测试...');
-  
+
   const results = {
     json: await testJsonExport(),
     word: await testWordExport(),
     pdf: await testPdfExport(),
-    overall: false
+    overall: false,
   };
 
   results.overall = results.json.success && results.word.success && results.pdf.success;

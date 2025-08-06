@@ -7,24 +7,13 @@ interface ActionButtonsProps {
   onReset: () => void;
 }
 
-export const ActionButtons: React.FC<ActionButtonsProps> = ({
-  onSave,
-  onReset
-}) => {
+export const ActionButtons: React.FC<ActionButtonsProps> = ({ onSave, onReset }) => {
   return (
     <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
-      <Button
-        variant="contained"
-        startIcon={<SaveIcon />}
-        onClick={onSave}
-      >
+      <Button variant='contained' startIcon={<SaveIcon />} onClick={onSave}>
         保存设置
       </Button>
-      <Button
-        variant="outlined"
-        startIcon={<RefreshIcon />}
-        onClick={onReset}
-      >
+      <Button variant='outlined' startIcon={<RefreshIcon />} onClick={onReset}>
         重置设置
       </Button>
     </Box>

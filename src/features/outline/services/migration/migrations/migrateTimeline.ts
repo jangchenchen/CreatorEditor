@@ -24,10 +24,10 @@ export function migrateTimelineData(data: any) {
       impact: event.impact || '',
       consequences: ensureArray(event.consequences),
       relatedEvents: ensureArray(event.relatedEvents),
-      tags: ensureArray(event.tags)
+      tags: ensureArray(event.tags),
     })),
     startTime: data.timeline?.startTime || '',
     endTime: data.timeline?.endTime || '',
-    timelineNotes: data.timeline?.timelineNotes || data.timeline?.notes || ''
+    timelineNotes: data.timeline?.timelineNotes || data.timeline?.notes || '',
   };
 }

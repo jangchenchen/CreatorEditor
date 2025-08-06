@@ -60,13 +60,13 @@ export interface MockCharacterData {
 export const ROLE_LABELS = {
   protagonist: '主角',
   antagonist: '反派',
-  supporting: '配角'
+  supporting: '配角',
 } as const;
 
 export const ROLE_COLORS = {
   protagonist: 'primary',
   antagonist: 'secondary',
-  supporting: 'success'
+  supporting: 'success',
 } as const;
 
 export interface UseCharacterArcReturn {

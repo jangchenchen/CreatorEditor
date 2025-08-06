@@ -25,7 +25,7 @@ export const createMockOutlineState = (overrides: Partial<OutlineState> = {}): O
     genre: '测试类型',
     targetWordCount: 50000,
     createdAt: new Date('2024-01-01'),
-    lastUpdated: new Date('2024-01-01')
+    lastUpdated: new Date('2024-01-01'),
   },
   story: {
     id: 'test-story',
@@ -33,39 +33,39 @@ export const createMockOutlineState = (overrides: Partial<OutlineState> = {}): O
       era: '现代',
       location: '测试城市',
       socialEnvironment: '测试环境',
-      historicalContext: '测试背景'
+      historicalContext: '测试背景',
     },
     coreTheme: {
       theme: '测试主题',
       conflict: '测试冲突',
       message: '测试信息',
-      keywords: ['测试']
+      keywords: ['测试'],
     },
     synopsis: {
       beginning: '测试开始',
       development: '测试发展',
       climax: '测试高潮',
       ending: '测试结局',
-      overallTone: '测试基调'
+      overallTone: '测试基调',
     },
-    lastUpdated: new Date('2024-01-01')
+    lastUpdated: new Date('2024-01-01'),
   },
   characters: {
     characters: [],
-    relationships: []
+    relationships: [],
   },
   timeline: {
     id: 'test-timeline',
     events: [],
     startTime: '2024-01-01',
     endTime: '2024-12-31',
-    timelineNotes: '测试时间线'
+    timelineNotes: '测试时间线',
   },
   chapters: {
     id: 'test-chapters',
     chapters: [],
     totalChapters: 0,
-    overallStructure: '测试结构'
+    overallStructure: '测试结构',
   },
   world: {
     id: 'test-world',
@@ -73,7 +73,7 @@ export const createMockOutlineState = (overrides: Partial<OutlineState> = {}): O
       regions: [],
       climate: '温带气候',
       landmarks: [],
-      naturalFeatures: []
+      naturalFeatures: [],
     },
     society: {
       political: '民主制',
@@ -81,29 +81,29 @@ export const createMockOutlineState = (overrides: Partial<OutlineState> = {}): O
       cultural: ['多元文化'],
       religious: '信仰自由',
       technology: '现代科技',
-      socialClasses: ['平民']
+      socialClasses: ['平民'],
     },
     history: {
       timeline: [],
       legends: [],
       familySecrets: [],
-      mysteries: []
+      mysteries: [],
     },
     customRules: [],
-    inspirationSources: []
+    inspirationSources: [],
   },
   subplots: {
     id: 'test-subplots',
     subplots: [],
     secondaryStories: [],
-    weavingStrategy: '并行发展'
+    weavingStrategy: '并行发展',
   },
   ideas: {
     id: 'test-ideas',
     ideas: [],
     alternatives: [],
     inspirationSources: [],
-    brainstormingSessions: []
+    brainstormingSessions: [],
   },
   themes: {
     id: 'test-themes',
@@ -112,25 +112,25 @@ export const createMockOutlineState = (overrides: Partial<OutlineState> = {}): O
       secondary: [],
       symbols: [],
       metaphors: [],
-      motifs: []
+      motifs: [],
     },
     characterMotivations: [],
     philosophicalQuestions: [],
     socialCommentary: [],
-    personalReflections: []
+    personalReflections: [],
   },
-  ...overrides
+  ...overrides,
 });
 
 // 创建测试Store
 export const createTestStore = (initialState?: Partial<OutlineState>): Store => {
   return configureStore({
     reducer: {
-      outline: outlineReducer
+      outline: outlineReducer,
     },
     preloadedState: {
-      outline: createMockOutlineState(initialState)
-    }
+      outline: createMockOutlineState(initialState),
+    },
   });
 };
 
@@ -151,16 +151,14 @@ export const renderWithProviders = (
   const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
       <Provider store={store}>
-        <ThemeProvider theme={defaultTheme}>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>
       </Provider>
     );
   };
 
   return {
     store,
-    ...render(ui, { wrapper: Wrapper, ...renderOptions })
+    ...render(ui, { wrapper: Wrapper, ...renderOptions }),
   };
 };
 
@@ -170,11 +168,12 @@ export const waitForAsync = (ms: number = 100) => {
 };
 
 // 模拟用户输入
-export const createMockChangeEvent = (value: string) => ({
-  target: { value },
-  preventDefault: jest.fn(),
-  stopPropagation: jest.fn()
-}) as any;
+export const createMockChangeEvent = (value: string) =>
+  ({
+    target: { value },
+    preventDefault: jest.fn(),
+    stopPropagation: jest.fn(),
+  }) as any;
 
 // 导出所有 testing-library 的工具
 export * from '@testing-library/react';

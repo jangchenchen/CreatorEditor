@@ -14,7 +14,7 @@ const initialState: IdeasState = {
   ideas: [],
   alternatives: [],
   inspirationSources: [],
-  brainstormingSessions: []
+  brainstormingSessions: [],
 };
 
 const ideasSlice = createSlice({
@@ -37,7 +37,10 @@ const ideasSlice = createSlice({
       state.ideas = state.ideas.filter(i => i.id !== action.payload);
     },
 
-    updateIdeaStatus: (state, action: PayloadAction<{ id: string; status: CreativeIdea['status'] }>) => {
+    updateIdeaStatus: (
+      state,
+      action: PayloadAction<{ id: string; status: CreativeIdea['status'] }>
+    ) => {
       const idea = state.ideas.find(i => i.id === action.payload.id);
       if (idea) {
         idea.status = action.payload.status;
@@ -86,10 +89,10 @@ const ideasSlice = createSlice({
       return action.payload;
     },
 
-    resetIdeas: (state) => {
+    resetIdeas: state => {
       return { ...initialState, id: state.id };
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -105,7 +108,7 @@ export const {
   addBrainstormingSession,
   removeBrainstormingSession,
   loadIdeasData,
-  resetIdeas
+  resetIdeas,
 } = ideasSlice.actions;
 
 export default ideasSlice.reducer;
@@ -114,15 +117,15 @@ export default ideasSlice.reducer;
 export const selectIdeas = (state: { ideas: IdeasState }) => state.ideas;
 export const selectCreativeIdeas = (state: { ideas: IdeasState }) => state.ideas.ideas;
 export const selectPlotAlternatives = (state: { ideas: IdeasState }) => state.ideas.alternatives;
-export const selectInspirationSources = (state: { ideas: IdeasState }) => state.ideas.inspirationSources;
+export const selectInspirationSources = (state: { ideas: IdeasState }) =>
+  state.ideas.inspirationSources;
 
-export const selectIdeasByStatus = (status: CreativeIdea['status']) => 
-  (state: { ideas: IdeasState }) => 
+export const selectIdeasByStatus =
+  (status: CreativeIdea['status']) => (state: { ideas: IdeasState }) =>
     state.ideas.ideas.filter(i => i.status === status);
 
-export const selectIdeasByType = (type: CreativeIdea['type']) => 
-  (state: { ideas: IdeasState }) => 
-    state.ideas.ideas.filter(i => i.type === type);
+export const selectIdeasByType = (type: CreativeIdea['type']) => (state: { ideas: IdeasState }) =>
+  state.ideas.ideas.filter(i => i.type === type);
 
 export const selectIdeasStats = (state: { ideas: IdeasState }) => ({
   totalIdeas: state.ideas.ideas.length,
@@ -132,5 +135,5 @@ export const selectIdeasStats = (state: { ideas: IdeasState }) => ({
   rejectedIdeas: state.ideas.ideas.filter(i => i.status === 'rejected').length,
   totalAlternatives: state.ideas.alternatives.length,
   inspirationSourcesCount: state.ideas.inspirationSources.length,
-  brainstormingSessionsCount: state.ideas.brainstormingSessions.length
+  brainstormingSessionsCount: state.ideas.brainstormingSessions.length,
 });

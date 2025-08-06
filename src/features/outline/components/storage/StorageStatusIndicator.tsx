@@ -9,7 +9,7 @@ import {
   CheckCircle as SuccessIcon,
   Warning as WarningIcon,
   Error as ErrorIcon,
-  Info as InfoIcon
+  Info as InfoIcon,
 } from '@mui/icons-material';
 
 interface StorageStatusIndicatorProps {
@@ -25,7 +25,7 @@ export const StorageStatusIndicator: React.FC<StorageStatusIndicatorProps> = ({
   isLoading,
   error,
   autoSaveEnabled,
-  hasPendingChanges
+  hasPendingChanges,
 }) => {
   // Determine primary status
   const getPrimaryStatus = () => {
@@ -33,57 +33,57 @@ export const StorageStatusIndicator: React.FC<StorageStatusIndicatorProps> = ({
       return {
         icon: <ErrorIcon />,
         label: 'Storage Error',
-        color: 'error' as const
+        color: 'error' as const,
       };
     }
-    
+
     if (!isInitialized) {
       return {
         icon: <WarningIcon />,
         label: 'Storage Not Ready',
-        color: 'warning' as const
+        color: 'warning' as const,
       };
     }
-    
+
     if (isLoading) {
       return {
         icon: <InfoIcon />,
         label: 'Loading...',
-        color: 'info' as const
+        color: 'info' as const,
       };
     }
-    
+
     return {
       icon: <SuccessIcon />,
       label: 'Storage Ready',
-      color: 'success' as const
+      color: 'success' as const,
     };
   };
 
   // Get auto-save status
   const getAutoSaveStatus = () => {
     if (!isInitialized || error) return null;
-    
+
     if (hasPendingChanges) {
       return {
         icon: <WarningIcon />,
         label: 'Unsaved Changes',
-        color: 'warning' as const
+        color: 'warning' as const,
       };
     }
-    
+
     if (autoSaveEnabled) {
       return {
         icon: <SuccessIcon />,
         label: 'Auto-save On',
-        color: 'success' as const
+        color: 'success' as const,
       };
     }
-    
+
     return {
       icon: <InfoIcon />,
       label: 'Auto-save Off',
-      color: 'default' as const
+      color: 'default' as const,
     };
   };
 
@@ -96,17 +96,17 @@ export const StorageStatusIndicator: React.FC<StorageStatusIndicatorProps> = ({
         icon={primaryStatus.icon}
         label={primaryStatus.label}
         color={primaryStatus.color}
-        size="small"
+        size='small'
         variant={error ? 'filled' : 'outlined'}
       />
-      
+
       {autoSaveStatus && (
         <Chip
           icon={autoSaveStatus.icon}
           label={autoSaveStatus.label}
           color={autoSaveStatus.color}
-          size="small"
-          variant="outlined"
+          size='small'
+          variant='outlined'
         />
       )}
     </Box>

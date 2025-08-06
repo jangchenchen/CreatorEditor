@@ -10,7 +10,7 @@ export const store = configureStore({
     editor: editorReducer,
     outline: outlineReducer,
   },
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: ['persist/PERSIST', 'autosave/SAVE'],

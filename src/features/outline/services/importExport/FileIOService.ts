@@ -89,12 +89,12 @@ export class FileIOService {
       // Standard export format
       return {
         projectData: fileData.project,
-        metadata: fileData.metadata
+        metadata: fileData.metadata,
       };
     } else if (fileData.id && fileData.projectName) {
       // Direct project data
       return {
-        projectData: fileData
+        projectData: fileData,
       };
     } else {
       throw new Error('Invalid file format: cannot extract project data');

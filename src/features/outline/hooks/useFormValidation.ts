@@ -8,7 +8,7 @@ import {
   ValidationRule,
   ValidationError,
   validateForm,
-  validateField
+  validateField,
 } from '../utils/formValidation';
 
 interface UseFormValidationOptions {
@@ -33,38 +33,44 @@ interface UseFormValidationReturn {
 export function useFormValidation({
   validationRules,
   validateOnChange = false,
-  validateOnBlur = true
+  validateOnBlur = true,
 }: UseFormValidationOptions): UseFormValidationReturn {
   const [errors, setErrors] = useState<ValidationError[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // 验证单个字段
-  const validateSingleField = useCallback((fieldName: string, value: any) => {
-    const rules = validationRules[fieldName];
-    if (!rules) return;
+  const validateSingleField = useCallback(
+    (fieldName: string, value: any) => {
+      const rules = validationRules[fieldName];
+      if (!rules) return;
 
-    const error = validateField(fieldName, value, rules);
-    
-    setErrors(prevErrors => {
-      // 移除该字段的旧错误
-      const filteredErrors = prevErrors.filter(e => e.field !== fieldName);
-      
-      // 如果有新错误，添加它
-      if (error) {
-        return [...filteredErrors, error];
-      }
-      
-      return filteredErrors;
-    });
-  }, [validationRules]);
+      const error = validateField(fieldName, value, rules);
+
+      setErrors(prevErrors => {
+        // 移除该字段的旧错误
+        const filteredErrors = prevErrors.filter(e => e.field !== fieldName);
+
+        // 如果有新错误，添加它
+        if (error) {
+          return [...filteredErrors, error];
+        }
+
+        return filteredErrors;
+      });
+    },
+    [validationRules]
+  );
 
   // 验证整个表单
-  const validateWholeForm = useCallback((data: Record<string, any>): boolean => {
-    const result = validateForm(data, validationRules);
-    setErrors(result.errors);
-    setIsSubmitted(true);
-    return result.isValid;
-  }, [validationRules]);
+  const validateWholeForm = useCallback(
+    (data: Record<string, any>): boolean => {
+      const result = validateForm(data, validationRules);
+      setErrors(result.errors);
+      setIsSubmitted(true);
+      return result.isValid;
+    },
+    [validationRules]
+  );
 
   // 清除所有错误
   const clearErrors = useCallback(() => {
@@ -78,15 +84,21 @@ export function useFormValidation({
   }, []);
 
   // 获取字段错误
-  const getFieldError = useCallback((fieldName: string): string | null => {
-    const error = errors.find(e => e.field === fieldName);
-    return error ? error.message : null;
-  }, [errors]);
+  const getFieldError = useCallback(
+    (fieldName: string): string | null => {
+      const error = errors.find(e => e.field === fieldName);
+      return error ? error.message : null;
+    },
+    [errors]
+  );
 
   // 检查字段是否有错误
-  const hasFieldError = useCallback((fieldName: string): boolean => {
-    return errors.some(e => e.field === fieldName);
-  }, [errors]);
+  const hasFieldError = useCallback(
+    (fieldName: string): boolean => {
+      return errors.some(e => e.field === fieldName);
+    },
+    [errors]
+  );
 
   // 设置提交状态
   const setSubmitted = useCallback((submitted: boolean) => {
@@ -108,6 +120,6 @@ export function useFormValidation({
     clearFieldError,
     getFieldError,
     hasFieldError,
-    setSubmitted
+    setSubmitted,
   };
 }

@@ -27,7 +27,7 @@ export class ImportValidationService {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
@@ -58,14 +58,18 @@ export class ImportValidationService {
     return {
       isValid: errors.length === 0,
       errors,
-      warnings
+      warnings,
     };
   }
 
   /**
    * Validate final imported data against current schema
    */
-  static validateFinalImportData(data: OutlineData): { isValid: boolean; errors: string[]; warnings: string[] } {
+  static validateFinalImportData(data: OutlineData): {
+    isValid: boolean;
+    errors: string[];
+    warnings: string[];
+  } {
     const errors: string[] = [];
     const warnings: string[] = [];
 
@@ -86,7 +90,7 @@ export class ImportValidationService {
     return {
       isValid: errors.length === 0,
       errors,
-      warnings
+      warnings,
     };
   }
 }

@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { 
-  Box, 
-  Paper, 
-  Tabs, 
-  Tab, 
-  Typography,
-  Toolbar,
-  IconButton,
-  Tooltip
-} from '@mui/material';
+import { Box, Paper, Tabs, Tab, Typography, Toolbar, IconButton, Tooltip } from '@mui/material';
 import {
   Psychology as ThemeIcon,
   Person as MotivationIcon,
   QuestionMark as PhilosophyIcon,
   Save as SaveIcon,
-  Refresh as RefreshIcon
+  Refresh as RefreshIcon,
 } from '@mui/icons-material';
 import ThemeAnalysis from './ThemeAnalysis';
 import CharacterMotivations from './CharacterMotivations';
@@ -31,17 +22,13 @@ interface TabPanelProps {
 const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other }) => {
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`theme-tabpanel-${index}`}
       aria-labelledby={`theme-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };
@@ -72,19 +59,19 @@ const ThemeExploration: React.FC = () => {
   return (
     <Paper elevation={2} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* 工具栏 */}
-      <Toolbar variant="dense" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <Toolbar variant='dense' sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
           主题与内涵探索
         </Typography>
-        
-        <Tooltip title="保存">
-          <IconButton size="small" onClick={handleSave}>
+
+        <Tooltip title='保存'>
+          <IconButton size='small' onClick={handleSave}>
             <SaveIcon />
           </IconButton>
         </Tooltip>
-        
-        <Tooltip title="刷新">
-          <IconButton size="small" onClick={handleRefresh}>
+
+        <Tooltip title='刷新'>
+          <IconButton size='small' onClick={handleRefresh}>
             <RefreshIcon />
           </IconButton>
         </Tooltip>
@@ -92,28 +79,24 @@ const ThemeExploration: React.FC = () => {
 
       {/* 标签页导航 */}
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs 
-          value={activeTab} 
-          onChange={handleTabChange}
-          aria-label="theme exploration tabs"
-        >
-          <Tab 
-            icon={<ThemeIcon />} 
-            label="主题分析" 
-            id="theme-tab-0"
-            aria-controls="theme-tabpanel-0"
+        <Tabs value={activeTab} onChange={handleTabChange} aria-label='theme exploration tabs'>
+          <Tab
+            icon={<ThemeIcon />}
+            label='主题分析'
+            id='theme-tab-0'
+            aria-controls='theme-tabpanel-0'
           />
-          <Tab 
-            icon={<MotivationIcon />} 
-            label="角色动机" 
-            id="theme-tab-1"
-            aria-controls="theme-tabpanel-1"
+          <Tab
+            icon={<MotivationIcon />}
+            label='角色动机'
+            id='theme-tab-1'
+            aria-controls='theme-tabpanel-1'
           />
-          <Tab 
-            icon={<PhilosophyIcon />} 
-            label="哲学思考" 
-            id="theme-tab-2"
-            aria-controls="theme-tabpanel-2"
+          <Tab
+            icon={<PhilosophyIcon />}
+            label='哲学思考'
+            id='theme-tab-2'
+            aria-controls='theme-tabpanel-2'
           />
         </Tabs>
       </Box>
@@ -123,11 +106,11 @@ const ThemeExploration: React.FC = () => {
         <TabPanel value={activeTab} index={0}>
           <ThemeAnalysis />
         </TabPanel>
-        
+
         <TabPanel value={activeTab} index={1}>
           <CharacterMotivations />
         </TabPanel>
-        
+
         <TabPanel value={activeTab} index={2}>
           <PhilosophicalReflection />
         </TabPanel>

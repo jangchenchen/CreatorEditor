@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { Relationship } from '../../../../types/outline.types';
 import { mockRelationships } from './constants';
-import { 
-  RelationshipMapState, 
-  RelationshipMapActions, 
-  UseRelationshipMapReturn 
-} from './types';
+import { RelationshipMapState, RelationshipMapActions, UseRelationshipMapReturn } from './types';
 
 export const useRelationshipMapState = (): RelationshipMapState & RelationshipMapActions => {
   const [relationships] = useState(mockRelationships);
@@ -49,6 +45,6 @@ export const useRelationshipMapState = (): RelationshipMapState & RelationshipMa
     handleDeleteRelationship,
     handleCloseDialog,
     handleSaveRelationship,
-    setViewMode
+    setViewMode,
   };
 };

@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Typography
-} from '@mui/material';
+import { Box, FormControl, InputLabel, Select, MenuItem, Typography } from '@mui/material';
 import { Character } from '../../../../../../types/outline.types';
 
 interface CharacterSelectorProps {
@@ -18,12 +11,12 @@ interface CharacterSelectorProps {
 export const CharacterSelector: React.FC<CharacterSelectorProps> = ({
   characters,
   selectedCharacter,
-  onCharacterChange
+  onCharacterChange,
 }) => {
   if (!selectedCharacter) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
-        <Typography color="text.secondary">请选择要查看的角色</Typography>
+        <Typography color='text.secondary'>请选择要查看的角色</Typography>
       </Box>
     );
   }
@@ -34,10 +27,10 @@ export const CharacterSelector: React.FC<CharacterSelectorProps> = ({
         <InputLabel>选择角色</InputLabel>
         <Select
           value={selectedCharacter.id}
-          label="选择角色"
-          onChange={(e) => onCharacterChange(e.target.value)}
+          label='选择角色'
+          onChange={e => onCharacterChange(e.target.value)}
         >
-          {characters.map((character) => (
+          {characters.map(character => (
             <MenuItem key={character.id} value={character.id}>
               {character.name}
             </MenuItem>

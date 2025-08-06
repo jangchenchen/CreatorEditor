@@ -4,18 +4,8 @@
  */
 
 import React from 'react';
-import {
-  Box,
-  Typography,
-  Button,
-  IconButton,
-  Tooltip
-} from '@mui/material';
-import {
-  Add as AddIcon,
-  ViewList as ListIcon,
-  AccountTree as MapIcon
-} from '@mui/icons-material';
+import { Box, Typography, Button, IconButton, Tooltip } from '@mui/material';
+import { Add as AddIcon, ViewList as ListIcon, AccountTree as MapIcon } from '@mui/icons-material';
 
 interface RelationshipToolbarProps {
   relationshipCount: number;
@@ -30,41 +20,39 @@ export const RelationshipToolbar: React.FC<RelationshipToolbarProps> = ({
   viewMode,
   onViewModeChange,
   onAddRelationship,
-  visualModeDisabled = true
+  visualModeDisabled = true,
 }) => {
   return (
     <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Typography variant="h6">
-        角色关系图谱 ({relationshipCount})
-      </Typography>
-      
+      <Typography variant='h6'>角色关系图谱 ({relationshipCount})</Typography>
+
       <Box sx={{ display: 'flex', gap: 1 }}>
-        <Tooltip title="列表视图">
+        <Tooltip title='列表视图'>
           <IconButton
             color={viewMode === 'list' ? 'primary' : 'default'}
             onClick={() => onViewModeChange('list')}
-            size="small"
+            size='small'
           >
             <ListIcon />
           </IconButton>
         </Tooltip>
-        
+
         <Tooltip title={visualModeDisabled ? '关系图功能开发中' : '关系图'}>
           <span>
             <IconButton
               color={viewMode === 'visual' ? 'primary' : 'default'}
               onClick={() => onViewModeChange('visual')}
               disabled={visualModeDisabled}
-              size="small"
+              size='small'
             >
               <MapIcon />
             </IconButton>
           </span>
         </Tooltip>
-        
+
         <Button
-          variant="contained"
-          size="small"
+          variant='contained'
+          size='small'
           startIcon={<AddIcon />}
           onClick={onAddRelationship}
         >

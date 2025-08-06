@@ -33,7 +33,10 @@ export interface ChapterDialogState {
 
 export type ChapterFormField = keyof Chapter;
 export type ChapterTransitionField = keyof ChapterTransition;
-export type ChapterArrayField = keyof Pick<Chapter, 'characters' | 'plotPoints' | 'conflicts' | 'themes'>;
+export type ChapterArrayField = keyof Pick<
+  Chapter,
+  'characters' | 'plotPoints' | 'conflicts' | 'themes'
+>;
 
 export interface ChapterFormValidation {
   isValid: boolean;
@@ -44,7 +47,7 @@ export const CHAPTER_STATUS_OPTIONS = [
   { value: 'planned', label: '计划中' },
   { value: 'writing', label: '写作中' },
   { value: 'completed', label: '已完成' },
-  { value: 'revision', label: '修订中' }
+  { value: 'revision', label: '修订中' },
 ] as const;
 
 export const DEFAULT_CHAPTER_FORM_DATA: Partial<Chapter> = {
@@ -56,5 +59,5 @@ export const DEFAULT_CHAPTER_FORM_DATA: Partial<Chapter> = {
   wordCountTarget: 3000,
   status: 'planned',
   transitions: { from: '', to: '', method: '' },
-  notes: ''
+  notes: '',
 };

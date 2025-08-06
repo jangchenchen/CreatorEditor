@@ -16,7 +16,7 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
 } from '@mui/material';
 import { Relationship, Character } from '../../../../types/outline.types';
 
@@ -33,7 +33,7 @@ export const RelationshipDialog: React.FC<RelationshipDialogProps> = ({
   relationship,
   characters,
   onClose,
-  onSave
+  onSave,
 }) => {
   // Local state for form fields
   const [formData, setFormData] = React.useState({
@@ -43,7 +43,7 @@ export const RelationshipDialog: React.FC<RelationshipDialogProps> = ({
     description: relationship?.description || '',
     developmentStage: relationship?.developmentStage || '',
     intensity: relationship?.intensity || 5,
-    isReversible: relationship?.isReversible || false
+    isReversible: relationship?.isReversible || false,
   });
 
   React.useEffect(() => {
@@ -55,7 +55,7 @@ export const RelationshipDialog: React.FC<RelationshipDialogProps> = ({
         description: relationship.description,
         developmentStage: relationship.developmentStage,
         intensity: relationship.intensity,
-        isReversible: relationship.isReversible
+        isReversible: relationship.isReversible,
       });
     }
   }, [relationship]);
@@ -65,15 +65,8 @@ export const RelationshipDialog: React.FC<RelationshipDialogProps> = ({
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
-    >
-      <DialogTitle>
-        {relationship ? '编辑关系' : '新增关系'}
-      </DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
+      <DialogTitle>{relationship ? '编辑关系' : '新增关系'}</DialogTitle>
       <DialogContent>
         <Box sx={{ pt: 1 }}>
           <Grid container spacing={2}>
@@ -82,10 +75,10 @@ export const RelationshipDialog: React.FC<RelationshipDialogProps> = ({
                 <InputLabel>起始角色</InputLabel>
                 <Select
                   value={formData.fromCharacter}
-                  label="起始角色"
-                  onChange={(e) => handleFieldChange('fromCharacter', e.target.value)}
+                  label='起始角色'
+                  onChange={e => handleFieldChange('fromCharacter', e.target.value)}
                 >
-                  {characters.map((character) => (
+                  {characters.map(character => (
                     <MenuItem key={character.id} value={character.id}>
                       {character.name}
                     </MenuItem>
@@ -93,16 +86,16 @@ export const RelationshipDialog: React.FC<RelationshipDialogProps> = ({
                 </Select>
               </FormControl>
             </Grid>
-            
+
             <Grid item xs={6}>
               <FormControl fullWidth>
                 <InputLabel>目标角色</InputLabel>
                 <Select
                   value={formData.toCharacter}
-                  label="目标角色"
-                  onChange={(e) => handleFieldChange('toCharacter', e.target.value)}
+                  label='目标角色'
+                  onChange={e => handleFieldChange('toCharacter', e.target.value)}
                 >
-                  {characters.map((character) => (
+                  {characters.map(character => (
                     <MenuItem key={character.id} value={character.id}>
                       {character.name}
                     </MenuItem>
@@ -116,16 +109,16 @@ export const RelationshipDialog: React.FC<RelationshipDialogProps> = ({
                 <InputLabel>关系类型</InputLabel>
                 <Select
                   value={formData.type}
-                  label="关系类型"
-                  onChange={(e) => handleFieldChange('type', e.target.value)}
+                  label='关系类型'
+                  onChange={e => handleFieldChange('type', e.target.value)}
                 >
-                  <MenuItem value="family">亲情</MenuItem>
-                  <MenuItem value="lover">爱情</MenuItem>
-                  <MenuItem value="friend">友情</MenuItem>
-                  <MenuItem value="enemy">敌对</MenuItem>
-                  <MenuItem value="mentor">师徒</MenuItem>
-                  <MenuItem value="rival">竞争</MenuItem>
-                  <MenuItem value="colleague">同事</MenuItem>
+                  <MenuItem value='family'>亲情</MenuItem>
+                  <MenuItem value='lover'>爱情</MenuItem>
+                  <MenuItem value='friend'>友情</MenuItem>
+                  <MenuItem value='enemy'>敌对</MenuItem>
+                  <MenuItem value='mentor'>师徒</MenuItem>
+                  <MenuItem value='rival'>竞争</MenuItem>
+                  <MenuItem value='colleague'>同事</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -135,18 +128,18 @@ export const RelationshipDialog: React.FC<RelationshipDialogProps> = ({
                 fullWidth
                 multiline
                 rows={2}
-                label="关系描述"
+                label='关系描述'
                 value={formData.description}
-                onChange={(e) => handleFieldChange('description', e.target.value)}
+                onChange={e => handleFieldChange('description', e.target.value)}
               />
             </Grid>
 
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="发展阶段"
+                label='发展阶段'
                 value={formData.developmentStage}
-                onChange={(e) => handleFieldChange('developmentStage', e.target.value)}
+                onChange={e => handleFieldChange('developmentStage', e.target.value)}
               />
             </Grid>
           </Grid>
@@ -154,7 +147,7 @@ export const RelationshipDialog: React.FC<RelationshipDialogProps> = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>取消</Button>
-        <Button onClick={onSave} variant="contained">
+        <Button onClick={onSave} variant='contained'>
           {relationship ? '保存' : '创建'}
         </Button>
       </DialogActions>

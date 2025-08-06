@@ -22,11 +22,11 @@ export function migrateCharactersData(characters: any[]) {
       startState: char.arc?.startState || char.startState || '',
       keyEvents: ensureArray(char.arc?.keyEvents || char.keyEvents),
       endState: char.arc?.endState || char.endState || '',
-      growthDirection: char.arc?.growthDirection || char.growthDirection || ''
+      growthDirection: char.arc?.growthDirection || char.growthDirection || '',
     },
     tags: ensureArray(char.tags),
     createdAt: safeDate(char.createdAt),
-    lastUpdated: safeDate(char.lastUpdated)
+    lastUpdated: safeDate(char.lastUpdated),
   }));
 }
 
@@ -42,6 +42,6 @@ export function migrateRelationshipsData(relationships: any[]) {
     description: rel.description || '',
     intensity: safeNumber(rel.intensity, 5),
     isReversible: safeBoolean(rel.isReversible, true),
-    developmentStage: rel.developmentStage || 'established'
+    developmentStage: rel.developmentStage || 'established',
   }));
 }

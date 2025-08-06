@@ -13,7 +13,7 @@ const initialState: ProjectState = {
   projectName: '',
   version: '1.0.0',
   createdAt: new Date(),
-  lastUpdated: new Date()
+  lastUpdated: new Date(),
 };
 
 const projectSlice = createSlice({
@@ -32,10 +32,10 @@ const projectSlice = createSlice({
       state.lastUpdated = new Date();
     },
 
-    updateLastModified: (state) => {
+    updateLastModified: state => {
       state.lastUpdated = new Date();
-    }
-  }
+    },
+  },
 });
 
 export const { setProjectName, initializeProject, updateLastModified } = projectSlice.actions;
@@ -49,5 +49,5 @@ export const selectProjectInfo = (state: { project: ProjectState }) => ({
   name: state.project.projectName,
   version: state.project.version,
   createdAt: state.project.createdAt,
-  lastUpdated: state.project.lastUpdated
+  lastUpdated: state.project.lastUpdated,
 });

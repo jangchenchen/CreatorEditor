@@ -8,9 +8,9 @@ interface SynopsisProgressBarProps {
 export const SynopsisProgressBar: React.FC<SynopsisProgressBarProps> = ({ completionRate }) => {
   return (
     <Box sx={{ mb: 3 }}>
-      <LinearProgress 
-        variant="determinate" 
-        value={completionRate} 
+      <LinearProgress
+        variant='determinate'
+        value={completionRate}
         sx={{ height: 8, borderRadius: 4 }}
       />
     </Box>

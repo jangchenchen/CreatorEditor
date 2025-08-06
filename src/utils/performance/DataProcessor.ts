@@ -38,7 +38,7 @@ class DataProcessor {
       maxConcurrency = 3,
       enableCache = false,
       cacheKey,
-      cacheTTL = 300000 // 5分钟默认缓存
+      cacheTTL = 300000, // 5分钟默认缓存
     } = options;
 
     // 检查缓存
@@ -58,10 +58,10 @@ class DataProcessor {
       const currentBatches = batches.slice(i, i + maxConcurrency);
       const batchPromises = currentBatches.map(async (batch, batchIndex) => {
         const actualBatchIndex = i + batchIndex;
-        
+
         try {
           const batchResults = await Promise.allSettled(
-            batch.items.map((item, itemIndex) => 
+            batch.items.map((item, itemIndex) =>
               Promise.resolve(processor(item, batch.startIndex + itemIndex))
             )
           );
@@ -94,7 +94,7 @@ class DataProcessor {
       processed: results.filter(item => item !== undefined),
       errors,
       duration: performance.now() - startTime,
-      totalItems: items.length
+      totalItems: items.length,
     };
 
     // 缓存结果
@@ -135,7 +135,7 @@ class DataProcessor {
         const progress = {
           current: pageIndex + 1,
           total: totalPages,
-          percentage: Math.round(((pageIndex + 1) / totalPages) * 100)
+          percentage: Math.round(((pageIndex + 1) / totalPages) * 100),
         };
         onProgress(progress);
       }
@@ -192,7 +192,7 @@ class DataProcessor {
     return (...args: Parameters<T>): Promise<ReturnType<T>> => {
       return new Promise(async (resolve, reject) => {
         const now = Date.now();
-        
+
         if (now - lastExecution >= delay) {
           lastExecution = now;
           try {
@@ -221,16 +221,19 @@ class DataProcessor {
   /**
    * 创建数据批次
    */
-  private createBatches<T>(items: T[], batchSize: number): Array<{ items: T[]; startIndex: number }> {
+  private createBatches<T>(
+    items: T[],
+    batchSize: number
+  ): Array<{ items: T[]; startIndex: number }> {
     const batches: Array<{ items: T[]; startIndex: number }> = [];
-    
+
     for (let i = 0; i < items.length; i += batchSize) {
       batches.push({
         items: items.slice(i, i + batchSize),
-        startIndex: i
+        startIndex: i,
       });
     }
-    
+
     return batches;
   }
 
@@ -248,7 +251,7 @@ class DataProcessor {
     this.cache.set(key, {
       data,
       timestamp: Date.now(),
-      ttl
+      ttl,
     });
   }
 
@@ -295,7 +298,7 @@ class DataProcessor {
     return {
       totalEntries: this.cache.size,
       memoryUsage: this.calculateCacheMemoryUsage(),
-      hitRate: 0 // 需要实现命中率统计
+      hitRate: 0, // 需要实现命中率统计
     };
   }
 

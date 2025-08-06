@@ -37,7 +37,7 @@ export const VirtualizedList: React.FC<VirtualizedListProps> = ({
   loadingComponent = null,
   emptyComponent = null,
   sx,
-  className
+  className,
 }) => {
   const [scrollTop, setScrollTop] = useState(0);
   const scrollElementRef = useRef<HTMLDivElement>(null);
@@ -51,7 +51,7 @@ export const VirtualizedList: React.FC<VirtualizedListProps> = ({
       const height = itemHeight || items[i].height || 50;
       positions.push({
         top: currentTop,
-        height
+        height,
       });
       currentTop += height;
     }
@@ -99,22 +99,25 @@ export const VirtualizedList: React.FC<VirtualizedListProps> = ({
   }, [scrollTop, containerHeight, itemPositions, overscan]);
 
   // 处理滚动事件
-  const handleScroll = useCallback((event: React.UIEvent<HTMLDivElement>) => {
-    const newScrollTop = event.currentTarget.scrollTop;
-    setScrollTop(newScrollTop);
-    onScroll?.(newScrollTop);
-  }, [onScroll]);
+  const handleScroll = useCallback(
+    (event: React.UIEvent<HTMLDivElement>) => {
+      const newScrollTop = event.currentTarget.scrollTop;
+      setScrollTop(newScrollTop);
+      onScroll?.(newScrollTop);
+    },
+    [onScroll]
+  );
 
   // 渲染可见项目
   const visibleItems = useMemo(() => {
     const rendered: React.ReactNode[] = [];
-    
+
     for (let i = visibleRange.start; i <= visibleRange.end; i++) {
       if (i >= items.length) break;
-      
+
       const item = items[i];
       const position = itemPositions[i];
-      
+
       rendered.push(
         <Box
           key={item.id}
@@ -124,41 +127,44 @@ export const VirtualizedList: React.FC<VirtualizedListProps> = ({
             left: 0,
             right: 0,
             height: position.height,
-            overflow: 'hidden'
+            overflow: 'hidden',
           }}
         >
           {renderItem(item, i)}
         </Box>
       );
     }
-    
+
     return rendered;
   }, [visibleRange, items, itemPositions, renderItem]);
 
   // 滚动到指定项目
-  const scrollToItem = useCallback((index: number, align: 'start' | 'center' | 'end' = 'start') => {
-    if (!scrollElementRef.current || index < 0 || index >= itemPositions.length) {
-      return;
-    }
+  const scrollToItem = useCallback(
+    (index: number, align: 'start' | 'center' | 'end' = 'start') => {
+      if (!scrollElementRef.current || index < 0 || index >= itemPositions.length) {
+        return;
+      }
 
-    const position = itemPositions[index];
-    let scrollTop = position.top;
+      const position = itemPositions[index];
+      let scrollTop = position.top;
 
-    if (align === 'center') {
-      scrollTop = position.top - (containerHeight - position.height) / 2;
-    } else if (align === 'end') {
-      scrollTop = position.top - containerHeight + position.height;
-    }
+      if (align === 'center') {
+        scrollTop = position.top - (containerHeight - position.height) / 2;
+      } else if (align === 'end') {
+        scrollTop = position.top - containerHeight + position.height;
+      }
 
-    scrollTop = Math.max(0, Math.min(totalHeight - containerHeight, scrollTop));
-    scrollElementRef.current.scrollTop = scrollTop;
-  }, [itemPositions, containerHeight, totalHeight]);
+      scrollTop = Math.max(0, Math.min(totalHeight - containerHeight, scrollTop));
+      scrollElementRef.current.scrollTop = scrollTop;
+    },
+    [itemPositions, containerHeight, totalHeight]
+  );
 
   // 暴露滚动方法
   React.useImperativeHandle(scrollElementRef, () => ({
     scrollToItem,
     scrollToTop: () => scrollElementRef.current?.scrollTo({ top: 0 }),
-    scrollToBottom: () => scrollElementRef.current?.scrollTo({ top: totalHeight })
+    scrollToBottom: () => scrollElementRef.current?.scrollTo({ top: totalHeight }),
   }));
 
   if (loading && loadingComponent) {
@@ -169,7 +175,7 @@ export const VirtualizedList: React.FC<VirtualizedListProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          ...sx
+          ...sx,
         }}
         className={className}
       >
@@ -186,7 +192,7 @@ export const VirtualizedList: React.FC<VirtualizedListProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          ...sx
+          ...sx,
         }}
         className={className}
       >
@@ -203,7 +209,7 @@ export const VirtualizedList: React.FC<VirtualizedListProps> = ({
         height: containerHeight,
         overflow: 'auto',
         position: 'relative',
-        ...sx
+        ...sx,
       }}
       className={className}
     >
@@ -211,7 +217,7 @@ export const VirtualizedList: React.FC<VirtualizedListProps> = ({
       <Box
         sx={{
           height: totalHeight,
-          position: 'relative'
+          position: 'relative',
         }}
       >
         {visibleItems}

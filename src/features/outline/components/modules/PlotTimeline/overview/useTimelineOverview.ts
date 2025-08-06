@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 import { Node, Edge, Position } from 'reactflow';
 import { selectTimeline, selectPlotEvents } from '../../../../outlineSlice';
 import { PlotEvent, PlotEventType, EventImportance } from '../../../../types/outline.types';
-import { 
-  TimelineStats, 
+import {
+  TimelineStats,
   TimelineLayout,
   EventPositionConfig,
   DEFAULT_TYPE_POSITIONS,
-  DEFAULT_IMPORTANCE_OFFSETS
+  DEFAULT_IMPORTANCE_OFFSETS,
 } from './types';
 
 export const useTimelineOverview = () => {
@@ -22,17 +22,15 @@ export const useTimelineOverview = () => {
     }
 
     // 按时间戳排序事件
-    const sortedEvents = [...plotEvents].sort((a, b) => 
-      a.timestamp.localeCompare(b.timestamp)
-    );
+    const sortedEvents = [...plotEvents].sort((a, b) => a.timestamp.localeCompare(b.timestamp));
 
     // 创建节点
     const nodes: Node[] = sortedEvents.map((event, index) => ({
       id: event.id,
       type: 'timelineEvent',
-      position: { 
+      position: {
         x: index * 200, // 水平排列
-        y: getEventVerticalPosition(event.type, event.importance)
+        y: getEventVerticalPosition(event.type, event.importance),
       },
       data: event,
       sourcePosition: Position.Right,
@@ -48,7 +46,7 @@ export const useTimelineOverview = () => {
         target: sortedEvents[i + 1].id,
         type: 'smoothstep',
         animated: true,
-        style: { stroke: '#666', strokeWidth: 2 }
+        style: { stroke: '#666', strokeWidth: 2 },
       });
     }
 
@@ -57,30 +55,33 @@ export const useTimelineOverview = () => {
 
   // 计算统计信息
   const stats: TimelineStats = useMemo(() => {
-    const eventsByType = plotEvents.reduce((acc, event) => {
-      acc[event.type] = (acc[event.type] || 0) + 1;
-      return acc;
-    }, {} as Record<PlotEventType, number>);
+    const eventsByType = plotEvents.reduce(
+      (acc, event) => {
+        acc[event.type] = (acc[event.type] || 0) + 1;
+        return acc;
+      },
+      {} as Record<PlotEventType, number>
+    );
 
     const keyEventsCount = plotEvents.filter(e => e.isKeyEvent).length;
-    
+
     return {
       total: plotEvents.length,
       keyEvents: keyEventsCount,
-      byType: eventsByType
+      byType: eventsByType,
     };
   }, [plotEvents]);
 
   // 根据事件类型和重要性确定垂直位置
-  const getEventVerticalPosition = useCallback((
-    type: PlotEventType, 
-    importance: EventImportance
-  ): number => {
-    const typePositions = DEFAULT_TYPE_POSITIONS;
-    const importanceOffset = DEFAULT_IMPORTANCE_OFFSETS;
+  const getEventVerticalPosition = useCallback(
+    (type: PlotEventType, importance: EventImportance): number => {
+      const typePositions = DEFAULT_TYPE_POSITIONS;
+      const importanceOffset = DEFAULT_IMPORTANCE_OFFSETS;
 
-    return (typePositions[type] || 150) + (importanceOffset[importance] || 0);
-  }, []);
+      return (typePositions[type] || 150) + (importanceOffset[importance] || 0);
+    },
+    []
+  );
 
   // 处理事件点击
   const handleEventClick = useCallback((event: React.MouseEvent, node: Node) => {
@@ -98,6 +99,6 @@ export const useTimelineOverview = () => {
     stats,
     hasEvents,
     handleEventClick,
-    getEventVerticalPosition
+    getEventVerticalPosition,
   };
 };

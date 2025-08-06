@@ -41,5 +41,5 @@ export const DEFAULT_INIT_CONFIG: InitializationConfig = {
   autoLoadLastProject: true,
   createDefaultProject: true,
   enableAutoSave: true,
-  showStartupMessages: true
+  showStartupMessages: true,
 };

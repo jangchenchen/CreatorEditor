@@ -9,7 +9,7 @@ import { EditorContainer } from './styles/editor.styles';
 
 const Editor: React.FC = () => {
   const editorState = useSelector(selectEditor);
-  
+
   // 使用自定义hooks
   const editor = useTipTapEditor();
   useAutoSave();
@@ -25,9 +25,9 @@ const Editor: React.FC = () => {
         onSaveFile={handleSaveFile}
         onSaveAs={handleSaveAs}
       />
-      
+
       <EditorContentArea editor={editor} />
-      
+
       <EditorStatusBar
         wordCount={editorState.wordCount}
         isDirty={editorState.isDirty}

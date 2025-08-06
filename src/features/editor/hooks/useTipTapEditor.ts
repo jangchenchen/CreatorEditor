@@ -9,7 +9,7 @@ import { setContent, selectEditor } from '../editorSlice';
 export const useTipTapEditor = () => {
   const dispatch = useDispatch();
   const editorState = useSelector(selectEditor);
-  
+
   // 初始化TipTap编辑器
   const editor = useEditor({
     extensions: [StarterKit],

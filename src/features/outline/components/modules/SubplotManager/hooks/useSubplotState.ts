@@ -8,18 +8,22 @@ export const useSubplotState = () => {
 
   const handleOpenDialog = (subplot?: Subplot) => {
     setEditingSubplot(subplot || null);
-    setFormData(subplot ? { ...subplot } : {
-      title: '',
-      description: '',
-      purpose: 'background',
-      status: 'planned',
-      relatedCharacters: [],
-      startChapter: 1,
-      endChapter: 1,
-      connection: '',
-      resolution: '',
-      impact: ''
-    });
+    setFormData(
+      subplot
+        ? { ...subplot }
+        : {
+            title: '',
+            description: '',
+            purpose: 'background',
+            status: 'planned',
+            relatedCharacters: [],
+            startChapter: 1,
+            endChapter: 1,
+            connection: '',
+            resolution: '',
+            impact: '',
+          }
+    );
     setDialogOpen(true);
   };
 
@@ -29,19 +33,18 @@ export const useSubplotState = () => {
     setFormData({});
   };
 
-  const handleFormChange = (field: keyof Subplot) => (
-    event: React.ChangeEvent<HTMLInputElement | { value: unknown }>
-  ) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: event.target.value
-    }));
-  };
+  const handleFormChange =
+    (field: keyof Subplot) => (event: React.ChangeEvent<HTMLInputElement | { value: unknown }>) => {
+      setFormData(prev => ({
+        ...prev,
+        [field]: event.target.value,
+      }));
+    };
 
   const handleCharactersChange = (event: any, newValue: string[]) => {
     setFormData(prev => ({
       ...prev,
-      relatedCharacters: newValue
+      relatedCharacters: newValue,
     }));
   };
 
@@ -52,6 +55,6 @@ export const useSubplotState = () => {
     handleOpenDialog,
     handleCloseDialog,
     handleFormChange,
-    handleCharactersChange
+    handleCharactersChange,
   };
 };

@@ -13,25 +13,27 @@ export class ChapterValidator {
   ): void {
     chapters.forEach(chapter => {
       chapter.keyScenes.forEach(scene => {
-        const orphanedCharacters = scene.characters.filter(charId => !validCharacterIds.has(charId));
-        
+        const orphanedCharacters = scene.characters.filter(
+          charId => !validCharacterIds.has(charId)
+        );
+
         orphanedCharacters.forEach(charId => {
           errors.push({
             type: 'orphaned_reference',
             module: 'chapters',
             entityId: scene.id,
             message: `Scene "${scene.title}" in Chapter ${chapter.number} references deleted character: ${charId}`,
-            severity: 'high'
+            severity: 'high',
           });
         });
-        
+
         // Check for empty scenes
         if (!scene.title.trim() || !scene.description.trim()) {
           warnings.push({
             type: 'empty_scene',
             module: 'chapters',
             entityId: scene.id,
-            message: `Scene in Chapter ${chapter.number} is missing title or description`
+            message: `Scene in Chapter ${chapter.number} is missing title or description`,
           });
         }
       });

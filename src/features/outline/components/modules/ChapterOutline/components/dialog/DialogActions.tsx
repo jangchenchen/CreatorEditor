@@ -15,26 +15,22 @@ export const ChapterDialogActions: React.FC<DialogActionsProps> = ({
   onSave,
   isSubmitting,
   canSave,
-  submitError
+  submitError,
 }) => {
   return (
     <>
       {submitError && (
-        <Typography color="error" variant="body2" sx={{ ml: 2, mb: 1 }}>
+        <Typography color='error' variant='body2' sx={{ ml: 2, mb: 1 }}>
           {submitError}
         </Typography>
       )}
       <DialogActions>
-        <Button 
-          onClick={onClose} 
-          startIcon={<CancelIcon />}
-          disabled={isSubmitting}
-        >
+        <Button onClick={onClose} startIcon={<CancelIcon />} disabled={isSubmitting}>
           取消
         </Button>
-        <Button 
-          onClick={onSave} 
-          variant="contained" 
+        <Button
+          onClick={onSave}
+          variant='contained'
           startIcon={<SaveIcon />}
           disabled={!canSave || isSubmitting}
         >

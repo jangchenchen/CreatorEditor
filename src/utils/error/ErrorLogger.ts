@@ -55,7 +55,7 @@ class ErrorLoggerService {
   logError(error: Error | string, context?: ErrorContext): string {
     const errorObj = typeof error === 'string' ? new Error(error) : error;
     const errorId = this.generateErrorId();
-    
+
     const serializedError: SerializedError = {
       id: errorId,
       message: errorObj.message,
@@ -67,12 +67,12 @@ class ErrorLoggerService {
       userAgent: navigator.userAgent,
       url: window.location.href,
       userId: context?.userId,
-      sessionId: this.sessionId
+      sessionId: this.sessionId,
     };
 
     this.addError(serializedError);
     this.updateErrorCounts(serializedError);
-    
+
     // 根据错误级别决定是否立即报告
     if (serializedError.level === 'critical') {
       this.reportCriticalError(serializedError);
@@ -87,13 +87,13 @@ class ErrorLoggerService {
   logNetworkError(url: string, status: number, statusText: string, context?: ErrorContext): string {
     const error = new Error(`Network Error: ${status} ${statusText} for ${url}`);
     error.name = 'NetworkError';
-    
+
     return this.logError(error, {
       ...context,
       context: 'Network Request',
       requestUrl: url,
       status,
-      statusText
+      statusText,
     });
   }
 
@@ -101,29 +101,34 @@ class ErrorLoggerService {
    * 记录Promise拒绝错误
    */
   logPromiseRejection(reason: any, promise: Promise<any>, context?: ErrorContext): string {
-    const error = reason instanceof Error 
-      ? reason 
-      : new Error(`Unhandled Promise Rejection: ${String(reason)}`);
+    const error =
+      reason instanceof Error
+        ? reason
+        : new Error(`Unhandled Promise Rejection: ${String(reason)}`);
     error.name = 'PromiseRejectionError';
 
     return this.logError(error, {
       ...context,
       context: 'Unhandled Promise Rejection',
-      rejectionReason: String(reason)
+      rejectionReason: String(reason),
     });
   }
 
   /**
    * 记录性能相关错误
    */
-  logPerformanceError(message: string, metrics: Record<string, number>, context?: ErrorContext): string {
+  logPerformanceError(
+    message: string,
+    metrics: Record<string, number>,
+    context?: ErrorContext
+  ): string {
     const error = new Error(`Performance Issue: ${message}`);
     error.name = 'PerformanceError';
 
     return this.logError(error, {
       ...context,
       context: 'Performance Monitoring',
-      metrics
+      metrics,
     });
   }
 
@@ -135,7 +140,7 @@ class ErrorLoggerService {
       ...context,
       context: 'User Action',
       action,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -153,9 +158,7 @@ class ErrorLoggerService {
     if (filter) {
       // 按级别筛选
       if (filter.level && filter.level.length > 0) {
-        filteredErrors = filteredErrors.filter(error => 
-          filter.level!.includes(error.level)
-        );
+        filteredErrors = filteredErrors.filter(error => filter.level!.includes(error.level));
       }
 
       // 按时间范围筛选
@@ -169,9 +172,7 @@ class ErrorLoggerService {
 
       // 按上下文筛选
       if (filter.context) {
-        filteredErrors = filteredErrors.filter(error =>
-          error.context?.context === filter.context
-        );
+        filteredErrors = filteredErrors.filter(error => error.context?.context === filter.context);
       }
 
       // 限制数量
@@ -189,16 +190,14 @@ class ErrorLoggerService {
   getErrorStats(timeWindow: number = 3600000): ErrorStats {
     const now = new Date();
     const windowStart = new Date(now.getTime() - timeWindow);
-    
-    const recentErrors = this.errors.filter(error => 
-      new Date(error.timestamp) >= windowStart
-    );
+
+    const recentErrors = this.errors.filter(error => new Date(error.timestamp) >= windowStart);
 
     const errorsByLevel: Record<ErrorLevel, number> = {
       low: 0,
       medium: 0,
       high: 0,
-      critical: 0
+      critical: 0,
     };
 
     const errorsByType: Record<string, number> = {};
@@ -215,7 +214,7 @@ class ErrorLoggerService {
         return {
           message,
           count,
-          level: error?.level || 'medium' as ErrorLevel
+          level: error?.level || ('medium' as ErrorLevel),
         };
       })
       .sort((a, b) => b.count - a.count)
@@ -226,7 +225,7 @@ class ErrorLoggerService {
       errorsByLevel,
       errorsByType,
       recentErrors: recentErrors.length,
-      topErrors
+      topErrors,
     };
   }
 
@@ -245,7 +244,7 @@ class ErrorLoggerService {
     if (format === 'csv') {
       return this.exportAsCSV();
     }
-    
+
     return JSON.stringify(this.errors, null, 2);
   }
 
@@ -302,9 +301,11 @@ class ErrorLoggerService {
       return 'critical';
     }
 
-    if (error.message.includes('Cannot read property') || 
-        error.message.includes('is not defined') ||
-        error.message.includes('is not a function')) {
+    if (
+      error.message.includes('Cannot read property') ||
+      error.message.includes('is not defined') ||
+      error.message.includes('is not a function')
+    ) {
       return 'high';
     }
 
@@ -326,7 +327,7 @@ class ErrorLoggerService {
   private reportCriticalError(error: SerializedError): void {
     // 在实际应用中，这里会发送到错误监控服务
     console.error('🚨 CRITICAL ERROR:', error);
-    
+
     // 可以集成第三方服务如 Sentry, LogRocket 等
     if (window.Sentry) {
       window.Sentry.captureException(new Error(error.message), {
@@ -334,10 +335,10 @@ class ErrorLoggerService {
           errorLogger: {
             errorId: error.id,
             level: error.level,
-            sessionId: error.sessionId
-          }
+            sessionId: error.sessionId,
+          },
         },
-        extra: error.context
+        extra: error.context,
       });
     }
   }
@@ -347,30 +348,37 @@ class ErrorLoggerService {
    */
   private initializeGlobalErrorHandlers(): void {
     // 捕获未处理的JavaScript错误
-    window.addEventListener('error', (event) => {
+    window.addEventListener('error', event => {
       this.logError(event.error || new Error(event.message), {
         context: 'Global Error Handler',
         filename: event.filename,
         lineno: event.lineno,
-        colno: event.colno
+        colno: event.colno,
       });
     });
 
     // 捕获未处理的Promise拒绝
-    window.addEventListener('unhandledrejection', (event) => {
+    window.addEventListener('unhandledrejection', event => {
       this.logPromiseRejection(event.reason, event.promise);
     });
 
     // 捕获资源加载错误
-    window.addEventListener('error', (event) => {
-      if (event.target !== window) {
-        this.logError(new Error(`Resource load error: ${(event.target as any)?.src || 'unknown'}`), {
-          context: 'Resource Load Error',
-          element: event.target?.nodeName,
-          src: (event.target as any)?.src
-        });
-      }
-    }, true);
+    window.addEventListener(
+      'error',
+      event => {
+        if (event.target !== window) {
+          this.logError(
+            new Error(`Resource load error: ${(event.target as any)?.src || 'unknown'}`),
+            {
+              context: 'Resource Load Error',
+              element: event.target?.nodeName,
+              src: (event.target as any)?.src,
+            }
+          );
+        }
+      },
+      true
+    );
   }
 
   /**
@@ -394,7 +402,7 @@ class ErrorLoggerService {
       if (stored) {
         const errors = JSON.parse(stored) as SerializedError[];
         this.errors = errors;
-        
+
         // 重建错误计数
         errors.forEach(error => {
           this.updateErrorCounts(error);
@@ -420,7 +428,7 @@ class ErrorLoggerService {
         error.name,
         `"${error.message.replace(/"/g, '""')}"`,
         error.url,
-        `"${error.userAgent}"`
+        `"${error.userAgent}"`,
       ];
       rows.push(row.join(','));
     });

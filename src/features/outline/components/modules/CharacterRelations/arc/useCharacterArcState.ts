@@ -5,13 +5,13 @@ import { mockCharacters } from './constants';
 
 export const useCharacterArcState = (props: CharacterArcProps = {}) => {
   const { characters = mockCharacters, selectedCharacterId, onCharacterChange } = props;
-  
+
   const [state, setState] = useState<CharacterArcState>({
     selectedCharacter: characters[0] as Character,
     activeStep: 0,
     isEditing: false,
     editingEvent: null,
-    eventText: ''
+    eventText: '',
   });
 
   const handleCharacterChange = (characterId: string) => {
@@ -22,9 +22,9 @@ export const useCharacterArcState = (props: CharacterArcProps = {}) => {
       activeStep: 0,
       isEditing: false,
       editingEvent: null,
-      eventText: ''
+      eventText: '',
     }));
-    
+
     if (onCharacterChange) {
       onCharacterChange(characterId);
     }
@@ -36,14 +36,14 @@ export const useCharacterArcState = (props: CharacterArcProps = {}) => {
       activeStep: step,
       isEditing: false,
       editingEvent: null,
-      eventText: ''
+      eventText: '',
     }));
   };
 
   const handlePrevious = () => {
     setState(prev => ({
       ...prev,
-      activeStep: Math.max(0, prev.activeStep - 1)
+      activeStep: Math.max(0, prev.activeStep - 1),
     }));
   };
 
@@ -52,19 +52,23 @@ export const useCharacterArcState = (props: CharacterArcProps = {}) => {
       const maxStep = state.selectedCharacter.arc.keyEvents.length + 1;
       setState(prev => ({
         ...prev,
-        activeStep: Math.min(maxStep, prev.activeStep + 1)
+        activeStep: Math.min(maxStep, prev.activeStep + 1),
       }));
     }
   };
 
   const handleEdit = (eventIndex: number) => {
-    if (state.selectedCharacter && eventIndex > 0 && eventIndex <= state.selectedCharacter.arc.keyEvents.length) {
+    if (
+      state.selectedCharacter &&
+      eventIndex > 0 &&
+      eventIndex <= state.selectedCharacter.arc.keyEvents.length
+    ) {
       const eventText = state.selectedCharacter.arc.keyEvents[eventIndex - 1];
       setState(prev => ({
         ...prev,
         isEditing: true,
         editingEvent: eventIndex,
-        eventText
+        eventText,
       }));
     }
   };
@@ -75,7 +79,7 @@ export const useCharacterArcState = (props: CharacterArcProps = {}) => {
       ...prev,
       isEditing: false,
       editingEvent: null,
-      eventText: ''
+      eventText: '',
     }));
   };
 
@@ -84,14 +88,14 @@ export const useCharacterArcState = (props: CharacterArcProps = {}) => {
       ...prev,
       isEditing: false,
       editingEvent: null,
-      eventText: ''
+      eventText: '',
     }));
   };
 
   const handleEventTextChange = (text: string) => {
     setState(prev => ({
       ...prev,
-      eventText: text
+      eventText: text,
     }));
   };
 
@@ -103,12 +107,12 @@ export const useCharacterArcState = (props: CharacterArcProps = {}) => {
     handleEdit,
     handleSave,
     handleCancel,
-    handleEventTextChange
+    handleEventTextChange,
   };
 
   return {
     state,
     actions,
-    characters
+    characters,
   };
 };

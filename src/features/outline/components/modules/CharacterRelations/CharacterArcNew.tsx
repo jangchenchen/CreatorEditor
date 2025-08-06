@@ -6,7 +6,7 @@ import { CharacterSelector } from './arc/CharacterSelector';
 import { CharacterInfoCard } from './arc/CharacterInfoCard';
 import { ArcTimeline } from './arc/ArcTimeline';
 
-const CharacterArc: React.FC<CharacterArcProps> = (props) => {
+const CharacterArc: React.FC<CharacterArcProps> = props => {
   const {
     state,
     progress,
@@ -19,7 +19,7 @@ const CharacterArc: React.FC<CharacterArcProps> = (props) => {
     handleEdit,
     handleSave,
     handleCancel,
-    handleEventTextChange
+    handleEventTextChange,
   } = useCharacterArc(props);
 
   const { selectedCharacter, activeStep, isEditing, editingEvent, eventText } = state;
@@ -36,10 +36,7 @@ const CharacterArc: React.FC<CharacterArcProps> = (props) => {
         {/* 角色基本信息 */}
         <Grid item xs={12} md={4}>
           {selectedCharacter && (
-            <CharacterInfoCard
-              character={selectedCharacter}
-              progress={progress}
-            />
+            <CharacterInfoCard character={selectedCharacter} progress={progress} />
           )}
         </Grid>
 

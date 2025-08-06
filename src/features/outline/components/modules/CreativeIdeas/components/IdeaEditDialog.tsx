@@ -6,12 +6,9 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
 } from '@mui/material';
-import {
-  Save as SaveIcon,
-  Cancel as CancelIcon
-} from '@mui/icons-material';
+import { Save as SaveIcon, Cancel as CancelIcon } from '@mui/icons-material';
 import { CreativeIdea } from '../../../../types/outline.types';
 import IdeaBasicFields from './IdeaBasicFields';
 import IdeaDetailsFields from './IdeaDetailsFields';
@@ -23,13 +20,12 @@ interface IdeaEditDialogProps {
   formData: Partial<CreativeIdea>;
   onClose: () => void;
   onSave: () => void;
-  onFormChange: (field: keyof CreativeIdea) => (
-    event: React.ChangeEvent<HTMLInputElement | { value: unknown }>
-  ) => void;
-  onArrayFieldChange: (field: keyof Pick<CreativeIdea, 'relatedElements' | 'tags'>) => (
-    event: any,
-    newValue: string[]
-  ) => void;
+  onFormChange: (
+    field: keyof CreativeIdea
+  ) => (event: React.ChangeEvent<HTMLInputElement | { value: unknown }>) => void;
+  onArrayFieldChange: (
+    field: keyof Pick<CreativeIdea, 'relatedElements' | 'tags'>
+  ) => (event: any, newValue: string[]) => void;
   onPriorityChange: (priority: number) => void;
 }
 
@@ -41,27 +37,22 @@ const IdeaEditDialog: React.FC<IdeaEditDialogProps> = ({
   onSave,
   onFormChange,
   onArrayFieldChange,
-  onPriorityChange
+  onPriorityChange,
 }) => {
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>
-        {editingIdea ? '编辑创意' : '添加新创意'}
-      </DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth='md' fullWidth>
+      <DialogTitle>{editingIdea ? '编辑创意' : '添加新创意'}</DialogTitle>
       <DialogContent>
-        <Box component="form" sx={{ mt: 2 }}>
+        <Box component='form' sx={{ mt: 2 }}>
           <Grid container spacing={2}>
-            <IdeaBasicFields 
-              formData={formData}
-              onFormChange={onFormChange}
-            />
-            
+            <IdeaBasicFields formData={formData} onFormChange={onFormChange} />
+
             <IdeaDetailsFields
               formData={formData}
               onFormChange={onFormChange}
               onPriorityChange={onPriorityChange}
             />
-            
+
             <IdeaTagsFields
               formData={formData}
               onFormChange={onFormChange}
@@ -74,9 +65,9 @@ const IdeaEditDialog: React.FC<IdeaEditDialogProps> = ({
         <Button onClick={onClose} startIcon={<CancelIcon />}>
           取消
         </Button>
-        <Button 
-          onClick={onSave} 
-          variant="contained" 
+        <Button
+          onClick={onSave}
+          variant='contained'
           startIcon={<SaveIcon />}
           disabled={!formData.title}
         >

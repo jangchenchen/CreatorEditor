@@ -4,15 +4,7 @@
  */
 
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  Typography,
-  TextField,
-  Button,
-  Box,
-  Chip
-} from '@mui/material';
+import { Card, CardContent, Typography, TextField, Button, Box, Chip } from '@mui/material';
 
 interface NaturalFeaturesManagerProps {
   naturalFeatures: string[];
@@ -27,28 +19,24 @@ export const NaturalFeaturesManager: React.FC<NaturalFeaturesManagerProps> = ({
   newFeature,
   onNewFeatureChange,
   onAddFeature,
-  onRemoveFeature
+  onRemoveFeature,
 }) => {
   return (
     <Card elevation={2}>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant='h6' gutterBottom>
           自然特征
         </Typography>
         <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
           <TextField
             fullWidth
-            size="small"
-            label="添加自然特征"
+            size='small'
+            label='添加自然特征'
             value={newFeature}
-            onChange={(e) => onNewFeatureChange(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && onAddFeature()}
+            onChange={e => onNewFeatureChange(e.target.value)}
+            onKeyPress={e => e.key === 'Enter' && onAddFeature()}
           />
-          <Button 
-            variant="outlined" 
-            onClick={onAddFeature}
-            disabled={!newFeature.trim()}
-          >
+          <Button variant='outlined' onClick={onAddFeature} disabled={!newFeature.trim()}>
             添加
           </Button>
         </Box>
@@ -58,12 +46,12 @@ export const NaturalFeaturesManager: React.FC<NaturalFeaturesManagerProps> = ({
               key={index}
               label={feature}
               onDelete={() => onRemoveFeature(index)}
-              color="secondary"
-              variant="outlined"
+              color='secondary'
+              variant='outlined'
             />
           ))}
           {naturalFeatures.length === 0 && (
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant='body2' color='text.secondary'>
               暂无自然特征信息
             </Typography>
           )}

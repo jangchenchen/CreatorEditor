@@ -14,17 +14,19 @@ export class SubplotValidator {
   ): void {
     subplots.forEach(subplot => {
       // Check character references
-      const orphanedCharacters = subplot.relatedCharacters.filter(charId => !validCharacterIds.has(charId));
+      const orphanedCharacters = subplot.relatedCharacters.filter(
+        charId => !validCharacterIds.has(charId)
+      );
       orphanedCharacters.forEach(charId => {
         errors.push({
           type: 'orphaned_reference',
           module: 'subplots',
           entityId: subplot.id,
           message: `Subplot "${subplot.title}" references deleted character: ${charId}`,
-          severity: 'medium'
+          severity: 'medium',
         });
       });
-      
+
       // Check chapter range validity
       if (subplot.startChapter && !validChapterNumbers.has(subplot.startChapter)) {
         errors.push({
@@ -32,28 +34,31 @@ export class SubplotValidator {
           module: 'subplots',
           entityId: subplot.id,
           message: `Subplot "${subplot.title}" has invalid start chapter: ${subplot.startChapter}`,
-          severity: 'high'
+          severity: 'high',
         });
       }
-      
+
       if (subplot.endChapter && !validChapterNumbers.has(subplot.endChapter)) {
         errors.push({
           type: 'invalid_chapter_range',
           module: 'subplots',
           entityId: subplot.id,
           message: `Subplot "${subplot.title}" has invalid end chapter: ${subplot.endChapter}`,
-          severity: 'high'
+          severity: 'high',
         });
       }
-      
+
       // Check for logical chapter range
-      if (subplot.startChapter && subplot.endChapter && 
-          Number(subplot.startChapter) > Number(subplot.endChapter)) {
+      if (
+        subplot.startChapter &&
+        subplot.endChapter &&
+        Number(subplot.startChapter) > Number(subplot.endChapter)
+      ) {
         warnings.push({
           type: 'potential_inconsistency',
           module: 'subplots',
           entityId: subplot.id,
-          message: `Subplot "${subplot.title}" has start chapter after end chapter`
+          message: `Subplot "${subplot.title}" has start chapter after end chapter`,
         });
       }
     });

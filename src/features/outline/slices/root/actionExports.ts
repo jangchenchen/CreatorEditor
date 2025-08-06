@@ -1,18 +1,10 @@
 // Re-export all actions from individual slices for backward compatibility
 
 // Project actions
-export {
-  setProjectName,
-  initializeProject,
-  updateLastModified
-} from '../projectSlice';
+export { setProjectName, initializeProject, updateLastModified } from '../projectSlice';
 
 // Story actions
-export {
-  updateStoryBackground,
-  updateCoreTheme,
-  updateSynopsis
-} from '../storySlice';
+export { updateStoryBackground, updateCoreTheme, updateSynopsis } from '../storySlice';
 
 // Character actions
 export {
@@ -21,7 +13,7 @@ export {
   deleteCharacter,
   addRelationship,
   updateRelationship,
-  deleteRelationship
+  deleteRelationship,
 } from '../charactersSlice';
 
 // Timeline actions
@@ -30,16 +22,11 @@ export {
   updatePlotEvent,
   deletePlotEvent,
   updateTimelineInfo,
-  loadTimelineData
+  loadTimelineData,
 } from '../timelineSlice';
 
 // Chapter actions
-export {
-  addChapter,
-  updateChapter,
-  deleteChapter,
-  updateChapterStructure
-} from '../chaptersSlice';
+export { addChapter, updateChapter, deleteChapter, updateChapterStructure } from '../chaptersSlice';
 
 // Subplot actions
 export {
@@ -48,7 +35,7 @@ export {
   deleteSubplot,
   addSecondaryStory,
   updateSecondaryStory,
-  deleteSecondaryStory
+  deleteSecondaryStory,
 } from '../subplotsSlice';
 
 // Ideas actions
@@ -60,7 +47,7 @@ export {
   addPlotAlternative,
   updatePlotAlternative,
   deletePlotAlternative,
-  loadIdeasData
+  loadIdeasData,
 } from '../ideasSlice';
 
 // World actions
@@ -79,12 +66,8 @@ export {
   updateCustomRule,
   addInspirationSource,
   removeInspirationSource,
-  updateInspirationSource
+  updateInspirationSource,
 } from '../worldSlice';
 
 // Global actions
-export {
-  loadOutlineData,
-  resetOutline,
-  markModuleUpdated
-} from './globalActions';
+export { loadOutlineData, resetOutline, markModuleUpdated } from './globalActions';

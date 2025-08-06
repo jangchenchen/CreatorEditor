@@ -15,27 +15,27 @@ const StructureOverviewNew: React.FC = () => {
     handleStructureChange,
     handleSaveStructure,
     getStatusColor,
-    getStatusLabel
+    getStatusLabel,
   } = useStructureOverview();
 
   return (
     <Box>
       <StructureStatistics statistics={statistics} />
-      
+
       <ChapterStatusDistribution statistics={statistics} />
-      
-      <ChapterStructureFlow 
+
+      <ChapterStructureFlow
         chapters={chapters}
         getStatusColor={getStatusColor}
         getStatusLabel={getStatusLabel}
       />
-      
-      <StructureDescription 
+
+      <StructureDescription
         overallStructure={chaptersData.overallStructure}
         onStructureChange={handleStructureChange}
         onSaveStructure={handleSaveStructure}
       />
-      
+
       <StructureAnalysis statistics={statistics} />
     </Box>
   );

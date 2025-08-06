@@ -22,24 +22,24 @@ export const deleteCharacterWithCleanup = createAsyncThunk<
   'crossModule/deleteCharacterWithCleanup',
   async ({ characterId, cascade = true }, { dispatch, getState }) => {
     const state = getState().outline;
-    
+
     if (cascade) {
       // First, clean up all references to this character
       const cleanupActions = await generateCharacterCleanupActions(characterId, state);
-      
+
       // Execute cleanup actions
       for (const action of cleanupActions) {
         await executeCleanupAction(action, dispatch, getState);
       }
     }
-    
+
     // Finally, delete the character
     dispatch(deleteCharacter(characterId));
-    
+
     // Validate state after deletion
     const newState = getState().outline;
     const validationResult = ReferentialIntegrityService.validateState(newState);
-    
+
     if (!validationResult.isValid) {
       console.warn('Data integrity issues after character deletion:', validationResult.errors);
     }
@@ -58,15 +58,15 @@ export const updateCharacterWithPropagation = createAsyncThunk<
   async ({ character, propagateChanges = true }, { dispatch, getState }) => {
     // Update the character first
     dispatch(updateCharacter(character));
-    
+
     if (propagateChanges) {
       // Currently, character updates typically don't require cascading changes
       // since references use IDs, but we could add validation or cache invalidation here
-      
+
       // Validate state after update
       const newState = getState().outline;
       const validationResult = ReferentialIntegrityService.validateState(newState);
-      
+
       if (!validationResult.isValid) {
         console.warn('Data integrity issues after character update:', validationResult.errors);
       }

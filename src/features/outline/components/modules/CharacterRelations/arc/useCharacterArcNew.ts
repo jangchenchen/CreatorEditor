@@ -14,6 +14,6 @@ export const useCharacterArcNew = (props: CharacterArcProps = {}): UseCharacterA
     progress,
     steps,
     characters,
-    ...actions
+    ...actions,
   };
 };

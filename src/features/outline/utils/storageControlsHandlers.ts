@@ -43,14 +43,14 @@ export const createStorageHandlers = (
 
     try {
       const result = await storage.importProject(file);
-      
+
       if (result.success) {
         let message = `Project "${result.project?.projectName}" imported successfully`;
         if (result.migrationApplied) {
           message += ` (migrated from v${result.originalVersion})`;
         }
         showSnackbar(message, 'success');
-        
+
         if (result.warnings.length > 0) {
           console.warn('Import warnings:', result.warnings);
         }
@@ -60,7 +60,7 @@ export const createStorageHandlers = (
     } catch (error) {
       showSnackbar('Import failed', 'error');
     }
-    
+
     // Reset file input
     event.target.value = '';
   };
@@ -73,7 +73,7 @@ export const createStorageHandlers = (
 
     try {
       const result = await storage.exportProject(currentProjectId, state.exportPath);
-      
+
       if (result.success) {
         showSnackbar(`Project exported to ${result.filePath}`, 'success');
         updateState({ showExportDialog: false, exportPath: '' });
@@ -88,10 +88,10 @@ export const createStorageHandlers = (
   const handleBackupExport = async () => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const backupPath = `backup_${timestamp}.json`;
-    
+
     try {
       const result = await storage.exportBackup(backupPath);
-      
+
       if (result.success) {
         showSnackbar(`Backup exported to ${result.filePath}`, 'success');
       } else {
@@ -129,6 +129,6 @@ export const createStorageHandlers = (
     handleBackupExport,
     handleShowStats,
     handleAutoSaveToggle,
-    showSnackbar
+    showSnackbar,
   };
 };

@@ -4,15 +4,7 @@
  */
 
 import React from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  TextField,
-  Button,
-  Typography,
-  Chip
-} from '@mui/material';
+import { Box, Card, CardContent, TextField, Button, Typography, Chip } from '@mui/material';
 
 interface LandmarksManagerProps {
   landmarks: string[];
@@ -27,7 +19,7 @@ const LandmarksManager: React.FC<LandmarksManagerProps> = ({
   newLandmark,
   onNewLandmarkChange,
   onAddLandmark,
-  onRemoveLandmark
+  onRemoveLandmark,
 }) => {
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
@@ -38,23 +30,19 @@ const LandmarksManager: React.FC<LandmarksManagerProps> = ({
   return (
     <Card elevation={2}>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant='h6' gutterBottom>
           重要地标
         </Typography>
         <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
           <TextField
             fullWidth
-            size="small"
-            label="添加地标"
+            size='small'
+            label='添加地标'
             value={newLandmark}
-            onChange={(e) => onNewLandmarkChange(e.target.value)}
+            onChange={e => onNewLandmarkChange(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          <Button 
-            variant="outlined" 
-            onClick={onAddLandmark}
-            disabled={!newLandmark.trim()}
-          >
+          <Button variant='outlined' onClick={onAddLandmark} disabled={!newLandmark.trim()}>
             添加
           </Button>
         </Box>
@@ -64,12 +52,12 @@ const LandmarksManager: React.FC<LandmarksManagerProps> = ({
               key={index}
               label={landmark}
               onDelete={() => onRemoveLandmark(index)}
-              color="primary"
-              variant="outlined"
+              color='primary'
+              variant='outlined'
             />
           ))}
           {landmarks.length === 0 && (
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant='body2' color='text.secondary'>
               暂无地标信息
             </Typography>
           )}

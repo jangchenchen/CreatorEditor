@@ -25,19 +25,17 @@ export const useSceneState = (chapters: Chapter[]) => {
     setFormData({});
   };
 
-  const handleFormChange = (field: keyof Scene) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleFormChange = (field: keyof Scene) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
       ...prev,
-      [field]: event.target.value
+      [field]: event.target.value,
     }));
   };
 
   const handleCharactersChange = (event: any, newValue: string[]) => {
     setFormData(prev => ({
       ...prev,
-      characters: newValue
+      characters: newValue,
     }));
   };
 
@@ -60,6 +58,6 @@ export const useSceneState = (chapters: Chapter[]) => {
     handleCloseDialog,
     handleFormChange,
     handleCharactersChange,
-    setFormData
+    setFormData,
   };
 };

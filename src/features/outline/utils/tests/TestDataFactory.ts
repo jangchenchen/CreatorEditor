@@ -19,52 +19,50 @@ export class TestDataFactory {
       version: '1.0.0',
       createdAt: now,
       lastUpdated: now,
-      
+
       story: {
         id: `story_${projectId}`,
         background: {
           era: 'Modern',
           location: 'New York',
           socialEnvironment: 'Urban',
-          historicalContext: 'Present day'
+          historicalContext: 'Present day',
         },
         coreTheme: {
           theme: 'Adventure',
           conflict: 'Good vs Evil',
           message: 'Courage conquers all',
-          keywords: ['adventure', 'courage']
+          keywords: ['adventure', 'courage'],
         },
         synopsis: {
           beginning: 'Hero starts journey',
           development: 'Hero faces challenges',
           climax: 'Final battle',
           ending: 'Victory achieved',
-          overallTone: 'Optimistic'
+          overallTone: 'Optimistic',
         },
-        lastUpdated: now
+        lastUpdated: now,
       },
-      
-      characters: [
-        this.createTestCharacter('test-char-1', 'Test Hero')
-      ],
-      
+
+      characters: [this.createTestCharacter('test-char-1', 'Test Hero')],
+
       relationships: [],
-      
+
       timeline: {
         id: `timeline_${projectId}`,
         events: [],
         startTime: '2024-01-01',
         endTime: '2024-12-31',
-        timelineNotes: 'Test timeline'
+        timelineNotes: 'Test timeline',
       },
-      
+
       world: {
         id: `world_${projectId}`,
         geography: {
           regions: [],
           climate: 'Temperate',
           landmarks: [],
-          naturalFeatures: []
+          naturalFeatures: [],
         },
         society: {
           political: 'Democracy',
@@ -72,25 +70,25 @@ export class TestDataFactory {
           cultural: ['Western'],
           religious: 'Mixed',
           technology: 'Modern',
-          socialClasses: ['Upper', 'Middle', 'Lower']
+          socialClasses: ['Upper', 'Middle', 'Lower'],
         },
         history: {
           timeline: [],
           legends: [],
           familySecrets: [],
-          mysteries: []
+          mysteries: [],
         },
         customRules: [],
-        inspirationSources: []
+        inspirationSources: [],
       },
-      
+
       chapters: {
         id: `chapters_${projectId}`,
         chapters: [],
         totalChapters: 0,
-        overallStructure: 'Three-act structure'
+        overallStructure: 'Three-act structure',
       },
-      
+
       themes: {
         id: `themes_${projectId}`,
         themes: {
@@ -98,28 +96,28 @@ export class TestDataFactory {
           secondary: ['Friendship', 'Growth'],
           symbols: [],
           metaphors: [],
-          motifs: []
+          motifs: [],
         },
         characterMotivations: [],
         philosophicalQuestions: [],
         socialCommentary: [],
-        personalReflections: []
+        personalReflections: [],
       },
-      
+
       subplots: {
         id: `subplots_${projectId}`,
         subplots: [],
         secondaryStories: [],
-        weavingStrategy: 'Parallel development'
+        weavingStrategy: 'Parallel development',
       },
-      
+
       ideas: {
         id: `ideas_${projectId}`,
         ideas: [],
         alternatives: [],
         inspirationSources: [],
-        brainstormingSessions: []
-      }
+        brainstormingSessions: [],
+      },
     };
   }
 
@@ -128,7 +126,7 @@ export class TestDataFactory {
    */
   static createTestCharacter(id: string, name: string): Character {
     const now = new Date();
-    
+
     return {
       id,
       name,
@@ -142,11 +140,11 @@ export class TestDataFactory {
         startState: 'Naive',
         keyEvents: ['First challenge'],
         endState: 'Wise',
-        growthDirection: 'Positive'
+        growthDirection: 'Positive',
       },
       tags: ['hero'],
       createdAt: now,
-      lastUpdated: now
+      lastUpdated: now,
     };
   }
 
@@ -167,7 +165,7 @@ export class TestDataFactory {
       impact: 'Character development',
       consequences: [],
       relatedEvents: [],
-      tags: ['test']
+      tags: ['test'],
     };
   }
 
@@ -183,7 +181,7 @@ export class TestDataFactory {
       projectName: 'Minimal Test Project',
       version: '1.0.0',
       createdAt: now,
-      lastUpdated: now
+      lastUpdated: now,
     };
   }
 }

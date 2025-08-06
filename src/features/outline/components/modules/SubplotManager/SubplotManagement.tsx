@@ -1,10 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/material';
-import {
-  selectOutline,
-  selectCharacters
-} from '../../../outlineSlice';
+import { selectOutline, selectCharacters } from '../../../outlineSlice';
 import { Subplot } from '../../../types/outline.types';
 import { useSubplotState } from './hooks/useSubplotState';
 import SubplotStatistics from './components/SubplotStatistics';
@@ -17,7 +14,7 @@ const SubplotManagement: React.FC = () => {
   const outline = useSelector(selectOutline);
   const characters = useSelector(selectCharacters);
   const subplots = outline.subplots.subplots;
-  
+
   const {
     editingSubplot,
     dialogOpen,
@@ -25,7 +22,7 @@ const SubplotManagement: React.FC = () => {
     handleOpenDialog,
     handleCloseDialog,
     handleFormChange,
-    handleCharactersChange
+    handleCharactersChange,
   } = useSubplotState();
 
   const handleSaveSubplot = () => {
@@ -40,7 +37,7 @@ const SubplotManagement: React.FC = () => {
       endChapter: formData.endChapter || 1,
       connection: formData.connection || '',
       resolution: formData.resolution || '',
-      impact: formData.impact || ''
+      impact: formData.impact || '',
     };
 
     // TODO: 使用 dispatch 更新 Redux state
@@ -56,7 +53,7 @@ const SubplotManagement: React.FC = () => {
   return (
     <Box>
       <SubplotStatistics subplots={subplots} />
-      
+
       <SubplotToolbar onAddSubplot={() => handleOpenDialog()} />
 
       <SubplotList

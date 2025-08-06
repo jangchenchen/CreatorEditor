@@ -12,12 +12,9 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Typography
+  Typography,
 } from '@mui/material';
-import {
-  ExpandMore as ExpandMoreIcon,
-  Add as AddIcon
-} from '@mui/icons-material';
+import { ExpandMore as ExpandMoreIcon, Add as AddIcon } from '@mui/icons-material';
 
 interface ThemeListProps {
   title: string;
@@ -42,12 +39,12 @@ export const ThemeList: React.FC<ThemeListProps> = ({
   onAdd,
   onRemove,
   icon,
-  color = 'secondary'
+  color = 'secondary',
 }) => {
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant='h6' sx={{ display: 'flex', alignItems: 'center' }}>
           {icon && <Box sx={{ mr: 1 }}>{icon}</Box>}
           {title} ({items.length})
         </Typography>
@@ -57,15 +54,15 @@ export const ThemeList: React.FC<ThemeListProps> = ({
           <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
             <TextField
               fullWidth
-              size="small"
+              size='small'
               label={inputLabel}
               value={inputValue}
-              onChange={(e) => onInputChange(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && onAdd()}
+              onChange={e => onInputChange(e.target.value)}
+              onKeyPress={e => e.key === 'Enter' && onAdd()}
               placeholder={inputPlaceholder}
             />
-            <Button 
-              variant="contained" 
+            <Button
+              variant='contained'
               onClick={onAdd}
               disabled={!inputValue.trim()}
               startIcon={<AddIcon />}
@@ -73,7 +70,7 @@ export const ThemeList: React.FC<ThemeListProps> = ({
               添加
             </Button>
           </Box>
-          
+
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             {items.map((item, index) => (
               <Chip
@@ -81,11 +78,11 @@ export const ThemeList: React.FC<ThemeListProps> = ({
                 label={item}
                 onDelete={() => onRemove(index)}
                 color={color}
-                variant="outlined"
+                variant='outlined'
               />
             ))}
             {items.length === 0 && (
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant='body2' color='text.secondary'>
                 暂无{title.toLowerCase()}
               </Typography>
             )}

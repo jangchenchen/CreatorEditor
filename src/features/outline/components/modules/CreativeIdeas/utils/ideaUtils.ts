@@ -4,7 +4,7 @@ import {
   AlternateEmail as AlternativeEndingIcon,
   Movie as SceneIdeaIcon,
   PersonAdd as CharacterTwistIcon,
-  Chat as DialogueIcon
+  Chat as DialogueIcon,
 } from '@mui/icons-material';
 import { IdeaType, IdeaStatus } from '../../../../types/outline.types';
 
@@ -15,7 +15,7 @@ export const getTypeIcon = (type: IdeaType) => {
     'alternative-ending': AlternativeEndingIcon,
     'scene-idea': SceneIdeaIcon,
     'character-twist': CharacterTwistIcon,
-    dialogue: DialogueIcon
+    dialogue: DialogueIcon,
   };
   return icons[type] || InspirationIcon;
 };
@@ -27,7 +27,7 @@ export const getTypeLabel = (type: IdeaType) => {
     'alternative-ending': '结局替代',
     'scene-idea': '场景创意',
     'character-twist': '角色转折',
-    dialogue: '对话创意'
+    dialogue: '对话创意',
   };
   return labels[type] || type;
 };
@@ -38,7 +38,7 @@ export const getStatusColor = (status: IdeaStatus) => {
     considering: 'warning',
     adopted: 'success',
     rejected: 'error',
-    archived: 'secondary'
+    archived: 'secondary',
   } as const;
   return colors[status] || 'default';
 };
@@ -49,7 +49,7 @@ export const getStatusLabel = (status: IdeaStatus) => {
     considering: '考虑中',
     adopted: '已采用',
     rejected: '已拒绝',
-    archived: '已归档'
+    archived: '已归档',
   };
   return labels[status] || status;
 };

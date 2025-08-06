@@ -9,7 +9,7 @@ import {
   updateChapter,
   updateSubplot,
   updateIdea,
-  deleteSecondaryStory
+  deleteSecondaryStory,
 } from '../../slices/rootOutlineSlice';
 import { CleanupAction } from '../../services/referentialIntegrityService';
 
@@ -22,20 +22,20 @@ export async function executeCleanupAction(
   getState: () => RootState
 ): Promise<void> {
   const state = getState().outline;
-  
+
   switch (action.type) {
     case 'remove_reference':
       await executeRemoveReferenceAction(action, dispatch, state);
       break;
-    
+
     case 'update_field':
       await executeUpdateFieldAction(action, dispatch, state);
       break;
-    
+
     case 'delete_entity':
       await executeDeleteEntityAction(action, dispatch, state);
       break;
-    
+
     default:
       console.warn(`Unknown cleanup action type: ${action.type}`);
   }
@@ -53,15 +53,15 @@ async function executeRemoveReferenceAction(
     case 'timeline':
       await executeTimelineReferenceRemoval(action, dispatch, state);
       break;
-    
+
     case 'chapters':
       await executeChapterReferenceRemoval(action, dispatch, state);
       break;
-    
+
     case 'subplots':
       await executeSubplotReferenceRemoval(action, dispatch, state);
       break;
-    
+
     case 'ideas':
       await executeIdeaReferenceRemoval(action, dispatch, state);
       break;
@@ -80,11 +80,9 @@ async function executeTimelineReferenceRemoval(
   if (event && action.newValue) {
     const updatedTimeline = {
       ...state.timeline,
-      events: state.timeline.events.map((e: any) => 
-        e.id === action.entityId 
-          ? { ...e, [action.field!]: action.newValue }
-          : e
-      )
+      events: state.timeline.events.map((e: any) =>
+        e.id === action.entityId ? { ...e, [action.field!]: action.newValue } : e
+      ),
     };
     dispatch(updateTimeline(updatedTimeline));
   }
@@ -98,17 +96,15 @@ async function executeChapterReferenceRemoval(
   dispatch: AppDispatch,
   state: any
 ): Promise<void> {
-  const chapter = state.chapters.chapters.find((c: any) => 
+  const chapter = state.chapters.chapters.find((c: any) =>
     c.keyScenes.some((s: any) => s.id === action.entityId)
   );
   if (chapter && action.newValue) {
     const updatedChapter = {
       ...chapter,
       keyScenes: chapter.keyScenes.map((scene: any) =>
-        scene.id === action.entityId
-          ? { ...scene, [action.field!]: action.newValue }
-          : scene
-      )
+        scene.id === action.entityId ? { ...scene, [action.field!]: action.newValue } : scene
+      ),
     };
     dispatch(updateChapter(updatedChapter));
   }
@@ -126,7 +122,7 @@ async function executeSubplotReferenceRemoval(
   if (subplot && action.newValue) {
     const updatedSubplot = {
       ...subplot,
-      [action.field!]: action.newValue
+      [action.field!]: action.newValue,
     };
     dispatch(updateSubplot(updatedSubplot));
   }
@@ -144,7 +140,7 @@ async function executeIdeaReferenceRemoval(
   if (idea && action.newValue) {
     const updatedIdea = {
       ...idea,
-      [action.field!]: action.newValue
+      [action.field!]: action.newValue,
     };
     dispatch(updateIdea(updatedIdea));
   }
@@ -164,7 +160,7 @@ async function executeUpdateFieldAction(
       if (subplot) {
         const updatedSubplot = {
           ...subplot,
-          [action.field!]: action.newValue
+          [action.field!]: action.newValue,
         };
         dispatch(updateSubplot(updatedSubplot));
       }

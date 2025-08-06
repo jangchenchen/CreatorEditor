@@ -22,9 +22,9 @@ describe('ValidatedTextField', () => {
     it('should render with required props', () => {
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={mockErrors}
         />
@@ -36,12 +36,12 @@ describe('ValidatedTextField', () => {
     it('should render with helper text', () => {
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={mockErrors}
-          helperText="这是帮助文本"
+          helperText='这是帮助文本'
         />
       );
 
@@ -51,9 +51,9 @@ describe('ValidatedTextField', () => {
     it('should render as required field', () => {
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={mockErrors}
           required
@@ -68,9 +68,9 @@ describe('ValidatedTextField', () => {
     it('should render as multiline', () => {
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={mockErrors}
           multiline
@@ -87,9 +87,9 @@ describe('ValidatedTextField', () => {
     it('should display the provided value', () => {
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value="测试值"
+          name='test'
+          label='测试字段'
+          value='测试值'
           onChange={mockOnChange}
           errors={mockErrors}
         />
@@ -101,12 +101,12 @@ describe('ValidatedTextField', () => {
 
     it('should call onChange when value changes', async () => {
       const user = userEvent.setup();
-      
+
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={mockErrors}
         />
@@ -121,20 +121,20 @@ describe('ValidatedTextField', () => {
     it('should handle controlled input correctly', async () => {
       const TestComponent = () => {
         const [value, setValue] = React.useState('');
-        
+
         return (
           <ValidatedTextField
-            name="test"
-            label="测试字段"
+            name='test'
+            label='测试字段'
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={e => setValue(e.target.value)}
             errors={mockErrors}
           />
         );
       };
 
       renderWithProviders(<TestComponent />);
-      
+
       const input = screen.getByLabelText('测试字段');
       await userEvent.type(input, 'Hello');
 
@@ -145,14 +145,14 @@ describe('ValidatedTextField', () => {
   describe('validation and errors', () => {
     it('should display validation error', () => {
       const errorsWithValidation: ValidationError[] = [
-        { field: 'test', message: '此字段不能为空' }
+        { field: 'test', message: '此字段不能为空' },
       ];
 
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={errorsWithValidation}
         />
@@ -162,15 +162,13 @@ describe('ValidatedTextField', () => {
     });
 
     it('should show error state styling', () => {
-      const errorsWithValidation: ValidationError[] = [
-        { field: 'test', message: '验证失败' }
-      ];
+      const errorsWithValidation: ValidationError[] = [{ field: 'test', message: '验证失败' }];
 
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={errorsWithValidation}
         />
@@ -183,14 +181,14 @@ describe('ValidatedTextField', () => {
     it('should display multiple errors for the same field', () => {
       const multipleErrors: ValidationError[] = [
         { field: 'test', message: '错误1' },
-        { field: 'test', message: '错误2' }
+        { field: 'test', message: '错误2' },
       ];
 
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={multipleErrors}
         />
@@ -202,14 +200,14 @@ describe('ValidatedTextField', () => {
 
     it('should not display errors for other fields', () => {
       const errorsForOtherField: ValidationError[] = [
-        { field: 'otherField', message: '其他字段的错误' }
+        { field: 'otherField', message: '其他字段的错误' },
       ];
 
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={errorsForOtherField}
         />
@@ -219,18 +217,16 @@ describe('ValidatedTextField', () => {
     });
 
     it('should prioritize error text over helper text', () => {
-      const errorsWithValidation: ValidationError[] = [
-        { field: 'test', message: '验证错误' }
-      ];
+      const errorsWithValidation: ValidationError[] = [{ field: 'test', message: '验证错误' }];
 
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={errorsWithValidation}
-          helperText="帮助文本"
+          helperText='帮助文本'
         />
       );
 
@@ -243,9 +239,9 @@ describe('ValidatedTextField', () => {
     it('should have proper aria attributes', () => {
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={mockErrors}
           required
@@ -257,15 +253,13 @@ describe('ValidatedTextField', () => {
     });
 
     it('should have aria-invalid when there are errors', () => {
-      const errorsWithValidation: ValidationError[] = [
-        { field: 'test', message: '验证失败' }
-      ];
+      const errorsWithValidation: ValidationError[] = [{ field: 'test', message: '验证失败' }];
 
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={errorsWithValidation}
         />
@@ -276,15 +270,13 @@ describe('ValidatedTextField', () => {
     });
 
     it('should associate error messages with input', () => {
-      const errorsWithValidation: ValidationError[] = [
-        { field: 'test', message: '验证失败' }
-      ];
+      const errorsWithValidation: ValidationError[] = [{ field: 'test', message: '验证失败' }];
 
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={errorsWithValidation}
         />
@@ -292,7 +284,7 @@ describe('ValidatedTextField', () => {
 
       const input = screen.getByLabelText('测试字段');
       const errorMessage = screen.getByText('验证失败');
-      
+
       expect(input).toHaveAttribute('aria-describedby');
       expect(errorMessage).toBeInTheDocument();
     });
@@ -302,9 +294,9 @@ describe('ValidatedTextField', () => {
     it('should pass through fullWidth prop', () => {
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={mockErrors}
           fullWidth
@@ -319,9 +311,9 @@ describe('ValidatedTextField', () => {
     it('should pass through disabled prop', () => {
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={mockErrors}
           disabled
@@ -335,12 +327,12 @@ describe('ValidatedTextField', () => {
     it('should pass through placeholder prop', () => {
       renderWithProviders(
         <ValidatedTextField
-          name="test"
-          label="测试字段"
-          value=""
+          name='test'
+          label='测试字段'
+          value=''
           onChange={mockOnChange}
           errors={mockErrors}
-          placeholder="请输入内容"
+          placeholder='请输入内容'
         />
       );
 

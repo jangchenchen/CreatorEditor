@@ -7,7 +7,7 @@ import {
   List as ChapterIcon,
   Psychology as ThemeIcon,
   AccountTree as SubplotIcon,
-  Lightbulb as IdeaIcon
+  Lightbulb as IdeaIcon,
 } from '@mui/icons-material';
 import { OutlineModule } from '../../types/outline.types';
 
@@ -27,7 +27,7 @@ export const modules: ModuleInfo[] = [
     description: '故事背景、核心主题与冲突、故事梗概',
     icon: <StoryIcon />,
     color: '#1976d2',
-    priority: 'high'
+    priority: 'high',
   },
   {
     id: 'characters',
@@ -35,7 +35,7 @@ export const modules: ModuleInfo[] = [
     description: '角色档案、发展弧线、关系图谱',
     icon: <CharacterIcon />,
     color: '#9c27b0',
-    priority: 'high'
+    priority: 'high',
   },
   {
     id: 'timeline',
@@ -43,7 +43,7 @@ export const modules: ModuleInfo[] = [
     description: '关键事件、情节转折点、时间线管理',
     icon: <TimelineIcon />,
     color: '#f57c00',
-    priority: 'medium'
+    priority: 'medium',
   },
   {
     id: 'world',
@@ -51,7 +51,7 @@ export const modules: ModuleInfo[] = [
     description: '地理环境、社会制度、历史传承',
     icon: <WorldIcon />,
     color: '#388e3c',
-    priority: 'medium'
+    priority: 'medium',
   },
   {
     id: 'chapters',
@@ -59,7 +59,7 @@ export const modules: ModuleInfo[] = [
     description: '分章设计、情节安排、章节衔接',
     icon: <ChapterIcon />,
     color: '#d32f2f',
-    priority: 'high'
+    priority: 'high',
   },
   {
     id: 'themes',
@@ -67,7 +67,7 @@ export const modules: ModuleInfo[] = [
     description: '主题深化、角色动机、情感转变',
     icon: <ThemeIcon />,
     color: '#7b1fa2',
-    priority: 'low'
+    priority: 'low',
   },
   {
     id: 'subplots',
@@ -75,7 +75,7 @@ export const modules: ModuleInfo[] = [
     description: '补充情节、次要角色故事、支线任务',
     icon: <SubplotIcon />,
     color: '#1976d2',
-    priority: 'low'
+    priority: 'low',
   },
   {
     id: 'ideas',
@@ -83,24 +83,32 @@ export const modules: ModuleInfo[] = [
     description: '灵感记录、情节备选、创意改进',
     icon: <IdeaIcon />,
     color: '#f57c00',
-    priority: 'medium'
-  }
+    priority: 'medium',
+  },
 ];
 
 export const getPriorityColor = (priority: string) => {
   switch (priority) {
-    case 'high': return 'error';
-    case 'medium': return 'warning';
-    case 'low': return 'info';
-    default: return 'default';
+    case 'high':
+      return 'error';
+    case 'medium':
+      return 'warning';
+    case 'low':
+      return 'info';
+    default:
+      return 'default';
   }
 };
 
 export const getPriorityLabel = (priority: string) => {
   switch (priority) {
-    case 'high': return '高优先级';
-    case 'medium': return '中优先级';
-    case 'low': return '低优先级';
-    default: return '';
+    case 'high':
+      return '高优先级';
+    case 'medium':
+      return '中优先级';
+    case 'low':
+      return '低优先级';
+    default:
+      return '';
   }
 };

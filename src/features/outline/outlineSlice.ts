@@ -1,13 +1,13 @@
 /**
  * Backward-compatible re-export file for the refactored outline slice system
- * 
+ *
  * This file maintains compatibility with existing imports while using
  * the new modular slice architecture internally.
- * 
+ *
  * The original monolithic slice has been split into 9 focused slices:
  * - projectSlice: Project management
  * - storySlice: Story overview
- * - charactersSlice: Characters and relationships  
+ * - charactersSlice: Characters and relationships
  * - timelineSlice: Timeline and plot events
  * - chaptersSlice: Chapter management
  * - subplotsSlice: Subplot management
@@ -20,20 +20,20 @@
 export {
   // Combined reducer (enhanced with global actions)
   outlineReducer as default,
-  
+
   // Types
   type OutlineState,
-  
+
   // Project management actions
   setProjectName,
   initializeProject,
   updateLastModified,
-  
+
   // Story overview actions
   updateStoryBackground,
   updateCoreTheme,
   updateSynopsis,
-  
+
   // Character and relationship actions
   addCharacter,
   updateCharacter,
@@ -41,19 +41,19 @@ export {
   addRelationship,
   updateRelationship,
   deleteRelationship,
-  
+
   // Timeline actions
   addPlotEvent,
   updatePlotEvent,
   deletePlotEvent,
   updateTimelineInfo,
-  
+
   // Chapter actions
   addChapter,
   updateChapter,
   deleteChapter,
   updateChapterStructure,
-  
+
   // Subplot actions
   addSubplot,
   updateSubplot,
@@ -61,7 +61,7 @@ export {
   addSecondaryStory,
   updateSecondaryStory,
   deleteSecondaryStory,
-  
+
   // Creative ideas actions
   addCreativeIdea,
   updateCreativeIdea,
@@ -70,7 +70,7 @@ export {
   addPlotAlternative,
   updatePlotAlternative,
   deletePlotAlternative,
-  
+
   // World building actions
   updateGeography,
   addRegion,
@@ -87,12 +87,12 @@ export {
   addInspirationSource,
   removeInspirationSource,
   updateInspirationSource,
-  
+
   // Global actions
   loadOutlineData,
   resetOutline,
   markModuleUpdated,
-  
+
   // All selectors for backward compatibility
   selectOutline,
   selectProject,
@@ -114,19 +114,19 @@ export {
   selectGeography,
   selectSociety,
   selectWorldHistory,
-  
+
   // Parameterized selectors
   selectCharacterById,
   selectCharactersByRole,
   selectCharacterRelationships,
   selectIdeasByStatus,
   selectIdeasByType,
-  
+
   // Statistics and computed selectors
   selectOutlineStats,
   selectOutlineData,
   selectTimelineEvents,
-  selectModuleCompletionRates
+  selectModuleCompletionRates,
 } from './slices/rootOutlineSlice';
 
 // Note: This re-export approach ensures that:

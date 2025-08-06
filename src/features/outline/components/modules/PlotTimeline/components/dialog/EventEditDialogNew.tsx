@@ -17,7 +17,7 @@ export const EventEditDialogNew: React.FC<EventEditDialogContainerProps> = ({
   onSave,
   onFormChange,
   onArrayFieldChange,
-  onSwitchChange
+  onSwitchChange,
 }) => {
   const isFormValid = formData.title && formData.timestamp;
 
@@ -29,22 +29,22 @@ export const EventEditDialogNew: React.FC<EventEditDialogContainerProps> = ({
       onSave={onSave}
       isFormValid={!!isFormValid}
     >
-      <Box component="form" sx={{ mt: 2 }}>
+      <Box component='form' sx={{ mt: 2 }}>
         <Grid container spacing={2}>
           {/* 基本信息 */}
           <BasicInfoFields
             title={formData.title || ''}
             timestamp={formData.timestamp || ''}
-            onTitleChange={(value) => onFormChange('title')({ target: { value } })}
-            onTimestampChange={(value) => onFormChange('timestamp')({ target: { value } })}
+            onTitleChange={value => onFormChange('title')({ target: { value } })}
+            onTimestampChange={value => onFormChange('timestamp')({ target: { value } })}
           />
 
           {/* 类型和重要性 */}
           <TypeImportanceFields
             type={formData.type || 'development'}
             importance={formData.importance || 'important'}
-            onTypeChange={(value) => onFormChange('type')({ target: { value } })}
-            onImportanceChange={(value) => onFormChange('importance')({ target: { value } })}
+            onTypeChange={value => onFormChange('type')({ target: { value } })}
+            onImportanceChange={value => onFormChange('importance')({ target: { value } })}
           />
 
           {/* 描述 */}
@@ -52,8 +52,8 @@ export const EventEditDialogNew: React.FC<EventEditDialogContainerProps> = ({
             description={formData.description || ''}
             impact={formData.impact || ''}
             consequences={formData.consequences || []}
-            onDescriptionChange={(value) => onFormChange('description')({ target: { value } })}
-            onImpactChange={(value) => onFormChange('impact')({ target: { value } })}
+            onDescriptionChange={value => onFormChange('description')({ target: { value } })}
+            onImpactChange={value => onFormChange('impact')({ target: { value } })}
             onConsequencesChange={onArrayFieldChange('consequences')}
           />
 

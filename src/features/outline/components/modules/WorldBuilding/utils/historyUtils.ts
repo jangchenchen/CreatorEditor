@@ -39,5 +39,5 @@ export const createHistoryUpdate = (
   timeline,
   legends,
   familySecrets,
-  mysteries
+  mysteries,
 });

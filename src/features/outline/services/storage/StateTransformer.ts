@@ -16,7 +16,7 @@ export class StateTransformer {
       version: '1.0.0',
       createdAt: outlineState.project.createdAt,
       lastUpdated: new Date(),
-      
+
       // Map Redux state structure to OutlineData structure
       story: outlineState.story,
       characters: outlineState.characters.characters,
@@ -28,7 +28,7 @@ export class StateTransformer {
           regions: [],
           climate: '',
           landmarks: [],
-          naturalFeatures: []
+          naturalFeatures: [],
         },
         society: {
           political: '',
@@ -36,16 +36,16 @@ export class StateTransformer {
           cultural: [],
           religious: '',
           technology: '',
-          socialClasses: []
+          socialClasses: [],
         },
         history: {
           timeline: [],
           legends: [],
           familySecrets: [],
-          mysteries: []
+          mysteries: [],
         },
         customRules: [],
-        inspirationSources: []
+        inspirationSources: [],
       },
       chapters: outlineState.chapters,
       themes: {
@@ -55,15 +55,15 @@ export class StateTransformer {
           secondary: [],
           symbols: [],
           metaphors: [],
-          motifs: []
+          motifs: [],
         },
         characterMotivations: [],
         philosophicalQuestions: [],
         socialCommentary: [],
-        personalReflections: []
+        personalReflections: [],
       },
       subplots: outlineState.subplots,
-      ideas: outlineState.ideas
+      ideas: outlineState.ideas,
     };
   }
 
@@ -75,12 +75,12 @@ export class StateTransformer {
       project: {
         id: outlineData.id,
         name: outlineData.projectName,
-        createdAt: outlineData.createdAt
+        createdAt: outlineData.createdAt,
       },
       story: outlineData.story,
       characters: {
         characters: outlineData.characters,
-        relationships: outlineData.relationships
+        relationships: outlineData.relationships,
       },
       timeline: outlineData.timeline,
       chapters: outlineData.chapters,

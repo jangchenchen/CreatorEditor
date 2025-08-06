@@ -1,7 +1,7 @@
 /**
  * Storage Test Utilities
  * Main entry point for storage testing - delegates to modular test suite
- * 
+ *
  * @deprecated This file maintains backward compatibility.
  * Use individual test modules from ./tests/ for new development.
  */
@@ -16,11 +16,15 @@ export {
   performanceUtils,
   runStorageIntegrationTest,
   runComprehensiveStorageTests,
-  type PerformanceResult
+  type PerformanceResult,
 } from './tests';
 
 // Maintain backward compatibility
-import { StorageTestSuite as ModularStorageTestSuite, runStorageIntegrationTest, performanceUtils } from './tests';
+import {
+  StorageTestSuite as ModularStorageTestSuite,
+  runStorageIntegrationTest,
+  performanceUtils,
+} from './tests';
 
 /**
  * @deprecated Use the modular StorageTestSuite from ./tests/StorageTestSuite

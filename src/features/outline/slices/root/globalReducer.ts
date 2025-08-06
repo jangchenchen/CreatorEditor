@@ -14,18 +14,18 @@ export const rootReducer = (state: OutlineState | undefined, action: any) => {
         projectName: data.projectName,
         version: data.version,
         createdAt: data.createdAt,
-        lastUpdated: data.lastUpdated
+        lastUpdated: data.lastUpdated,
       },
       story: data.story,
       characters: {
         characters: data.characters,
-        relationships: data.relationships
+        relationships: data.relationships,
       },
       timeline: data.timeline,
       chapters: data.chapters,
       subplots: data.subplots,
       ideas: data.ideas,
-      world: data.world
+      world: data.world,
     };
   }
 
@@ -39,8 +39,8 @@ export const rootReducer = (state: OutlineState | undefined, action: any) => {
       ...newState,
       project: {
         ...newState.project,
-        lastUpdated: new Date()
-      }
+        lastUpdated: new Date(),
+      },
     };
   }
 

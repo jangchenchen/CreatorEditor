@@ -7,14 +7,8 @@ import { TimelineFlow } from './overview/TimelineFlow';
 import { TimelineLegend } from './overview/TimelineLegend';
 import { EmptyTimeline } from './overview/EmptyTimeline';
 
-const TimelineOverview: React.FC<TimelineOverviewProps> = (props) => {
-  const {
-    plotEvents,
-    layout,
-    stats,
-    hasEvents,
-    handleEventClick
-  } = useTimelineOverview();
+const TimelineOverview: React.FC<TimelineOverviewProps> = props => {
+  const { plotEvents, layout, stats, hasEvents, handleEventClick } = useTimelineOverview();
 
   if (!hasEvents) {
     return <EmptyTimeline />;
@@ -28,10 +22,7 @@ const TimelineOverview: React.FC<TimelineOverviewProps> = (props) => {
       <Divider sx={{ mb: 2 }} />
 
       {/* 时间线可视化 */}
-      <TimelineFlow 
-        layout={layout} 
-        onNodeClick={handleEventClick}
-      />
+      <TimelineFlow layout={layout} onNodeClick={handleEventClick} />
 
       {/* 图例 */}
       <TimelineLegend />

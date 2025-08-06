@@ -24,7 +24,7 @@ export class StorageTests {
     try {
       // Test if storage is initialized
       const stats = await localStorageService.getStorageStats();
-      
+
       if (!stats) {
         console.error('Storage stats not available');
         return false;
@@ -32,7 +32,7 @@ export class StorageTests {
 
       console.log('✓ Storage initialized with version:', stats.version);
       console.log('✓ Total projects:', stats.totalProjects);
-      
+
       return true;
     } catch (error) {
       console.error('Storage initialization test failed:', error);
@@ -51,22 +51,22 @@ export class StorageTests {
 
       // Disable auto-save temporarily
       autoSaveUtils.disable();
-      
+
       // Make a change that should trigger auto-save
       this.store.dispatch(setProjectName('Test Auto-save Project'));
-      
+
       // Wait a bit
       await StorageTestSuite.delay(100);
-      
+
       // Enable auto-save
       autoSaveUtils.enable();
-      
+
       // Make another change
       this.store.dispatch(setProjectName('Test Auto-save Project Updated'));
-      
+
       // Wait for auto-save delay
       await StorageTestSuite.delay(3000);
-      
+
       console.log('✓ Auto-save functionality tested');
       return true;
     } catch (error) {
@@ -82,19 +82,19 @@ export class StorageTests {
     try {
       // Get current state
       const currentState = this.store.getState();
-      
+
       // Perform manual save
       await localStorageService.saveState(currentState);
       console.log('✓ Manual save completed');
-      
+
       // Load project
       const loadedProject = await localStorageService.loadProject();
-      
+
       if (!loadedProject) {
         console.error('Failed to load project after save');
         return false;
       }
-      
+
       console.log('✓ Manual load completed:', loadedProject.projectName);
       return true;
     } catch (error) {

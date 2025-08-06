@@ -16,7 +16,7 @@ export interface OutlineNavigatorHook {
 export const useOutlineNavigator = (): OutlineNavigatorHook => {
   const [selectedModule, setSelectedModule] = useState<OutlineModule | null>(null);
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
-  
+
   const completionRates = useSelector(selectModuleCompletionRates);
   const stats = useSelector(selectOutlineStats);
 
@@ -35,6 +35,6 @@ export const useOutlineNavigator = (): OutlineNavigatorHook => {
     stats,
     handleModuleClick,
     handleBackToNavigator,
-    setInfoDialogOpen
+    setInfoDialogOpen,
   };
 };

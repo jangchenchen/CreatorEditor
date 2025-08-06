@@ -35,18 +35,18 @@ export function migrateFrom090To100(data: any): any {
     // Migrate timeline data
     timeline: migrateTimelineData(data),
 
-    // Migrate world building data  
+    // Migrate world building data
     world: migrateWorldData(data),
 
     // Migrate chapters data
     chapters: migrateChaptersData(data),
 
-    // Migrate themes and subplots data  
+    // Migrate themes and subplots data
     themes: migrateThemesData(data),
     subplots: migrateSubplotsData(data),
 
     // Migrate ideas data
-    ideas: migrateIdeasData(data)
+    ideas: migrateIdeasData(data),
   };
 
   return migratedData;

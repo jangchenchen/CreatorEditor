@@ -1,11 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/material';
-import {
-  selectChapterList,
-  selectCharacters,
-  updateChapter
-} from '../../../outlineSlice';
+import { selectChapterList, selectCharacters, updateChapter } from '../../../outlineSlice';
 import { useSceneState } from './hooks/useSceneState';
 import { createSceneData, updateChapterScenes, removeSceneFromChapter } from './utils/sceneUtils';
 import ChapterSelector from './components/ChapterSelector';
@@ -18,7 +14,7 @@ const SceneEditor: React.FC = () => {
   const dispatch = useDispatch();
   const chapters = useSelector(selectChapterList);
   const characters = useSelector(selectCharacters);
-  
+
   const {
     selectedChapter,
     currentChapter,
@@ -29,35 +25,35 @@ const SceneEditor: React.FC = () => {
     handleOpenDialog,
     handleCloseDialog,
     handleFormChange,
-    handleCharactersChange
+    handleCharactersChange,
   } = useSceneState(chapters);
 
   const handleSaveScene = () => {
     if (!currentChapter) return;
 
     const sceneData = createSceneData(formData, editingScene);
-    const updatedScenes = updateChapterScenes(
-      currentChapter.keyScenes,
-      sceneData,
-      editingScene
-    );
+    const updatedScenes = updateChapterScenes(currentChapter.keyScenes, sceneData, editingScene);
 
-    dispatch(updateChapter({
-      ...currentChapter,
-      keyScenes: updatedScenes
-    }));
+    dispatch(
+      updateChapter({
+        ...currentChapter,
+        keyScenes: updatedScenes,
+      })
+    );
 
     handleCloseDialog();
   };
 
   const handleDeleteScene = (sceneId: string) => {
     if (!currentChapter) return;
-    
+
     const updatedScenes = removeSceneFromChapter(currentChapter.keyScenes, sceneId);
-    dispatch(updateChapter({
-      ...currentChapter,
-      keyScenes: updatedScenes
-    }));
+    dispatch(
+      updateChapter({
+        ...currentChapter,
+        keyScenes: updatedScenes,
+      })
+    );
   };
 
   return (
@@ -74,10 +70,7 @@ const SceneEditor: React.FC = () => {
         <ChapterNotFoundState />
       ) : (
         <Box>
-          <ChapterInfoPanel
-            chapter={currentChapter}
-            onAddScene={() => handleOpenDialog()}
-          />
+          <ChapterInfoPanel chapter={currentChapter} onAddScene={() => handleOpenDialog()} />
 
           <SceneList
             scenes={currentChapter.keyScenes}

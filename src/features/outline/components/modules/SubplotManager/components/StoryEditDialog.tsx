@@ -12,13 +12,9 @@ import {
   Select,
   MenuItem,
   TextField,
-  Avatar
+  Avatar,
 } from '@mui/material';
-import {
-  Save as SaveIcon,
-  Cancel as CancelIcon,
-  Person as PersonIcon
-} from '@mui/icons-material';
+import { Save as SaveIcon, Cancel as CancelIcon, Person as PersonIcon } from '@mui/icons-material';
 import { Character, SecondaryCharacterStory } from '../../../../types/outline.types';
 import { getRoleColor, getRoleLabel, getSecondaryCharacters } from '../utils/storyUtils';
 
@@ -29,9 +25,9 @@ interface StoryEditDialogProps {
   characters: Character[];
   onClose: () => void;
   onSave: () => void;
-  onFormChange: (field: keyof SecondaryCharacterStory) => (
-    event: React.ChangeEvent<HTMLInputElement | { value: unknown }>
-  ) => void;
+  onFormChange: (
+    field: keyof SecondaryCharacterStory
+  ) => (event: React.ChangeEvent<HTMLInputElement | { value: unknown }>) => void;
 }
 
 const StoryEditDialog: React.FC<StoryEditDialogProps> = ({
@@ -41,17 +37,15 @@ const StoryEditDialog: React.FC<StoryEditDialogProps> = ({
   characters,
   onClose,
   onSave,
-  onFormChange
+  onFormChange,
 }) => {
   const secondaryCharacters = getSecondaryCharacters(characters);
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>
-        {editingStory ? '编辑配角故事线' : '添加配角故事线'}
-      </DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth='md' fullWidth>
+      <DialogTitle>{editingStory ? '编辑配角故事线' : '添加配角故事线'}</DialogTitle>
       <DialogContent>
-        <Box component="form" sx={{ mt: 2 }}>
+        <Box component='form' sx={{ mt: 2 }}>
           <Grid container spacing={2}>
             {/* 角色选择 */}
             <Grid item xs={12}>
@@ -60,18 +54,20 @@ const StoryEditDialog: React.FC<StoryEditDialogProps> = ({
                 <Select
                   value={formData.characterId || ''}
                   onChange={onFormChange('characterId')}
-                  label="选择角色"
+                  label='选择角色'
                   disabled={!!editingStory}
                 >
-                  {secondaryCharacters.map((character) => (
+                  {secondaryCharacters.map(character => (
                     <MenuItem key={character.id} value={character.id}>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Avatar sx={{ 
-                          mr: 2, 
-                          width: 24, 
-                          height: 24, 
-                          bgcolor: `${getRoleColor(character.role)}.main` 
-                        }}>
+                        <Avatar
+                          sx={{
+                            mr: 2,
+                            width: 24,
+                            height: 24,
+                            bgcolor: `${getRoleColor(character.role)}.main`,
+                          }}
+                        >
                           <PersonIcon sx={{ fontSize: 16 }} />
                         </Avatar>
                         {character.name} - {getRoleLabel(character.role)}
@@ -88,10 +84,10 @@ const StoryEditDialog: React.FC<StoryEditDialogProps> = ({
                 fullWidth
                 multiline
                 rows={2}
-                label="个人目标"
+                label='个人目标'
                 value={formData.personalGoal || ''}
                 onChange={onFormChange('personalGoal')}
-                placeholder="这个角色想要达成什么个人目标..."
+                placeholder='这个角色想要达成什么个人目标...'
               />
             </Grid>
 
@@ -101,10 +97,10 @@ const StoryEditDialog: React.FC<StoryEditDialogProps> = ({
                 fullWidth
                 multiline
                 rows={4}
-                label="背景故事"
+                label='背景故事'
                 value={formData.backstory || ''}
                 onChange={onFormChange('backstory')}
-                placeholder="这个角色的过往经历、成长背景..."
+                placeholder='这个角色的过往经历、成长背景...'
               />
             </Grid>
 
@@ -114,10 +110,10 @@ const StoryEditDialog: React.FC<StoryEditDialogProps> = ({
                 fullWidth
                 multiline
                 rows={4}
-                label="发展弧线"
+                label='发展弧线'
                 value={formData.developmentArc || ''}
                 onChange={onFormChange('developmentArc')}
-                placeholder="角色在故事中的成长和变化轨迹..."
+                placeholder='角色在故事中的成长和变化轨迹...'
               />
             </Grid>
 
@@ -127,10 +123,10 @@ const StoryEditDialog: React.FC<StoryEditDialogProps> = ({
                 fullWidth
                 multiline
                 rows={3}
-                label="解决方式"
+                label='解决方式'
                 value={formData.resolutionMethod || ''}
                 onChange={onFormChange('resolutionMethod')}
-                placeholder="角色的个人目标如何实现或解决..."
+                placeholder='角色的个人目标如何实现或解决...'
               />
             </Grid>
           </Grid>
@@ -140,9 +136,9 @@ const StoryEditDialog: React.FC<StoryEditDialogProps> = ({
         <Button onClick={onClose} startIcon={<CancelIcon />}>
           取消
         </Button>
-        <Button 
-          onClick={onSave} 
-          variant="contained" 
+        <Button
+          onClick={onSave}
+          variant='contained'
           startIcon={<SaveIcon />}
           disabled={!formData.characterId}
         >

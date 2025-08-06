@@ -13,36 +13,36 @@ const IdeasStatistics: React.FC<IdeasStatisticsProps> = ({ ideas }) => {
 
   return (
     <Paper elevation={1} sx={{ p: 2, mb: 3 }}>
-      <Grid container spacing={2} alignItems="center">
+      <Grid container spacing={2} alignItems='center'>
         <Grid item xs={6} sm={3}>
-          <Typography variant="h4" color="primary">
+          <Typography variant='h4' color='primary'>
             {ideas.length}
           </Typography>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant='caption' color='text.secondary'>
             总创意数
           </Typography>
         </Grid>
         <Grid item xs={6} sm={3}>
-          <Typography variant="h4" color="success.main">
+          <Typography variant='h4' color='success.main'>
             {adoptedCount}
           </Typography>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant='caption' color='text.secondary'>
             已采用
           </Typography>
         </Grid>
         <Grid item xs={6} sm={3}>
-          <Typography variant="h4" color="warning.main">
+          <Typography variant='h4' color='warning.main'>
             {consideringCount}
           </Typography>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant='caption' color='text.secondary'>
             考虑中
           </Typography>
         </Grid>
         <Grid item xs={6} sm={3}>
-          <Typography variant="h4" color="secondary.main">
+          <Typography variant='h4' color='secondary.main'>
             {highPriorityCount}
           </Typography>
-          <Typography variant="caption" color="text.secondary">
+          <Typography variant='caption' color='text.secondary'>
             高优先级
           </Typography>
         </Grid>

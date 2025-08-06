@@ -8,18 +8,13 @@ import { SynopsisTips } from './SynopsisTips';
 import { useSynopsisEditor } from './useSynopsisEditor';
 
 export const StorySynopsisNew: React.FC = () => {
-  const {
-    synopsis,
-    handleFieldChange,
-    completionRate,
-    getStageDescription
-  } = useSynopsisEditor();
+  const { synopsis, handleFieldChange, completionRate, getStageDescription } = useSynopsisEditor();
 
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto' }}>
       <SynopsisHeader completionRate={completionRate} />
-      
-      <Typography variant="body2" color="text.secondary" paragraph>
+
+      <Typography variant='body2' color='text.secondary' paragraph>
         按照经典的"起承转合"结构，概述故事的主要发展脉络和整体基调。
       </Typography>
 
@@ -31,12 +26,12 @@ export const StorySynopsisNew: React.FC = () => {
           <Card elevation={1} sx={{ height: '100%' }}>
             <CardContent>
               <SynopsisStageCard
-                title="故事开端"
+                title='故事开端'
                 description={getStageDescription('beginning')}
                 value={synopsis.beginning}
                 onChange={handleFieldChange('beginning')}
-                color="primary"
-                label="起"
+                color='primary'
+                label='起'
               />
             </CardContent>
           </Card>
@@ -47,12 +42,12 @@ export const StorySynopsisNew: React.FC = () => {
           <Card elevation={1} sx={{ height: '100%' }}>
             <CardContent>
               <SynopsisStageCard
-                title="情节发展"
+                title='情节发展'
                 description={getStageDescription('development')}
                 value={synopsis.development}
                 onChange={handleFieldChange('development')}
-                color="info"
-                label="承"
+                color='info'
+                label='承'
               />
             </CardContent>
           </Card>
@@ -63,12 +58,12 @@ export const StorySynopsisNew: React.FC = () => {
           <Card elevation={1} sx={{ height: '100%' }}>
             <CardContent>
               <SynopsisStageCard
-                title="故事高潮"
+                title='故事高潮'
                 description={getStageDescription('climax')}
                 value={synopsis.climax}
                 onChange={handleFieldChange('climax')}
-                color="warning"
-                label="转"
+                color='warning'
+                label='转'
               />
             </CardContent>
           </Card>
@@ -79,12 +74,12 @@ export const StorySynopsisNew: React.FC = () => {
           <Card elevation={1} sx={{ height: '100%' }}>
             <CardContent>
               <SynopsisStageCard
-                title="故事结局"
+                title='故事结局'
                 description={getStageDescription('ending')}
                 value={synopsis.ending}
                 onChange={handleFieldChange('ending')}
-                color="success"
-                label="合"
+                color='success'
+                label='合'
               />
             </CardContent>
           </Card>

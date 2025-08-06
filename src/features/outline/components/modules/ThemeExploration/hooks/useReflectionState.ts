@@ -1,19 +1,23 @@
 import { useState } from 'react';
-import { 
-  ReflectionType, 
-  ReflectionState, 
-  addReflectionItem, 
+import {
+  ReflectionType,
+  ReflectionState,
+  addReflectionItem,
   removeReflectionItem,
-  initializeReflectionState
+  initializeReflectionState,
 } from '../utils/reflectionUtils';
 
 export const useReflectionState = (initialThemes: any) => {
   const initialState = initializeReflectionState(initialThemes);
-  
-  const [philosophicalQuestions, setPhilosophicalQuestions] = useState<string[]>(initialState.philosophicalQuestions);
+
+  const [philosophicalQuestions, setPhilosophicalQuestions] = useState<string[]>(
+    initialState.philosophicalQuestions
+  );
   const [socialCommentary, setSocialCommentary] = useState<string[]>(initialState.socialCommentary);
-  const [personalReflections, setPersonalReflections] = useState<string[]>(initialState.personalReflections);
-  
+  const [personalReflections, setPersonalReflections] = useState<string[]>(
+    initialState.personalReflections
+  );
+
   const [newQuestion, setNewQuestion] = useState('');
   const [newCommentary, setNewCommentary] = useState('');
   const [newReflection, setNewReflection] = useState('');
@@ -25,21 +29,21 @@ export const useReflectionState = (initialThemes: any) => {
           items: philosophicalQuestions,
           setter: setPhilosophicalQuestions,
           newValue: newQuestion,
-          resetValue: setNewQuestion
+          resetValue: setNewQuestion,
         };
       case 'commentary':
         return {
           items: socialCommentary,
           setter: setSocialCommentary,
           newValue: newCommentary,
-          resetValue: setNewCommentary
+          resetValue: setNewCommentary,
         };
       case 'reflection':
         return {
           items: personalReflections,
           setter: setPersonalReflections,
           newValue: newReflection,
-          resetValue: setNewReflection
+          resetValue: setNewReflection,
         };
     }
   };
@@ -47,7 +51,7 @@ export const useReflectionState = (initialThemes: any) => {
   const handleAddItem = (type: ReflectionType) => {
     const { items, setter, newValue, resetValue } = getReflectionData(type);
     const updatedItems = addReflectionItem(items, newValue);
-    
+
     if (updatedItems.length > items.length) {
       setter(updatedItems);
       resetValue('');
@@ -68,7 +72,7 @@ export const useReflectionState = (initialThemes: any) => {
   const getReflectionState = (): ReflectionState => ({
     philosophicalQuestions,
     socialCommentary,
-    personalReflections
+    personalReflections,
   });
 
   return {
@@ -79,16 +83,16 @@ export const useReflectionState = (initialThemes: any) => {
     newQuestion,
     newCommentary,
     newReflection,
-    
+
     // Actions
     handleAddItem,
     handleRemoveItem,
     handleInputChange,
     getReflectionState,
-    
+
     // Setters for direct updates
     setNewQuestion,
     setNewCommentary,
-    setNewReflection
+    setNewReflection,
   };
 };

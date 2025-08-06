@@ -27,89 +27,87 @@ export const validationRules = {
   characterName: {
     required: true,
     minLength: 1,
-    maxLength: 50
+    maxLength: 50,
   } as ValidationRule,
-  
+
   characterAge: {
     required: true,
     custom: (value: any) => {
       const age = Number(value);
       return !isNaN(age) && age >= 0 && age <= 200;
-    }
+    },
   } as ValidationRule,
-  
+
   characterBackground: {
-    maxLength: 500
+    maxLength: 500,
   } as ValidationRule,
 
   // 时间线事件验证
   eventTitle: {
     required: true,
     minLength: 1,
-    maxLength: 100
+    maxLength: 100,
   } as ValidationRule,
-  
+
   eventDescription: {
-    maxLength: 1000
+    maxLength: 1000,
   } as ValidationRule,
 
   // 章节验证
   chapterTitle: {
     required: true,
     minLength: 1,
-    maxLength: 100
+    maxLength: 100,
   } as ValidationRule,
-  
+
   chapterSummary: {
-    maxLength: 500
+    maxLength: 500,
   } as ValidationRule,
 
   // 地区验证
   regionName: {
     required: true,
     minLength: 1,
-    maxLength: 50
+    maxLength: 50,
   } as ValidationRule,
-  
+
   regionDescription: {
-    maxLength: 300
+    maxLength: 300,
   } as ValidationRule,
 
   // 关系验证
   relationshipDescription: {
     required: true,
     minLength: 1,
-    maxLength: 200
+    maxLength: 200,
   } as ValidationRule,
 
   // 通用字段验证
   title: {
     required: true,
     minLength: 1,
-    maxLength: 100
+    maxLength: 100,
   } as ValidationRule,
-  
+
   description: {
-    maxLength: 1000
+    maxLength: 1000,
   } as ValidationRule,
-  
+
   notes: {
-    maxLength: 500
-  } as ValidationRule
+    maxLength: 500,
+  } as ValidationRule,
 };
 
 // 错误消息模板
 export const errorMessages = {
   required: (fieldName: string) => `${fieldName}不能为空`,
-  minLength: (fieldName: string, minLength: number) => 
-    `${fieldName}至少需要${minLength}个字符`,
-  maxLength: (fieldName: string, maxLength: number) => 
-    `${fieldName}不能超过${maxLength}个字符`,
+  minLength: (fieldName: string, minLength: number) => `${fieldName}至少需要${minLength}个字符`,
+  maxLength: (fieldName: string, maxLength: number) => `${fieldName}不能超过${maxLength}个字符`,
   pattern: (fieldName: string) => `${fieldName}格式不正确`,
   custom: (fieldName: string) => `${fieldName}输入无效`,
   characterAge: '年龄必须是0-200之间的数字',
   email: '请输入有效的邮箱地址',
-  url: '请输入有效的URL地址'
+  url: '请输入有效的URL地址',
 };
 
 // 字段名称映射
@@ -130,7 +128,7 @@ export const fieldLabels: Record<string, string> = {
   chapterSummary: '章节概要',
   regionName: '地区名称',
   regionDescription: '地区描述',
-  relationshipDescription: '关系描述'
+  relationshipDescription: '关系描述',
 };
 
 /**
@@ -145,64 +143,64 @@ export function validateField(
   if (!rules) {
     return null;
   }
-  
+
   const label = fieldLabels[fieldName] || fieldName;
-  
+
   // 必填验证
   if (rules.required && (!value || String(value).trim() === '')) {
     return {
       field: fieldName,
-      message: errorMessages.required(label)
+      message: errorMessages.required(label),
     };
   }
-  
+
   // 如果值为空且不是必填，跳过其他验证
   if (!value || String(value).trim() === '') {
     return null;
   }
-  
+
   const stringValue = String(value).trim();
-  
+
   // 最小长度验证
   if (rules.minLength && stringValue.length < rules.minLength) {
     return {
       field: fieldName,
-      message: errorMessages.minLength(label, rules.minLength)
+      message: errorMessages.minLength(label, rules.minLength),
     };
   }
-  
+
   // 最大长度验证
   if (rules.maxLength && stringValue.length > rules.maxLength) {
     return {
       field: fieldName,
-      message: errorMessages.maxLength(label, rules.maxLength)
+      message: errorMessages.maxLength(label, rules.maxLength),
     };
   }
-  
+
   // 正则表达式验证
   if (rules.pattern && !rules.pattern.test(stringValue)) {
     return {
       field: fieldName,
-      message: errorMessages.pattern(label)
+      message: errorMessages.pattern(label),
     };
   }
-  
+
   // 自定义验证
   if (rules.custom && !rules.custom(value)) {
     // 特殊字段的自定义错误消息
     if (fieldName === 'characterAge' || fieldName === 'age') {
       return {
         field: fieldName,
-        message: errorMessages.characterAge
+        message: errorMessages.characterAge,
       };
     }
-    
+
     return {
       field: fieldName,
-      message: errorMessages.custom(label)
+      message: errorMessages.custom(label),
     };
   }
-  
+
   return null;
 }
 
@@ -214,29 +212,26 @@ export function validateForm(
   ruleSet: Record<string, ValidationRule>
 ): ValidationResult {
   const errors: ValidationError[] = [];
-  
+
   for (const [fieldName, rules] of Object.entries(ruleSet)) {
     const value = data[fieldName];
     const error = validateField(fieldName, value, rules);
-    
+
     if (error) {
       errors.push(error);
     }
   }
-  
+
   return {
     isValid: errors.length === 0,
-    errors
+    errors,
   };
 }
 
 /**
  * 获取字段的错误消息
  */
-export function getFieldError(
-  fieldName: string,
-  errors: ValidationError[]
-): string | null {
+export function getFieldError(fieldName: string, errors: ValidationError[]): string | null {
   const error = errors.find(e => e.field === fieldName);
   return error ? error.message : null;
 }
@@ -244,10 +239,7 @@ export function getFieldError(
 /**
  * 检查字段是否有错误
  */
-export function hasFieldError(
-  fieldName: string,
-  errors: ValidationError[]
-): boolean {
+export function hasFieldError(fieldName: string, errors: ValidationError[]): boolean {
   return errors.some(e => e.field === fieldName);
 }
 
@@ -259,31 +251,31 @@ export const formValidationSets = {
   character: {
     name: validationRules.characterName,
     age: validationRules.characterAge,
-    background: validationRules.characterBackground
+    background: validationRules.characterBackground,
   },
-  
+
   // 事件编辑表单
   event: {
     title: validationRules.eventTitle,
-    description: validationRules.eventDescription
+    description: validationRules.eventDescription,
   },
-  
+
   // 章节编辑表单
   chapter: {
     title: validationRules.chapterTitle,
-    summary: validationRules.chapterSummary
+    summary: validationRules.chapterSummary,
   },
-  
+
   // 地区编辑表单
   region: {
     name: validationRules.regionName,
-    description: validationRules.regionDescription
+    description: validationRules.regionDescription,
   },
-  
+
   // 关系编辑表单
   relationship: {
-    description: validationRules.relationshipDescription
-  }
+    description: validationRules.relationshipDescription,
+  },
 };
 
 /**
@@ -292,13 +284,10 @@ export const formValidationSets = {
  * @param validator 验证函数
  * @returns ValidationRule with validate method
  */
-export function createValidationRule(
-  message: string,
-  validator: (value: any) => boolean
-) {
+export function createValidationRule(message: string, validator: (value: any) => boolean) {
   return {
     message,
     validate: validator,
-    custom: validator
+    custom: validator,
   };
 }

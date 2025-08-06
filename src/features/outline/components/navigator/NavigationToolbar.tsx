@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  Toolbar,
-  IconButton,
-  Tooltip,
-  Button
-} from '@mui/material';
+import { Box, Typography, Toolbar, IconButton, Tooltip, Button } from '@mui/material';
 import {
   Settings as SettingsIcon,
   Info as InfoIcon,
-  BugReport as TestIcon
+  BugReport as TestIcon,
 } from '@mui/icons-material';
 import { modules } from './navigatorConstants';
 import { OutlineModule } from '../../types/outline.types';
@@ -26,20 +19,15 @@ const NavigationToolbar: React.FC<NavigationToolbarProps> = ({
   selectedModule,
   onBackToNavigator,
   onInfoOpen,
-  onTestOpen
+  onTestOpen,
 }) => {
   if (selectedModule) {
     return (
-      <Toolbar variant="dense" sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'grey.50' }}>
-        <Button
-          onClick={onBackToNavigator}
-          variant="outlined"
-          size="small"
-          sx={{ mr: 2 }}
-        >
+      <Toolbar variant='dense' sx={{ borderBottom: 1, borderColor: 'divider', bgcolor: 'grey.50' }}>
+        <Button onClick={onBackToNavigator} variant='outlined' size='small' sx={{ mr: 2 }}>
           ← 返回大纲导航
         </Button>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
           {modules.find(m => m.id === selectedModule)?.title}
         </Typography>
       </Toolbar>
@@ -48,24 +36,24 @@ const NavigationToolbar: React.FC<NavigationToolbarProps> = ({
 
   return (
     <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <Typography variant="h4" component="h1">
+      <Typography variant='h4' component='h1'>
         小说大纲
       </Typography>
-      
+
       <Box>
-        <Tooltip title="大纲说明">
+        <Tooltip title='大纲说明'>
           <IconButton onClick={onInfoOpen}>
             <InfoIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="大纲设置">
+        <Tooltip title='大纲设置'>
           <IconButton>
             <SettingsIcon />
           </IconButton>
         </Tooltip>
         {onTestOpen && (
-          <Tooltip title="测试导出功能">
-            <IconButton onClick={onTestOpen} color="secondary">
+          <Tooltip title='测试导出功能'>
+            <IconButton onClick={onTestOpen} color='secondary'>
               <TestIcon />
             </IconButton>
           </Tooltip>

@@ -4,29 +4,24 @@
  */
 
 // Types
-export type { 
-  CharacterDeletionPayload, 
-  ChapterReorderPayload, 
+export type {
+  CharacterDeletionPayload,
+  ChapterReorderPayload,
   CharacterUpdatePayload,
-  CleanupExecutionContext 
+  CleanupExecutionContext,
 } from './types';
 
 // Character Actions
-export { 
-  deleteCharacterWithCleanup, 
-  updateCharacterWithPropagation 
-} from './characterActions';
+export { deleteCharacterWithCleanup, updateCharacterWithPropagation } from './characterActions';
 
 // Chapter Actions
-export { 
-  reorderChaptersWithSync 
-} from './chapterActions';
+export { reorderChaptersWithSync } from './chapterActions';
 
 // Validation Actions
-export { 
-  validateStateIntegrity, 
+export {
+  validateStateIntegrity,
   executeAutomatedCleanup,
-  validateAndCleanup 
+  validateAndCleanup,
 } from './validationActions';
 
 // Cleanup Utilities
@@ -40,5 +35,5 @@ export const integrityActions = {
   reorderChaptersWithSync,
   validateState: validateStateIntegrity,
   runCleanup: executeAutomatedCleanup,
-  validateAndCleanup
+  validateAndCleanup,
 };

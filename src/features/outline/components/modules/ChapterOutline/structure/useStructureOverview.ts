@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectChapters,
   selectChapterList,
-  updateChapterStructure
+  updateChapterStructure,
 } from '../../../../outlineSlice';
 import { Chapter } from '../../../../types/outline.types';
 
@@ -56,19 +56,22 @@ export const useStructureOverview = (): StructureOverviewHook => {
       writingChapters,
       plannedChapters,
       revisionChapters,
-      completionRate: totalChapters > 0 ? Math.round((completedChapters / totalChapters) * 100) : 0
+      completionRate: totalChapters > 0 ? Math.round((completedChapters / totalChapters) * 100) : 0,
     };
   }, [chapters]);
 
   // 按状态分组章节
   const chaptersByStatus = useMemo((): ChaptersByStatus => {
-    return chapters.reduce((acc, chapter) => {
-      if (!acc[chapter.status]) {
-        acc[chapter.status] = [];
-      }
-      acc[chapter.status].push(chapter);
-      return acc;
-    }, {} as Record<string, Chapter[]>);
+    return chapters.reduce(
+      (acc, chapter) => {
+        if (!acc[chapter.status]) {
+          acc[chapter.status] = [];
+        }
+        acc[chapter.status].push(chapter);
+        return acc;
+      },
+      {} as Record<string, Chapter[]>
+    );
   }, [chapters]);
 
   const handleStructureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,7 +88,7 @@ export const useStructureOverview = (): StructureOverviewHook => {
       planned: 'default',
       writing: 'primary',
       completed: 'success',
-      revision: 'warning'
+      revision: 'warning',
     } as const;
     return colors[status] || 'default';
   };
@@ -95,7 +98,7 @@ export const useStructureOverview = (): StructureOverviewHook => {
       planned: '计划中',
       writing: '写作中',
       completed: '已完成',
-      revision: '修订中'
+      revision: '修订中',
     };
     return labels[status] || status;
   };
@@ -108,6 +111,6 @@ export const useStructureOverview = (): StructureOverviewHook => {
     handleStructureChange,
     handleSaveStructure,
     getStatusColor,
-    getStatusLabel
+    getStatusLabel,
   };
 };

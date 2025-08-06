@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { 
+import {
   RelationshipList,
   RelationshipDialog,
   RelationshipToolbar,
-  RelationshipVisualizer
+  RelationshipVisualizer,
 } from './index';
 import useRelationshipMap from './hooks/useRelationshipMap';
 
@@ -24,7 +24,7 @@ const RelationshipMap: React.FC = () => {
     getRelationshipIcon,
     getRelationshipLabel,
     getRelationshipColor,
-    getCharacterName
+    getCharacterName,
   } = useRelationshipMap();
 
   return (
@@ -45,15 +45,13 @@ const RelationshipMap: React.FC = () => {
             getRelationshipIcon,
             getRelationshipLabel,
             getRelationshipColor,
-            getCharacterName
+            getCharacterName,
           }}
           onEditRelationship={handleEditRelationship}
           onDeleteRelationship={handleDeleteRelationship}
         />
       ) : (
-        <RelationshipVisualizer 
-          relationshipsCount={relationships.length}
-        />
+        <RelationshipVisualizer relationshipsCount={relationships.length} />
       )}
 
       {/* Edit Dialog */}

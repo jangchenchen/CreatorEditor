@@ -25,20 +25,20 @@ export class BrowserProjectStorageService {
     try {
       const projectData = this.extractOutlineData(state);
       const db = this.dbManager.getDb();
-      
+
       // Update the main data
       db.data = {
         ...db.data,
         projects: {
           ...db.data.projects,
-          current: projectData
+          current: projectData,
         },
         settings: {
           ...db.data.settings,
-          lastSaved: new Date().toISOString()
-        }
+          lastSaved: new Date().toISOString(),
+        },
       };
-      
+
       await db.write();
       console.log('State saved successfully');
     } catch (error) {
@@ -54,7 +54,7 @@ export class BrowserProjectStorageService {
     try {
       const db = this.dbManager.getDb();
       await db.read();
-      
+
       if (projectId) {
         // Load specific project
         const project = db.data.projects.saved?.[projectId];
@@ -77,20 +77,20 @@ export class BrowserProjectStorageService {
     try {
       const db = this.dbManager.getDb();
       await db.read();
-      
+
       const savedProjects = db.data.projects.saved || {};
       const projectList: ProjectInfo[] = [];
-      
+
       Object.entries(savedProjects).forEach(([id, project]: [string, any]) => {
         projectList.push({
           id,
           name: project.story?.title || `项目 ${id}`,
           lastUpdated: new Date(project.metadata?.lastUpdated || Date.now()),
           description: project.story?.description,
-          version: project.metadata?.version || '1.0.0'
+          version: project.metadata?.version || '1.0.0',
         });
       });
-      
+
       // Sort by last updated (newest first)
       return projectList.sort((a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime());
     } catch (error) {
@@ -106,7 +106,7 @@ export class BrowserProjectStorageService {
     try {
       const db = this.dbManager.getDb();
       await db.read();
-      
+
       if (db.data.projects.saved && db.data.projects.saved[projectId]) {
         delete db.data.projects.saved[projectId];
         await db.write();
@@ -129,31 +129,32 @@ export class BrowserProjectStorageService {
       if (!project) {
         throw new Error(`Project not found: ${projectId}`);
       }
-      
+
       const exportData = {
         ...project,
         metadata: {
           exportedAt: new Date().toISOString(),
           version: '1.0.0',
-          source: 'CreationEditor'
-        }
+          source: 'CreationEditor',
+        },
       };
-      
+
       // Create download
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
-        type: 'application/json' 
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+        type: 'application/json',
       });
-      
+
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = fileName || `project_${projectId}_${new Date().toISOString().slice(0, 10)}.json`;
-      
+      link.download =
+        fileName || `project_${projectId}_${new Date().toISOString().slice(0, 10)}.json`;
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-      
+
       console.log(`Project exported: ${projectId}`);
     } catch (error) {
       console.error('Failed to export project:', error);
@@ -168,33 +169,33 @@ export class BrowserProjectStorageService {
     try {
       const text = await file.text();
       const importData = JSON.parse(text);
-      
+
       // Validate and sanitize import data
       const projectData = this.validateImportData(importData);
-      
+
       // Generate new project ID
       const projectId = `imported_${Date.now()}`;
-      
+
       // Save as new project
       const db = this.dbManager.getDb();
       await db.read();
-      
+
       if (!db.data.projects.saved) {
         db.data.projects.saved = {};
       }
-      
+
       db.data.projects.saved[projectId] = {
         ...projectData,
         metadata: {
           ...projectData.metadata,
           importedAt: new Date().toISOString(),
-          originalFileName: file.name
-        }
+          originalFileName: file.name,
+        },
       };
-      
+
       await db.write();
       console.log(`Project imported: ${projectId}`);
-      
+
       return this.convertToOutlineData(projectData);
     } catch (error) {
       console.error('Failed to import project:', error);
@@ -217,8 +218,8 @@ export class BrowserProjectStorageService {
       ideas: state.outline?.ideas || {},
       metadata: {
         lastUpdated: new Date().toISOString(),
-        version: '1.0.0'
-      }
+        version: '1.0.0',
+      },
     };
   }
 
@@ -234,7 +235,7 @@ export class BrowserProjectStorageService {
       world: projectData.world || {},
       themes: projectData.themes || {},
       subplots: projectData.subplots || {},
-      ideas: projectData.ideas || {}
+      ideas: projectData.ideas || {},
     };
   }
 
@@ -252,9 +253,9 @@ export class BrowserProjectStorageService {
       themes: data.themes || {},
       subplots: data.subplots || {},
       ideas: data.ideas || {},
-      metadata: data.metadata || {}
+      metadata: data.metadata || {},
     };
-    
+
     return validated;
   }
 }

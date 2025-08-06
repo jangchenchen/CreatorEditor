@@ -1,12 +1,12 @@
-import { 
-  Document, 
-  Packer, 
-  Paragraph, 
-  HeadingLevel, 
-  TableOfContents, 
-  PageBreak, 
-  AlignmentType, 
-  NumberFormat 
+import {
+  Document,
+  Packer,
+  Paragraph,
+  HeadingLevel,
+  TableOfContents,
+  PageBreak,
+  AlignmentType,
+  NumberFormat,
 } from 'docx';
 import { saveAs } from 'file-saver';
 import { OutlineData } from '../../types/outline.types';
@@ -24,7 +24,7 @@ export class WordExportService implements ExportService {
     updateProgress: UpdateProgressFunction
   ): Promise<void> {
     updateProgress('processing', 10, '生成Word文档结构', 1, 4);
-    
+
     const children = [];
 
     // Cover page
@@ -47,10 +47,10 @@ export class WordExportService implements ExportService {
     updateProgress('saving', 98, '保存Word文档', 3, 4);
 
     const buffer = await Packer.toBuffer(doc);
-    const blob = new Blob([buffer], { 
-      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' 
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     });
-    
+
     const filename = BaseExportService.generateFilename(options, data, 'docx');
     saveAs(blob, filename);
   }
@@ -74,21 +74,21 @@ export class WordExportService implements ExportService {
         text: `最后更新: ${new Date(data.lastUpdated).toLocaleDateString('zh-CN')}`,
         alignment: AlignmentType.CENTER,
       }),
-      new PageBreak()
+      new PageBreak(),
     ];
   }
 
   private generateTableOfContents(): Paragraph[] {
     return [
       new Paragraph({
-        text: "目录",
+        text: '目录',
         heading: HeadingLevel.HEADING_1,
       }),
-      new TableOfContents("Table of Contents", {
+      new TableOfContents('Table of Contents', {
         hyperlink: true,
-        headingStyleRange: "1-3",
+        headingStyleRange: '1-3',
       }),
-      new PageBreak()
+      new PageBreak(),
     ];
   }
 
@@ -99,14 +99,54 @@ export class WordExportService implements ExportService {
     updateProgress: UpdateProgressFunction
   ): Promise<void> {
     const sections = [
-      { key: 'story', progress: 30, step: '生成故事概述', generator: () => WordSectionGenerators.generateStorySection(data) },
-      { key: 'characters', progress: 40, step: '生成角色信息', generator: () => WordSectionGenerators.generateCharactersSection(data.characters) },
-      { key: 'timeline', progress: 50, step: '生成时间线', generator: () => WordSectionGenerators.generateTimelineSection(data.timeline.events) },
-      { key: 'world', progress: 60, step: '生成世界设定', generator: () => WordSectionGenerators.generateWorldSection(data.world) },
-      { key: 'chapters', progress: 70, step: '生成章节大纲', generator: () => WordSectionGenerators.generateChaptersSection(data.chapters.chapters) },
-      { key: 'themes', progress: 80, step: '生成主题分析', generator: () => WordSectionGenerators.generateThemesSection(data.themes) },
-      { key: 'subplots', progress: 85, step: '生成副线情节', generator: () => WordSectionGenerators.generateSubplotsSection(data.subplots.subplots) },
-      { key: 'ideas', progress: 90, step: '生成创意想法', generator: () => WordSectionGenerators.generateIdeasSection(data.ideas) }
+      {
+        key: 'story',
+        progress: 30,
+        step: '生成故事概述',
+        generator: () => WordSectionGenerators.generateStorySection(data),
+      },
+      {
+        key: 'characters',
+        progress: 40,
+        step: '生成角色信息',
+        generator: () => WordSectionGenerators.generateCharactersSection(data.characters),
+      },
+      {
+        key: 'timeline',
+        progress: 50,
+        step: '生成时间线',
+        generator: () => WordSectionGenerators.generateTimelineSection(data.timeline.events),
+      },
+      {
+        key: 'world',
+        progress: 60,
+        step: '生成世界设定',
+        generator: () => WordSectionGenerators.generateWorldSection(data.world),
+      },
+      {
+        key: 'chapters',
+        progress: 70,
+        step: '生成章节大纲',
+        generator: () => WordSectionGenerators.generateChaptersSection(data.chapters.chapters),
+      },
+      {
+        key: 'themes',
+        progress: 80,
+        step: '生成主题分析',
+        generator: () => WordSectionGenerators.generateThemesSection(data.themes),
+      },
+      {
+        key: 'subplots',
+        progress: 85,
+        step: '生成副线情节',
+        generator: () => WordSectionGenerators.generateSubplotsSection(data.subplots.subplots),
+      },
+      {
+        key: 'ideas',
+        progress: 90,
+        step: '生成创意想法',
+        generator: () => WordSectionGenerators.generateIdeasSection(data.ideas),
+      },
     ];
 
     for (const section of sections) {
@@ -122,11 +162,11 @@ export class WordExportService implements ExportService {
       styles: {
         paragraphStyles: [
           {
-            id: "Normal",
-            name: "Normal",
-            basedOn: "Normal",
+            id: 'Normal',
+            name: 'Normal',
+            basedOn: 'Normal',
             run: {
-              font: options.formatting.fontFamily || "微软雅黑",
+              font: options.formatting.fontFamily || '微软雅黑',
               size: (options.formatting.fontSize || 12) * 2, // Half-points
             },
           },
@@ -135,12 +175,12 @@ export class WordExportService implements ExportService {
       numbering: {
         config: [
           {
-            reference: "my-numbering",
+            reference: 'my-numbering',
             levels: [
               {
                 level: 0,
                 format: NumberFormat.DECIMAL,
-                text: "%1.",
+                text: '%1.',
                 alignment: AlignmentType.LEFT,
               },
             ],

@@ -11,11 +11,9 @@ import { UseRelationshipMapReturn } from '../../hooks/useRelationshipMap';
 
 interface RelationshipListProps {
   relationships: Relationship[];
-  utils: Pick<UseRelationshipMapReturn, 
-    'getRelationshipIcon' | 
-    'getRelationshipLabel' | 
-    'getRelationshipColor' | 
-    'getCharacterName'
+  utils: Pick<
+    UseRelationshipMapReturn,
+    'getRelationshipIcon' | 'getRelationshipLabel' | 'getRelationshipColor' | 'getCharacterName'
   >;
   onEditRelationship: (relationship: Relationship) => void;
   onDeleteRelationship: (relationshipId: string) => void;
@@ -25,11 +23,11 @@ export const RelationshipList: React.FC<RelationshipListProps> = ({
   relationships,
   utils,
   onEditRelationship,
-  onDeleteRelationship
+  onDeleteRelationship,
 }) => {
   return (
     <Grid container spacing={2}>
-      {relationships.map((relationship) => (
+      {relationships.map(relationship => (
         <Grid item xs={12} sm={6} key={relationship.id}>
           <RelationshipCard
             relationship={relationship}

@@ -20,7 +20,7 @@ export class BaseExportService {
       chapters: null,
       themes: null,
       subplots: null,
-      ideas: null
+      ideas: null,
     };
 
     if (includeModules.story) filteredData.story = data.story;

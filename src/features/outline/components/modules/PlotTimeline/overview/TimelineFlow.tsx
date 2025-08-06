@@ -5,7 +5,7 @@ import ReactFlow, {
   Background,
   ConnectionMode,
   useNodesState,
-  useEdgesState
+  useEdgesState,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { TimelineLayout } from './types';
@@ -20,21 +20,18 @@ const nodeTypes = {
   timelineEvent: TimelineEventNode,
 };
 
-export const TimelineFlow: React.FC<TimelineFlowProps> = ({ 
-  layout, 
-  onNodeClick 
-}) => {
+export const TimelineFlow: React.FC<TimelineFlowProps> = ({ layout, onNodeClick }) => {
   const [nodesState, , onNodesChange] = useNodesState(layout.nodes);
   const [edgesState, , onEdgesChange] = useEdgesState(layout.edges);
 
   return (
-    <Paper 
-      elevation={2} 
-      sx={{ 
-        flex: 1, 
+    <Paper
+      elevation={2}
+      sx={{
+        flex: 1,
         position: 'relative',
         minHeight: 400,
-        overflow: 'hidden'
+        overflow: 'hidden',
       }}
     >
       <ReactFlow
@@ -47,7 +44,7 @@ export const TimelineFlow: React.FC<TimelineFlowProps> = ({
         connectionMode={ConnectionMode.Strict}
         fitView
         fitViewOptions={{ padding: 50 }}
-        attributionPosition="bottom-left"
+        attributionPosition='bottom-left'
       >
         <Controls />
         <Background gap={20} size={1} />

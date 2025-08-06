@@ -21,12 +21,12 @@ const mockCharacters: Character[] = [
       startState: '隐居修道',
       keyEvents: ['收徒', '抗击外敌', '创立武当'],
       endState: '武学大成',
-      growthDirection: '从隐士到领袖'
+      growthDirection: '从隐士到领袖',
     },
     tags: ['武当', '道教', '宗师'],
     createdAt: new Date(),
-    lastUpdated: new Date()
-  }
+    lastUpdated: new Date(),
+  },
 ];
 
 export const useCharacterProfile = (): CharacterProfileState & CharacterProfileActions => {
@@ -74,6 +74,6 @@ export const useCharacterProfile = (): CharacterProfileState & CharacterProfileA
     handleCloseDialog,
     handleSaveCharacter,
     handleDeleteCharacter,
-    setSelectedCharacter
+    setSelectedCharacter,
   };
 };

@@ -1,0 +1,53 @@
+# 构建产物
+dist/
+build/
+release/
+coverage/
+
+# 依赖
+node_modules/
+
+# 配置文件
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# 日志文件
+*.log
+logs/
+
+# 临时文件
+.tmp/
+.temp/
+
+# IDE 文件
+.vscode/
+.idea/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# Electron 相关
+electron/dist/
+
+# 自动生成的文件
+*.d.ts.map
+*.js.map
+
+# 测试覆盖率报告
+coverage/
+.nyc_output/
+
+# 环境变量文件
+.env
+.env.*
+
+# 文档中的代码块（避免格式化影响）
+**/*.md
+
+# 配置文件中的特殊格式
+*.config.js
+*.config.ts
+jest.config.*
+vite.config.*

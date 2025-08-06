@@ -1,23 +1,23 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Chapter, ChapterTransition, Character } from '../../../../types/outline.types';
-import { 
-  ChapterDialogProps, 
-  ChapterFormData, 
+import {
+  ChapterDialogProps,
+  ChapterFormData,
   ChapterDialogState,
   ChapterFormField,
   ChapterTransitionField,
   ChapterArrayField,
   ChapterFormValidation,
-  DEFAULT_CHAPTER_FORM_DATA
+  DEFAULT_CHAPTER_FORM_DATA,
 } from './types';
 
 export const useChapterDialog = (props: ChapterDialogProps) => {
   const { open, editingChapter, chapters, characters } = props;
-  
+
   const [state, setState] = useState<ChapterDialogState>({
     formData: {},
     isSubmitting: false,
-    errors: {}
+    errors: {},
   });
 
   // 初始化表单数据
@@ -27,7 +27,7 @@ export const useChapterDialog = (props: ChapterDialogProps) => {
         setState(prev => ({
           ...prev,
           formData: { ...editingChapter },
-          errors: {}
+          errors: {},
         }));
       } else {
         setState(prev => ({
@@ -36,9 +36,9 @@ export const useChapterDialog = (props: ChapterDialogProps) => {
             number: chapters.length + 1,
             title: '',
             summary: '',
-            ...DEFAULT_CHAPTER_FORM_DATA
+            ...DEFAULT_CHAPTER_FORM_DATA,
           },
-          errors: {}
+          errors: {},
         }));
       }
     }
@@ -47,19 +47,18 @@ export const useChapterDialog = (props: ChapterDialogProps) => {
   // 验证表单
   const validateForm = useCallback((): ChapterFormValidation => {
     const errors: Record<string, string> = {};
-    
+
     if (!state.formData.title?.trim()) {
       errors.title = '章节标题不能为空';
     }
-    
+
     if (!state.formData.number || state.formData.number <= 0) {
       errors.number = '章节号必须大于0';
     }
 
     // 检查章节号是否重复
     const duplicateChapter = chapters.find(
-      chapter => chapter.number === state.formData.number && 
-      chapter.id !== editingChapter?.id
+      chapter => chapter.number === state.formData.number && chapter.id !== editingChapter?.id
     );
     if (duplicateChapter) {
       errors.number = '章节号已存在';
@@ -67,67 +66,70 @@ export const useChapterDialog = (props: ChapterDialogProps) => {
 
     return {
       isValid: Object.keys(errors).length === 0,
-      errors
+      errors,
     };
   }, [state.formData, chapters, editingChapter]);
 
   // 处理表单字段变化
-  const handleFormChange = useCallback((field: ChapterFormField) => (
-    event: React.ChangeEvent<HTMLInputElement | { value: unknown }>
-  ) => {
-    const value = event.target.value;
-    setState(prev => ({
-      ...prev,
-      formData: {
-        ...prev.formData,
-        [field]: value
+  const handleFormChange = useCallback(
+    (field: ChapterFormField) =>
+      (event: React.ChangeEvent<HTMLInputElement | { value: unknown }>) => {
+        const value = event.target.value;
+        setState(prev => ({
+          ...prev,
+          formData: {
+            ...prev.formData,
+            [field]: value,
+          },
+          errors: {
+            ...prev.errors,
+            [field]: undefined,
+          },
+        }));
       },
-      errors: {
-        ...prev.errors,
-        [field]: undefined
-      }
-    }));
-  }, []);
+    []
+  );
 
   // 处理过渡字段变化
-  const handleTransitionChange = useCallback((field: ChapterTransitionField) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-    setState(prev => ({
-      ...prev,
-      formData: {
-        ...prev.formData,
-        transitions: {
-          ...prev.formData.transitions,
-          [field]: value
-        } as ChapterTransition
-      }
-    }));
-  }, []);
+  const handleTransitionChange = useCallback(
+    (field: ChapterTransitionField) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setState(prev => ({
+        ...prev,
+        formData: {
+          ...prev.formData,
+          transitions: {
+            ...prev.formData.transitions,
+            [field]: value,
+          } as ChapterTransition,
+        },
+      }));
+    },
+    []
+  );
 
   // 处理数组字段变化
-  const handleArrayFieldChange = useCallback((field: ChapterArrayField) => (
-    event: any,
-    newValue: string[]
-  ) => {
-    setState(prev => ({
-      ...prev,
-      formData: {
-        ...prev.formData,
-        [field]: newValue
-      }
-    }));
-  }, []);
+  const handleArrayFieldChange = useCallback(
+    (field: ChapterArrayField) => (event: any, newValue: string[]) => {
+      setState(prev => ({
+        ...prev,
+        formData: {
+          ...prev.formData,
+          [field]: newValue,
+        },
+      }));
+    },
+    []
+  );
 
   // 处理保存
   const handleSave = useCallback(async () => {
     const validation = validateForm();
-    
+
     if (!validation.isValid) {
       setState(prev => ({
         ...prev,
-        errors: validation.errors
+        errors: validation.errors,
       }));
       return;
     }
@@ -148,7 +150,7 @@ export const useChapterDialog = (props: ChapterDialogProps) => {
         wordCountTarget: state.formData.wordCountTarget || 3000,
         status: state.formData.status || 'planned',
         transitions: state.formData.transitions || { from: '', to: '', method: '' },
-        notes: state.formData.notes || ''
+        notes: state.formData.notes || '',
       };
 
       props.onSave(chapterData);
@@ -158,8 +160,8 @@ export const useChapterDialog = (props: ChapterDialogProps) => {
         isSubmitting: false,
         errors: {
           ...prev.errors,
-          submit: '保存失败，请重试'
-        }
+          submit: '保存失败，请重试',
+        },
       }));
     }
   }, [validateForm, editingChapter, state.formData, chapters, props]);
@@ -169,7 +171,7 @@ export const useChapterDialog = (props: ChapterDialogProps) => {
     setState({
       formData: {},
       isSubmitting: false,
-      errors: {}
+      errors: {},
     });
   }, []);
 
@@ -180,6 +182,6 @@ export const useChapterDialog = (props: ChapterDialogProps) => {
     handleArrayFieldChange,
     handleSave,
     resetForm,
-    validateForm
+    validateForm,
   };
 };

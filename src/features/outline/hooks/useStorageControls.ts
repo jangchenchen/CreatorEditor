@@ -23,7 +23,7 @@ export const useStorageControls = (
     showExportDialog: false,
     exportPath: '',
     storageStats: null,
-    snackbar: { open: false, message: '', severity: 'info' }
+    snackbar: { open: false, message: '', severity: 'info' },
   });
 
   // Helper to update state
@@ -64,13 +64,13 @@ export const useStorageControls = (
     setShowStats,
     setShowImportDialog,
     setShowExportDialog,
-    setExportPath
+    setExportPath,
   };
 
   return {
     storage,
     state,
     handlers,
-    fileInputRef
+    fileInputRef,
   };
 };

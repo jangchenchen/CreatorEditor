@@ -6,7 +6,7 @@ import {
   selectCharacters,
   addPlotEvent,
   updatePlotEvent,
-  deletePlotEvent
+  deletePlotEvent,
 } from '../../../outlineSlice';
 import { PlotEvent } from '../../../types/outline.types';
 import EventToolbar from './components/EventToolbar';
@@ -18,7 +18,7 @@ const EventManagement: React.FC = () => {
   const dispatch = useDispatch();
   const plotEvents = useSelector(selectPlotEvents);
   const characters = useSelector(selectCharacters);
-  
+
   const {
     editingEvent,
     dialogOpen,
@@ -27,7 +27,7 @@ const EventManagement: React.FC = () => {
     handleCloseDialog,
     handleFormChange,
     handleArrayFieldChange,
-    handleSwitchChange
+    handleSwitchChange,
   } = useEventState();
 
   const handleSaveEvent = () => {
@@ -44,7 +44,7 @@ const EventManagement: React.FC = () => {
       impact: formData.impact || '',
       consequences: formData.consequences || [],
       relatedEvents: formData.relatedEvents || [],
-      tags: formData.tags || []
+      tags: formData.tags || [],
     };
 
     if (editingEvent) {
@@ -62,10 +62,7 @@ const EventManagement: React.FC = () => {
 
   return (
     <Box sx={{ height: '100%' }}>
-      <EventToolbar
-        eventCount={plotEvents.length}
-        onAddEvent={() => handleOpenDialog()}
-      />
+      <EventToolbar eventCount={plotEvents.length} onAddEvent={() => handleOpenDialog()} />
 
       <EventTimeline
         plotEvents={plotEvents}

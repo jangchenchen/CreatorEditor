@@ -12,7 +12,7 @@ export const TagsAndKeyEvent: React.FC<TagsAndKeyEventProps> = ({
   tags,
   isKeyEvent,
   onTagsChange,
-  onKeyEventChange
+  onKeyEventChange,
 }) => {
   return (
     <>
@@ -23,24 +23,15 @@ export const TagsAndKeyEvent: React.FC<TagsAndKeyEventProps> = ({
           options={[]}
           value={tags}
           onChange={onTagsChange}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="标签"
-              placeholder="输入标签并按回车"
-            />
+          renderInput={params => (
+            <TextField {...params} label='标签' placeholder='输入标签并按回车' />
           )}
         />
       </Grid>
       <Grid item xs={12}>
         <FormControlLabel
-          control={
-            <Switch
-              checked={isKeyEvent}
-              onChange={onKeyEventChange}
-            />
-          }
-          label="标记为关键事件"
+          control={<Switch checked={isKeyEvent} onChange={onKeyEventChange} />}
+          label='标记为关键事件'
         />
       </Grid>
     </>

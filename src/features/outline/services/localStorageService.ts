@@ -31,7 +31,7 @@ export class LocalStorageService {
     try {
       await this.dbManager.initialize();
       await this.migrationService.performMigrationIfNeeded();
-      
+
       this.isInitialized = true;
       console.log('LocalStorageService initialized successfully');
     } catch (error) {

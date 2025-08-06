@@ -6,7 +6,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  Alert
+  Alert,
 } from '@mui/material';
 
 interface FormatSelectionStepProps {
@@ -18,49 +18,46 @@ interface FormatSelectionStepProps {
 export const FormatSelectionStep: React.FC<FormatSelectionStepProps> = ({
   selectedFormat,
   onFormatChange,
-  validationResult
+  validationResult,
 }) => {
   return (
     <Box>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         选择导出格式
       </Typography>
-      <FormControl component="fieldset">
-        <RadioGroup
-          value={selectedFormat}
-          onChange={(e) => onFormatChange(e.target.value as any)}
-        >
+      <FormControl component='fieldset'>
+        <RadioGroup value={selectedFormat} onChange={e => onFormatChange(e.target.value as any)}>
           <FormControlLabel
-            value="json"
+            value='json'
             control={<Radio />}
             label={
               <Box>
-                <Typography variant="body1">JSON 格式</Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant='body1'>JSON 格式</Typography>
+                <Typography variant='body2' color='text.secondary'>
                   结构化数据，适合程序处理和数据交换
                 </Typography>
               </Box>
             }
           />
           <FormControlLabel
-            value="docx"
+            value='docx'
             control={<Radio />}
             label={
               <Box>
-                <Typography variant="body1">Word 文档 (.docx)</Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant='body1'>Word 文档 (.docx)</Typography>
+                <Typography variant='body2' color='text.secondary'>
                   可编辑的文档格式，适合进一步编辑和格式化
                 </Typography>
               </Box>
             }
           />
           <FormControlLabel
-            value="pdf"
+            value='pdf'
             control={<Radio />}
             label={
               <Box>
-                <Typography variant="body1">PDF 文档</Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant='body1'>PDF 文档</Typography>
+                <Typography variant='body2' color='text.secondary'>
                   固定格式文档，适合阅读和打印
                 </Typography>
               </Box>
@@ -70,8 +67,8 @@ export const FormatSelectionStep: React.FC<FormatSelectionStepProps> = ({
       </FormControl>
 
       {validationResult && !validationResult.isValid && (
-        <Alert severity="warning" sx={{ mt: 2 }}>
-          <Typography variant="body2" gutterBottom>
+        <Alert severity='warning' sx={{ mt: 2 }}>
+          <Typography variant='body2' gutterBottom>
             数据验证发现以下问题：
           </Typography>
           <ul style={{ margin: 0, paddingLeft: 20 }}>
@@ -83,8 +80,8 @@ export const FormatSelectionStep: React.FC<FormatSelectionStepProps> = ({
       )}
 
       {validationResult && validationResult.isValid && validationResult.issues.length > 0 && (
-        <Alert severity="info" sx={{ mt: 2 }}>
-          <Typography variant="body2" gutterBottom>
+        <Alert severity='info' sx={{ mt: 2 }}>
+          <Typography variant='body2' gutterBottom>
             数据检查发现以下提示：
           </Typography>
           <ul style={{ margin: 0, paddingLeft: 20 }}>
@@ -93,7 +90,7 @@ export const FormatSelectionStep: React.FC<FormatSelectionStepProps> = ({
             ))}
           </ul>
           {validationResult.issues.length > 3 && (
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant='body2' color='text.secondary'>
               ...还有 {validationResult.issues.length - 3} 个提示
             </Typography>
           )}

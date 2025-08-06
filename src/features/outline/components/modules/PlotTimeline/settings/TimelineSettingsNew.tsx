@@ -9,19 +9,14 @@ import { TimelineTemplates } from './TimelineTemplates';
 import { useTimelineSettings } from './useTimelineSettings';
 
 export const TimelineSettingsNew: React.FC = () => {
-  const {
-    timeline,
-    handleFieldChange,
-    handleSave,
-    handleReset
-  } = useTimelineSettings();
+  const { timeline, handleFieldChange, handleSave, handleReset } = useTimelineSettings();
 
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto' }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         时间线设置
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant='body2' color='text.secondary' paragraph>
         配置故事时间线的基本参数和整体说明，为情节事件提供时间框架。
       </Typography>
 
@@ -59,10 +54,7 @@ export const TimelineSettingsNew: React.FC = () => {
 
         {/* 操作按钮 */}
         <Grid item xs={12}>
-          <ActionButtons
-            onSave={handleSave}
-            onReset={handleReset}
-          />
+          <ActionButtons onSave={handleSave} onReset={handleReset} />
         </Grid>
       </Grid>
 

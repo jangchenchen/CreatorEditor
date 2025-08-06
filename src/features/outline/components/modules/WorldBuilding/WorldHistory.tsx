@@ -36,7 +36,7 @@ const WorldHistory: React.FC = () => {
     newSecret,
     setNewSecret,
     newMystery,
-    setNewMystery
+    setNewMystery,
   } = useHistoryState(history);
 
   const handleSaveEvent = () => {
@@ -45,7 +45,7 @@ const WorldHistory: React.FC = () => {
       name: eventFormData.name || '',
       period: eventFormData.period || '',
       description: eventFormData.description || '',
-      impact: eventFormData.impact || ''
+      impact: eventFormData.impact || '',
     };
 
     // TODO: 使用 dispatch 更新 Redux state
@@ -63,7 +63,16 @@ const WorldHistory: React.FC = () => {
   };
 
   const handleRemoveLegend = (index: number) => {
-    handleRemoveItem('legend', index, legends, setLegends, familySecrets, setFamilySecrets, mysteries, setMysteries);
+    handleRemoveItem(
+      'legend',
+      index,
+      legends,
+      setLegends,
+      familySecrets,
+      setFamilySecrets,
+      mysteries,
+      setMysteries
+    );
   };
 
   const handleAddSecret = () => {
@@ -71,7 +80,16 @@ const WorldHistory: React.FC = () => {
   };
 
   const handleRemoveSecret = (index: number) => {
-    handleRemoveItem('secret', index, legends, setLegends, familySecrets, setFamilySecrets, mysteries, setMysteries);
+    handleRemoveItem(
+      'secret',
+      index,
+      legends,
+      setLegends,
+      familySecrets,
+      setFamilySecrets,
+      mysteries,
+      setMysteries
+    );
   };
 
   const handleAddMystery = () => {
@@ -79,7 +97,16 @@ const WorldHistory: React.FC = () => {
   };
 
   const handleRemoveMystery = (index: number) => {
-    handleRemoveItem('mystery', index, legends, setLegends, familySecrets, setFamilySecrets, mysteries, setMysteries);
+    handleRemoveItem(
+      'mystery',
+      index,
+      legends,
+      setLegends,
+      familySecrets,
+      setFamilySecrets,
+      mysteries,
+      setMysteries
+    );
   };
 
   const handleSaveHistory = () => {
@@ -90,10 +117,10 @@ const WorldHistory: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto' }}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         世界历史设定
       </Typography>
-      <Typography variant="body2" color="text.secondary" paragraph>
+      <Typography variant='body2' color='text.secondary' paragraph>
         构建故事世界的历史背景，包括重大历史事件、传说故事和未解之谜。
       </Typography>
 
@@ -138,12 +165,7 @@ const WorldHistory: React.FC = () => {
       />
 
       <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
-        <Button
-          variant="contained"
-          size="large"
-          onClick={handleSaveHistory}
-          sx={{ minWidth: 120 }}
-        >
+        <Button variant='contained' size='large' onClick={handleSaveHistory} sx={{ minWidth: 120 }}>
           保存历史设定
         </Button>
       </Box>

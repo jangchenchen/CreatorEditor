@@ -1,13 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fileAPI } from '../../../api/file';
-import { 
-  setContent, 
-  setFileInfo, 
-  markAsSaved, 
-  newFile,
-  selectEditor 
-} from '../editorSlice';
+import { setContent, setFileInfo, markAsSaved, newFile, selectEditor } from '../editorSlice';
 
 /**
  * 文件操作功能的自定义Hook
@@ -43,13 +37,10 @@ export const useFileOperations = (editor: any) => {
   // 处理保存文件
   const handleSaveFile = useCallback(async () => {
     if (!editorState.content) return;
-    
+
     try {
-      const result = await fileAPI.saveFile(
-        editorState.content, 
-        editorState.filePath || undefined
-      );
-      
+      const result = await fileAPI.saveFile(editorState.content, editorState.filePath || undefined);
+
       if (result) {
         dispatch(setFileInfo({ path: result.path, name: result.name }));
         dispatch(markAsSaved());
@@ -62,7 +53,7 @@ export const useFileOperations = (editor: any) => {
   // 处理另存为
   const handleSaveAs = useCallback(async () => {
     if (!editorState.content) return;
-    
+
     try {
       const result = await fileAPI.saveFileAs(editorState.content);
       if (result) {

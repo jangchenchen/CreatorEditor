@@ -12,7 +12,7 @@ export const useStorageState = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const currentState = useSelector((state: RootState) => state);
 
   // Initialize storage service on mount
@@ -39,7 +39,7 @@ export const useStorageState = () => {
   useEffect(() => {
     const handleAutoSaveEvent = (event: CustomEvent) => {
       const { type, data } = event.detail;
-      
+
       if (type === 'error') {
         setError(`Auto-save failed: ${data.error}`);
       } else if (type === 'success') {
@@ -50,7 +50,7 @@ export const useStorageState = () => {
 
     if (typeof window !== 'undefined') {
       window.addEventListener('autosave', handleAutoSaveEvent as EventListener);
-      
+
       return () => {
         window.removeEventListener('autosave', handleAutoSaveEvent as EventListener);
       };
@@ -72,6 +72,6 @@ export const useStorageState = () => {
     autoSaveStatus,
     setIsLoading,
     setError,
-    clearError
+    clearError,
   };
 };

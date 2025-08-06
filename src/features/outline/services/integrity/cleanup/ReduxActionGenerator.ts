@@ -9,7 +9,7 @@ export class ReduxActionGenerator {
     return {
       executeCleanup: createAction<CleanupAction[]>('integrity/executeCleanup'),
       validateState: createAction('integrity/validateState'),
-      generateReport: createAction('integrity/generateReport')
+      generateReport: createAction('integrity/generateReport'),
     };
   }
 }

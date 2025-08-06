@@ -12,25 +12,25 @@ export interface GeographySettingsState {
   // Climate
   climate: string;
   setClimate: (climate: string) => void;
-  
+
   // Landmarks
   landmarks: string[];
   setLandmarks: (landmarks: string[]) => void;
   newLandmark: string;
   setNewLandmark: (landmark: string) => void;
-  
+
   // Natural Features
   naturalFeatures: string[];
   setNaturalFeatures: (features: string[]) => void;
   newFeature: string;
   setNewFeature: (feature: string) => void;
-  
+
   // Region Dialog
   editingRegion: Region | null;
   dialogOpen: boolean;
   formData: Partial<Region>;
   setFormData: (data: Partial<Region>) => void;
-  
+
   // Actions
   handleOpenRegionDialog: (region?: Region) => void;
   handleCloseDialog: () => void;
@@ -46,12 +46,12 @@ export const useGeographySettings = (): GeographySettingsState => {
   const dispatch = useDispatch();
   const outline = useSelector(selectOutline);
   const geography = outline.world.geography;
-  
+
   // State
   const [editingRegion, setEditingRegion] = useState<Region | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [formData, setFormData] = useState<Partial<Region>>({});
-  
+
   // Geography basic info
   const [climate, setClimate] = useState(geography.climate);
   const [landmarks, setLandmarks] = useState<string[]>(geography.landmarks);
@@ -62,12 +62,16 @@ export const useGeographySettings = (): GeographySettingsState => {
   // Region dialog handlers
   const handleOpenRegionDialog = (region?: Region) => {
     setEditingRegion(region || null);
-    setFormData(region ? { ...region } : {
-      name: '',
-      description: '',
-      significance: '',
-      connectedRegions: []
-    });
+    setFormData(
+      region
+        ? { ...region }
+        : {
+            name: '',
+            description: '',
+            significance: '',
+            connectedRegions: [],
+          }
+    );
     setDialogOpen(true);
   };
 
@@ -83,11 +87,11 @@ export const useGeographySettings = (): GeographySettingsState => {
       name: formData.name || '',
       description: formData.description || '',
       significance: formData.significance || '',
-      connectedRegions: formData.connectedRegions || []
+      connectedRegions: formData.connectedRegions || [],
     };
 
-    let updatedRegions = [...geography.regions];
-    
+    const updatedRegions = [...geography.regions];
+
     if (editingRegion) {
       const index = updatedRegions.findIndex(r => r.id === editingRegion.id);
       if (index !== -1) {
@@ -109,19 +113,18 @@ export const useGeographySettings = (): GeographySettingsState => {
     }
   };
 
-  const handleFormChange = (field: keyof Region) => (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: event.target.value
-    }));
-  };
+  const handleFormChange =
+    (field: keyof Region) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData(prev => ({
+        ...prev,
+        [field]: event.target.value,
+      }));
+    };
 
   const handleConnectedRegionsChange = (event: any, newValue: string[]) => {
     setFormData(prev => ({
       ...prev,
-      connectedRegions: newValue
+      connectedRegions: newValue,
     }));
   };
 
@@ -148,25 +151,25 @@ export const useGeographySettings = (): GeographySettingsState => {
     // Climate state
     climate,
     setClimate,
-    
+
     // Landmarks state
     landmarks,
     setLandmarks,
     newLandmark,
     setNewLandmark,
-    
+
     // Natural features state
     naturalFeatures,
     setNaturalFeatures,
     newFeature,
     setNewFeature,
-    
+
     // Dialog state
     editingRegion,
     dialogOpen,
     formData,
     setFormData,
-    
+
     // Action handlers
     handleOpenRegionDialog,
     handleCloseDialog,
@@ -175,6 +178,6 @@ export const useGeographySettings = (): GeographySettingsState => {
     handleFormChange,
     handleConnectedRegionsChange,
     handleAddItem,
-    handleRemoveItem
+    handleRemoveItem,
   };
 };

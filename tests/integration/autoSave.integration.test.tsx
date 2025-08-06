@@ -1,7 +1,7 @@
 /**
  * 自动保存集成测试
  * 测试自动保存中间件的完整工作流程
- * 
+ *
  * 工作流程：内容修改 -> 自动保存中间件 -> 本地存储
  */
 
@@ -17,14 +17,14 @@ import {
   createTestData,
   waitForMiddlewareToProcess,
   waitForAutoSaveToComplete,
-  AppState
+  AppState,
 } from '../utils/integrationTestUtils';
 
 // 引入要测试的组件
 import App from '../../src/App';
 
 // 引入 actions
-import { updateStory } from '../../src/features/outline/slices/storySlice';
+import { updateStoryBackground } from '../../src/features/outline/slices/storySlice';
 import { addCharacter } from '../../src/features/outline/slices/charactersSlice';
 
 describe('自动保存集成测试', () => {
@@ -35,7 +35,7 @@ describe('自动保存集成测试', () => {
   beforeEach(() => {
     mockStorage = createMockStorageAPI();
     user = createUserInteractionHelper();
-    
+
     // 确保使用假定时器
     jest.useFakeTimers({ advanceTimers: true });
   });
@@ -49,23 +49,20 @@ describe('自动保存集成测试', () => {
       it('应当在用户编辑故事内容后自动保存到本地存储', async () => {
         // 准备 (Arrange)
         const initialState = createTestData.outlineState();
-        
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: initialState }
-          }
-        );
-        
+
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: initialState },
+        });
+
         store = renderResult.store;
 
         // 切换到大纲标签
         await user.switchTab('小说大纲');
-        
+
         // 进入故事概述模块
-        await user.clickButton('故事概述');
+        await user.clickButton('整体故事概述');
 
         // 等待界面加载
         await waitFor(() => {
@@ -82,7 +79,7 @@ describe('自动保存集成测试', () => {
 
         // 立即检查：自动保存还没有触发
         expect(mockStorage.localStorage.setItem).not.toHaveBeenCalled();
-        
+
         // 验证状态变为dirty
         currentState = store.getState();
         expect(currentState.outline.story.background.location).toBe('北京朝阳区');
@@ -113,20 +110,17 @@ describe('自动保存集成测试', () => {
 
       it('应当在用户添加角色后自动保存', async () => {
         // 准备 (Arrange)
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: createTestData.outlineState() }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: createTestData.outlineState() },
+        });
+
         store = renderResult.store;
 
         // 切换到角色关系模块
         await user.switchTab('小说大纲');
-        await user.clickButton('角色关系');
+        await user.clickButton('人物与角色关系');
 
         // 等待界面加载
         await waitFor(() => {
@@ -143,9 +137,9 @@ describe('自动保存集成测试', () => {
 
         // 填写角色信息
         await user.fillForm({
-          '角色姓名': '李四',
-          '角色描述': '重要配角，医生',
-          '年龄': '35'
+          角色姓名: '李四',
+          角色描述: '重要配角，医生',
+          年龄: '35',
         });
 
         // 提交表单
@@ -157,7 +151,7 @@ describe('自动保存集成测试', () => {
         });
 
         // 验证角色添加成功
-        let currentState = store.getState();
+        const currentState = store.getState();
         expect(currentState.outline.characters.characters).toHaveLength(1);
 
         // 快进时间触发自动保存
@@ -178,19 +172,16 @@ describe('自动保存集成测试', () => {
 
       it('应当处理连续编辑时的防抖机制', async () => {
         // 准备 (Arrange)
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: createTestData.outlineState() }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: createTestData.outlineState() },
+        });
+
         store = renderResult.store;
 
         await user.switchTab('小说大纲');
-        await user.clickButton('故事概述');
+        await user.clickButton('整体故事概述');
 
         await waitFor(() => {
           expect(screen.getByLabelText(/地点|位置/i)).toBeInTheDocument();
@@ -200,23 +191,23 @@ describe('自动保存集成测试', () => {
 
         // 操作 (Act) - 连续快速编辑
         await user.typeText(locationField, '上');
-        
+
         // 快进50ms（少于debounce时间）
         act(() => {
           jest.advanceTimersByTime(50);
         });
-        
+
         // 验证还没有保存
         expect(mockStorage.localStorage.setItem).not.toHaveBeenCalled();
 
         // 继续编辑
         await user.typeText(locationField, '上海');
-        
+
         // 再快进50ms
         act(() => {
           jest.advanceTimersByTime(50);
         });
-        
+
         // 仍然没有保存
         expect(mockStorage.localStorage.setItem).not.toHaveBeenCalled();
 
@@ -233,7 +224,7 @@ describe('自动保存集成测试', () => {
         // 断言 (Assert)
         // 现在应该只保存一次，包含最终的值
         expect(mockStorage.localStorage.setItem).toHaveBeenCalledTimes(1);
-        
+
         const storedData = mockStorage.getStoredData('creation-editor-project');
         expect(storedData.outline.story.background.location).toBe('上海浦东');
       });
@@ -252,19 +243,16 @@ describe('自动保存集成测试', () => {
           return undefined;
         });
 
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: createTestData.outlineState() }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: createTestData.outlineState() },
+        });
+
         store = renderResult.store;
 
         await user.switchTab('小说大纲');
-        await user.clickButton('故事概述');
+        await user.clickButton('整体故事概述');
 
         await waitFor(() => {
           expect(screen.getByLabelText(/地点|位置/i)).toBeInTheDocument();
@@ -307,19 +295,16 @@ describe('自动保存集成测试', () => {
           throw new Error('持续存储失败');
         });
 
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: createTestData.outlineState() }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: createTestData.outlineState() },
+        });
+
         store = renderResult.store;
 
         await user.switchTab('小说大纲');
-        await user.clickButton('故事概述');
+        await user.clickButton('整体故事概述');
 
         await waitFor(() => {
           expect(screen.getByLabelText(/地点|位置/i)).toBeInTheDocument();
@@ -336,7 +321,7 @@ describe('自动保存集成测试', () => {
 
         // 等待所有重试完成
         await waitForMiddlewareToProcess(500);
-        
+
         act(() => {
           jest.advanceTimersByTime(2000); // 给足时间进行重试
         });
@@ -346,7 +331,7 @@ describe('自动保存集成测试', () => {
         // 断言 (Assert)
         // 验证重试了最大次数（2次重试 + 1次原始尝试 = 3次）
         expect(saveAttempts).toBeLessThanOrEqual(3);
-        
+
         // 验证状态仍然是dirty（保存失败）
         const currentState = store.getState();
         expect((currentState.outline as any).isDirty).toBeTruthy();
@@ -365,19 +350,16 @@ describe('自动保存集成测试', () => {
         // 假设有自动保存开关设置
         (initialState as any).autoSaveEnabled = false;
 
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: initialState }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: initialState },
+        });
+
         store = renderResult.store;
 
         await user.switchTab('小说大纲');
-        await user.clickButton('故事概述');
+        await user.clickButton('整体故事概述');
 
         await waitFor(() => {
           expect(screen.getByLabelText(/地点|位置/i)).toBeInTheDocument();
@@ -408,49 +390,50 @@ describe('自动保存集成测试', () => {
     describe('测试用例 2.4: 批量更新的自动保存', () => {
       it('应当在批量更新后只触发一次自动保存', async () => {
         // 准备 (Arrange)
-        const renderResult = renderWithIntegrationProviders(
-          <App />,
-          {
-            mockStorage,
-            enableMiddleware: true,
-            initialState: { outline: createTestData.outlineState() }
-          }
-        );
-        
+        const renderResult = renderWithIntegrationProviders(<App />, {
+          mockStorage,
+          enableMiddleware: true,
+          initialState: { outline: createTestData.outlineState() },
+        });
+
         store = renderResult.store;
 
         // 操作 (Act) - 通过Redux直接分发多个actions（模拟批量更新）
         act(() => {
-          store.dispatch(updateStory({
-            background: {
+          store.dispatch(
+            updateStoryBackground({
               era: '未来',
               location: '火星',
               socialEnvironment: '太空殖民',
-              historicalContext: '2080年代'
-            }
-          }));
-          
-          store.dispatch(addCharacter({
-            id: 'batch-char-1',
-            name: '火星居民1',
-            description: '第一个火星定居者',
-            role: 'protagonist',
-            traits: [],
-            relationships: [],
-            scenes: [],
-            notes: ''
-          }));
+              historicalContext: '2080年代',
+            })
+          );
 
-          store.dispatch(addCharacter({
-            id: 'batch-char-2', 
-            name: '火星居民2',
-            description: '第二个火星定居者',
-            role: 'supporting',
-            traits: [],
-            relationships: [],
-            scenes: [],
-            notes: ''
-          }));
+          store.dispatch(
+            addCharacter({
+              id: 'batch-char-1',
+              name: '火星居民1',
+              description: '第一个火星定居者',
+              role: 'protagonist',
+              traits: [],
+              relationships: [],
+              scenes: [],
+              notes: '',
+            })
+          );
+
+          store.dispatch(
+            addCharacter({
+              id: 'batch-char-2',
+              name: '火星居民2',
+              description: '第二个火星定居者',
+              role: 'supporting',
+              traits: [],
+              relationships: [],
+              scenes: [],
+              notes: '',
+            })
+          );
         });
 
         // 触发自动保存

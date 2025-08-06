@@ -36,22 +36,22 @@ const initialState: StoryState = {
     era: '',
     location: '',
     socialEnvironment: '',
-    historicalContext: ''
+    historicalContext: '',
   },
   coreTheme: {
     theme: '',
     conflict: '',
     message: '',
-    keywords: []
+    keywords: [],
   },
   synopsis: {
     beginning: '',
     development: '',
     climax: '',
     ending: '',
-    overallTone: ''
+    overallTone: '',
   },
-  lastUpdated: new Date()
+  lastUpdated: new Date(),
 };
 
 const storySlice = createSlice({
@@ -73,34 +73,33 @@ const storySlice = createSlice({
       state.lastUpdated = new Date();
     },
 
-    resetStory: (state) => {
+    resetStory: state => {
       return { ...initialState, id: state.id, lastUpdated: new Date() };
-    }
-  }
+    },
+  },
 });
 
-export const { 
-  updateStoryBackground, 
-  updateCoreTheme, 
-  updateSynopsis, 
-  resetStory 
-} = storySlice.actions;
+export const { updateStoryBackground, updateCoreTheme, updateSynopsis, resetStory } =
+  storySlice.actions;
 
 export { storySlice };
 export default storySlice.reducer;
 
 // Selectors
 export const selectStory = (state: { outline: { story: StoryState } }) => state.outline.story;
-export const selectStoryBackground = (state: { outline: { story: StoryState } }) => state.outline.story.background;
-export const selectCoreTheme = (state: { outline: { story: StoryState } }) => state.outline.story.coreTheme;
-export const selectSynopsis = (state: { outline: { story: StoryState } }) => state.outline.story.synopsis;
+export const selectStoryBackground = (state: { outline: { story: StoryState } }) =>
+  state.outline.story.background;
+export const selectCoreTheme = (state: { outline: { story: StoryState } }) =>
+  state.outline.story.coreTheme;
+export const selectSynopsis = (state: { outline: { story: StoryState } }) =>
+  state.outline.story.synopsis;
 
 // Calculate story completion rate
 export const selectStoryCompletion = (state: { outline: { story: StoryState } }) => {
   const { background, coreTheme, synopsis } = state.outline.story;
   let completed = 0;
   const total = 10;
-  
+
   if (background.era) completed++;
   if (background.location) completed++;
   if (background.socialEnvironment) completed++;
@@ -111,6 +110,6 @@ export const selectStoryCompletion = (state: { outline: { story: StoryState } })
   if (synopsis.development) completed++;
   if (synopsis.climax) completed++;
   if (synopsis.ending) completed++;
-  
+
   return Math.round((completed / total) * 100);
 };

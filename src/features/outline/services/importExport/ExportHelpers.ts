@@ -22,14 +22,14 @@ export class ExportHelpers {
     const exportData: any = {
       version: '1.0.0',
       exportedAt: new Date().toISOString(),
-      project: { ...projectData }
+      project: { ...projectData },
     };
 
     if (options.includeMetadata) {
       exportData.metadata = {
         exportFormat: options.format,
         exportedBy: 'Novel Creation Editor',
-        exportOptions: options
+        exportOptions: options,
       };
     }
 
@@ -42,7 +42,7 @@ export class ExportHelpers {
   static generateExportFilename(projectName: string, format: ExportFormat): string {
     const sanitizedProjectName = projectName.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '_');
     const timestamp = new Date().toISOString().slice(0, 10);
-    
+
     switch (format) {
       case 'json':
         return `${sanitizedProjectName}_${timestamp}.json`;
@@ -60,11 +60,11 @@ export class ExportHelpers {
    */
   static formatFileSize(bytes: number): string {
     if (bytes === 0) return '0 Bytes';
-    
+
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    
+
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
@@ -82,7 +82,7 @@ export class ExportHelpers {
     const chapterCount = projectData.chapters?.chapters?.length || 0;
     const timelineEventCount = projectData.timeline?.events?.length || 0;
     const subplotCount = projectData.subplots?.subplots?.length || 0;
-    
+
     // Calculate approximate word count from chapter content
     let wordCount = 0;
     if (projectData.chapters?.chapters) {
@@ -98,7 +98,7 @@ export class ExportHelpers {
       chapterCount,
       timelineEventCount,
       subplotCount,
-      wordCount
+      wordCount,
     };
   }
 }

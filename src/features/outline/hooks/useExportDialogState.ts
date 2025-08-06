@@ -16,26 +16,26 @@ export const useExportDialogState = (defaultFormat: 'json' | 'docx' | 'pdf' = 'd
     exportDocument,
     getDefaultOptions,
     clearError,
-    validateExportData
+    validateExportData,
   } = useDocumentExport();
 
   const [state, setState] = useState<ExportDialogState>(() => ({
     exportOptions: {
       ...getDefaultOptions(),
-      format: defaultFormat
+      format: defaultFormat,
     },
     activeStep: 0,
-    validationResult: null
+    validationResult: null,
   }));
 
   const resetState = useCallback(() => {
     setState({
       exportOptions: {
         ...getDefaultOptions(),
-        format: defaultFormat
+        format: defaultFormat,
       },
       activeStep: 0,
-      validationResult: validateExportData()
+      validationResult: validateExportData(),
     });
     clearError();
   }, [defaultFormat, getDefaultOptions, clearError, validateExportData]);
@@ -45,8 +45,8 @@ export const useExportDialogState = (defaultFormat: 'json' | 'docx' | 'pdf' = 'd
       ...prev,
       exportOptions: {
         ...prev.exportOptions,
-        format
-      }
+        format,
+      },
     }));
   }, []);
 
@@ -57,31 +57,34 @@ export const useExportDialogState = (defaultFormat: 'json' | 'docx' | 'pdf' = 'd
         ...prev.exportOptions,
         includeModules: {
           ...prev.exportOptions.includeModules,
-          [module]: !prev.exportOptions.includeModules[module]
-        }
-      }
+          [module]: !prev.exportOptions.includeModules[module],
+        },
+      },
     }));
   }, []);
 
-  const handleFormattingChange = useCallback((field: keyof ExportOptions['formatting'], value: any) => {
-    setState(prev => ({
-      ...prev,
-      exportOptions: {
-        ...prev.exportOptions,
-        formatting: {
-          ...prev.exportOptions.formatting,
-          [field]: value
-        }
-      }
-    }));
-  }, []);
+  const handleFormattingChange = useCallback(
+    (field: keyof ExportOptions['formatting'], value: any) => {
+      setState(prev => ({
+        ...prev,
+        exportOptions: {
+          ...prev.exportOptions,
+          formatting: {
+            ...prev.exportOptions.formatting,
+            [field]: value,
+          },
+        },
+      }));
+    },
+    []
+  );
 
   const handleNext = useCallback(() => {
     if (state.activeStep === 0) {
       const validation = validateExportData();
       setState(prev => ({
         ...prev,
-        validationResult: validation
+        validationResult: validation,
       }));
       if (!validation.isValid) {
         return;
@@ -89,14 +92,14 @@ export const useExportDialogState = (defaultFormat: 'json' | 'docx' | 'pdf' = 'd
     }
     setState(prev => ({
       ...prev,
-      activeStep: prev.activeStep + 1
+      activeStep: prev.activeStep + 1,
     }));
   }, [state.activeStep, validateExportData]);
 
   const handleBack = useCallback(() => {
     setState(prev => ({
       ...prev,
-      activeStep: prev.activeStep - 1
+      activeStep: prev.activeStep - 1,
     }));
   }, []);
 
@@ -131,6 +134,6 @@ export const useExportDialogState = (defaultFormat: 'json' | 'docx' | 'pdf' = 'd
     canProceed,
     isExporting,
     progress,
-    lastExportError
+    lastExportError,
   };
 };

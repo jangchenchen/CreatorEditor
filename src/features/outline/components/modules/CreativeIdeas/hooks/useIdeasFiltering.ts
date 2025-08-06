@@ -9,15 +9,15 @@ export const useIdeasFiltering = (
   // 过滤和排序创意
   const filteredAndSortedIdeas = useMemo(() => {
     let filtered = ideas;
-    
+
     if (filterType !== 'all') {
       filtered = filtered.filter(idea => idea.type === filterType);
     }
-    
+
     if (filterStatus !== 'all') {
       filtered = filtered.filter(idea => idea.status === filterStatus);
     }
-    
+
     // 按优先级和更新时间排序
     return filtered.sort((a, b) => {
       if (a.priority !== b.priority) {
@@ -29,17 +29,20 @@ export const useIdeasFiltering = (
 
   // 按类型分组
   const ideasByType = useMemo(() => {
-    return filteredAndSortedIdeas.reduce((acc, idea) => {
-      if (!acc[idea.type]) {
-        acc[idea.type] = [];
-      }
-      acc[idea.type].push(idea);
-      return acc;
-    }, {} as Record<IdeaType, CreativeIdea[]>);
+    return filteredAndSortedIdeas.reduce(
+      (acc, idea) => {
+        if (!acc[idea.type]) {
+          acc[idea.type] = [];
+        }
+        acc[idea.type].push(idea);
+        return acc;
+      },
+      {} as Record<IdeaType, CreativeIdea[]>
+    );
   }, [filteredAndSortedIdeas]);
 
   return {
     filteredAndSortedIdeas,
-    ideasByType
+    ideasByType,
   };
 };

@@ -5,7 +5,7 @@
 export interface VisualNode {
   id: string;
   type: string;
-  position: { x: number; y: number; };
+  position: { x: number; y: number };
   data: any;
 }
 

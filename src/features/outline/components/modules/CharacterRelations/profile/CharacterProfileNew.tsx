@@ -19,7 +19,7 @@ const CharacterProfileNew: React.FC = () => {
     handleCloseDialog,
     handleSaveCharacter,
     handleDeleteCharacter,
-    setSelectedCharacter
+    setSelectedCharacter,
   } = useCharacterProfile();
 
   return (
@@ -30,8 +30,8 @@ const CharacterProfileNew: React.FC = () => {
         onEdit={handleEditCharacter}
         onDelete={handleDeleteCharacter}
         loading={false}
-        searchPlaceholder="搜索角色..."
-        emptyMessage="暂无角色数据"
+        searchPlaceholder='搜索角色...'
+        emptyMessage='暂无角色数据'
         height={500}
       />
 

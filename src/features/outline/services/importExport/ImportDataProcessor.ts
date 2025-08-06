@@ -6,7 +6,7 @@ import { DataMigrationService } from '../dataMigrationService';
 
 export class ImportDataProcessor {
   static async processImportData(
-    projectData: any, 
+    projectData: any,
     context: ImportContext
   ): Promise<{ data: OutlineData; context: ImportContext }> {
     const { warnings, errors, migrationApplied, originalVersion } = context;
@@ -42,8 +42,8 @@ export class ImportDataProcessor {
   }
 
   static createImportResult(
-    success: boolean, 
-    project?: OutlineData, 
+    success: boolean,
+    project?: OutlineData,
     context: ImportContext
   ): ImportResult {
     return {
@@ -52,7 +52,7 @@ export class ImportDataProcessor {
       warnings: context.warnings,
       errors: context.errors,
       migrationApplied: context.migrationApplied,
-      originalVersion: context.originalVersion
+      originalVersion: context.originalVersion,
     };
   }
 

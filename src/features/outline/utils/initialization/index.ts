@@ -5,27 +5,27 @@
 
 export { initializeStorageSystem, shutdownStorageSystem } from './StorageInitializer';
 export { loadLastProject, displayStartupMessages } from './StartupHelpers';
-export { 
-  getAvailableProjects, 
-  switchProject, 
-  deleteProject, 
-  duplicateProject, 
+export {
+  getAvailableProjects,
+  switchProject,
+  deleteProject,
+  duplicateProject,
   renameProject,
-  getProjectMetadata 
+  getProjectMetadata,
 } from './ProjectManager';
-export { 
-  createNewProject, 
-  createDefaultProject, 
+export {
+  createNewProject,
+  createDefaultProject,
   createTemplateProject,
   generateProjectId,
-  validateProjectName 
+  validateProjectName,
 } from './ProjectFactory';
-export { 
-  createOutlineStateFromData, 
-  createDataFromOutlineState, 
+export {
+  createOutlineStateFromData,
+  createDataFromOutlineState,
   normalizeProjectData,
   cloneProjectData,
-  mergeProjectData 
+  mergeProjectData,
 } from './StateConverter';
 export { recoveryUtils } from './RecoveryUtils';
 
@@ -35,6 +35,6 @@ export type {
   ProjectInfo,
   SwitchProjectResult,
   RecoveryResult,
-  InitializationConfig
+  InitializationConfig,
 } from '../../types/storageInitializerTypes';
 export { DEFAULT_INIT_CONFIG } from '../../types/storageInitializerTypes';

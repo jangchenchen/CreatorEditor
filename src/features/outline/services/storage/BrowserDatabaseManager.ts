@@ -21,7 +21,7 @@ export class BrowserDatabaseManager {
   async initialize(): Promise<void> {
     try {
       await this.read();
-      
+
       // Ensure database has proper structure
       if (!this.data || Object.keys(this.data).length === 0) {
         this.data = { ...defaultData };
@@ -44,7 +44,7 @@ export class BrowserDatabaseManager {
     return {
       data: this.data,
       read: () => this.read(),
-      write: () => this.write()
+      write: () => this.write(),
     };
   }
 
@@ -115,7 +115,7 @@ export class BrowserDatabaseManager {
     const stored = localStorage.getItem(this.storageKey);
     return {
       key: this.storageKey,
-      size: stored ? new Blob([stored]).size : 0
+      size: stored ? new Blob([stored]).size : 0,
     };
   }
 

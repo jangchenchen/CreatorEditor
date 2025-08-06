@@ -27,7 +27,7 @@ export class BackupService {
         version: '1.0.0',
         createdAt: new Date().toISOString(),
         projectCount: allProjects.length,
-        projects: {}
+        projects: {},
       };
 
       // Load all projects
@@ -39,11 +39,11 @@ export class BackupService {
       }
 
       // Write backup file
-      await FileIOService.writeExportFile(filePath, backupData, { 
+      await FileIOService.writeExportFile(filePath, backupData, {
         format: 'json-pretty',
         includeMetadata: true,
         compression: false,
-        encryption: false
+        encryption: false,
       });
 
       const fileSize = await FileIOService.getFileSize(filePath);
@@ -52,13 +52,12 @@ export class BackupService {
         success: true,
         filePath,
         size: fileSize,
-        errors: []
+        errors: [],
       };
-
     } catch (error) {
       return {
         success: false,
-        errors: [`Backup export failed: ${error.message}`]
+        errors: [`Backup export failed: ${error.message}`],
       };
     }
   }
@@ -74,14 +73,14 @@ export class BackupService {
 
     try {
       const backupData = await FileIOService.readImportFile(filePath);
-      
+
       if (!backupData || !backupData.projects) {
         return {
           success: false,
           importedProjects,
           skippedProjects,
           errors: ['Invalid backup file format'],
-          warnings
+          warnings,
         };
       }
 
@@ -90,7 +89,7 @@ export class BackupService {
         try {
           // Use ProjectImportService to import each project
           const importResult = await ProjectImportService.importProjectData(projectData);
-          
+
           if (importResult.success && importResult.project) {
             importedProjects.push(importResult.project.projectName);
             warnings.push(...importResult.warnings);
@@ -109,16 +108,15 @@ export class BackupService {
         importedProjects,
         skippedProjects,
         errors,
-        warnings
+        warnings,
       };
-
     } catch (error) {
       return {
         success: false,
         importedProjects,
         skippedProjects,
         errors: [`Backup import failed: ${error.message}`],
-        warnings
+        warnings,
       };
     }
   }

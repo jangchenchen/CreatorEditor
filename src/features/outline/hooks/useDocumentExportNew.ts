@@ -6,7 +6,10 @@ import { UseDocumentExportResult } from './exportTypes';
 export const useDocumentExportNew = (): UseDocumentExportResult => {
   const { outlineData, getDefaultOptions, validateExportData } = useExportData();
   const { isExporting, progress, lastExportError, clearError, startExport } = useExportState();
-  const { exportDocument, exportToJSON, exportToWord, exportToPDF } = useExportActions(startExport, outlineData);
+  const { exportDocument, exportToJSON, exportToWord, exportToPDF } = useExportActions(
+    startExport,
+    outlineData
+  );
 
   return {
     isExporting,
@@ -18,6 +21,6 @@ export const useDocumentExportNew = (): UseDocumentExportResult => {
     exportToPDF,
     getDefaultOptions,
     clearError,
-    validateExportData
+    validateExportData,
   };
 };
