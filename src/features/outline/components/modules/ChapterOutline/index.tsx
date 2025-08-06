@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { 
   Box, 
   Paper, 
@@ -19,6 +20,8 @@ import {
 import ChapterManagement from './ChapterManagement';
 import SceneEditor from './SceneEditor';
 import StructureOverview from './StructureOverview';
+import { selectChapters, addChapter } from '../../../slices/chaptersSlice';
+import { Chapter } from '../../../types/outline.types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,19 +49,34 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
 
 const ChapterOutline: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const dispatch = useDispatch();
+  const chaptersData = useSelector(selectChapters);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
   const handleAddChapter = () => {
-    // TODO: 实现新增章节功能
-    console.log('添加新章节');
+    const newChapter: Chapter = {
+      id: `chapter-${Date.now()}`,
+      number: chaptersData.chapters.length + 1,
+      title: `第${chaptersData.chapters.length + 1}章`,
+      summary: '',
+      content: '',
+      scenes: [],
+      status: 'draft',
+      wordCount: 0,
+      estimatedReadingTime: 0,
+      lastUpdated: new Date()
+    };
+    dispatch(addChapter(newChapter));
+    console.log('已添加新章节:', newChapter);
   };
 
   const handleSave = () => {
-    // TODO: 实现保存功能
-    console.log('保存章节大纲');
+    // 触发自动保存中间件
+    dispatch({ type: 'chapters/triggerSave' });
+    console.log('章节大纲已保存', chaptersData);
   };
 
   return (

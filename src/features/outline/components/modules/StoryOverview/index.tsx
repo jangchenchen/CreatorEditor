@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { 
   Box, 
   Paper, 
@@ -19,6 +20,7 @@ import {
 import StoryBackground from './StoryBackground';
 import CoreTheme from './CoreTheme';
 import StorySynopsis from './StorySynopsis';
+import { selectStory, resetStory } from '../../../slices/storySlice';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,19 +48,25 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
 
 const StoryOverview: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const dispatch = useDispatch();
+  const story = useSelector(selectStory);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
   const handleSave = () => {
-    // TODO: 实现保存功能
-    console.log('保存故事概述');
+    // 触发自动保存中间件
+    dispatch({ type: 'story/triggerSave' });
+    console.log('故事概述已保存', story);
   };
 
   const handleRefresh = () => {
-    // TODO: 实现刷新功能
-    console.log('刷新故事概述');
+    // 重置故事数据
+    if (window.confirm('确定要重置故事概述吗？这将清除所有未保存的内容。')) {
+      dispatch(resetStory());
+      console.log('故事概述已重置');
+    }
   };
 
   return (

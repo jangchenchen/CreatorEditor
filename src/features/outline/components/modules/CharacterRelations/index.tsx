@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { 
   Box, 
   Paper, 
@@ -18,6 +19,8 @@ import {
 import CharacterProfile from './CharacterProfile';
 import CharacterArc from './CharacterArc';
 import RelationshipMap from './RelationshipMap';
+import { selectCharacters, addCharacter, addRelationship } from '../../../slices/charactersSlice';
+import { Character, Relationship } from '../../../types/outline.types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -45,19 +48,56 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
 
 const CharacterRelations: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const dispatch = useDispatch();
+  const charactersData = useSelector(selectCharacters);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
   const handleAddCharacter = () => {
-    // TODO: 实现新增角色功能
-    console.log('添加新角色');
+    const newCharacter: Character = {
+      id: `character-${Date.now()}`,
+      name: '新角色',
+      age: 25,
+      gender: 'other',
+      role: 'supporting',
+      background: '',
+      personality: '',
+      appearance: '',
+      goals: '',
+      skills: [],
+      relationships: [],
+      development: {
+        arc: '',
+        keyMoments: [],
+        growth: '',
+        conflicts: []
+      },
+      lastUpdated: new Date()
+    };
+    dispatch(addCharacter(newCharacter));
+    console.log('已添加新角色:', newCharacter);
   };
 
   const handleAddRelationship = () => {
-    // TODO: 实现新增关系功能
-    console.log('添加新关系');
+    if (charactersData.characters.length < 2) {
+      alert('需要至少两个角色才能创建关系');
+      return;
+    }
+    
+    const characters = charactersData.characters;
+    const newRelationship: Relationship = {
+      id: `relationship-${Date.now()}`,
+      fromCharacter: characters[0].id,
+      toCharacter: characters[1].id,
+      type: 'friend',
+      description: '',
+      strength: 5,
+      lastUpdated: new Date()
+    };
+    dispatch(addRelationship(newRelationship));
+    console.log('已添加新关系:', newRelationship);
   };
 
   return (

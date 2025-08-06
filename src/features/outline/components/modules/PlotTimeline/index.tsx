@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { 
   Box, 
   Paper, 
@@ -19,6 +20,8 @@ import {
 import TimelineOverview from './TimelineOverview';
 import EventManagement from './EventManagement';
 import TimelineSettings from './TimelineSettings';
+import { selectTimeline, addPlotEvent } from '../../../slices/timelineSlice';
+import { PlotEvent } from '../../../types/outline.types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,19 +49,36 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
 
 const PlotTimeline: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const dispatch = useDispatch();
+  const timelineData = useSelector(selectTimeline);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
   const handleAddEvent = () => {
-    // TODO: 实现新增事件功能
-    console.log('添加新事件');
+    const newEvent: PlotEvent = {
+      id: `event-${Date.now()}`,
+      title: '新事件',
+      description: '',
+      timestamp: new Date().toISOString(),
+      type: 'development',
+      importance: 'important',
+      location: '',
+      characters: [],
+      consequences: '',
+      notes: '',
+      isKeyEvent: false,
+      lastUpdated: new Date()
+    };
+    dispatch(addPlotEvent(newEvent));
+    console.log('已添加新事件:', newEvent);
   };
 
   const handleSave = () => {
-    // TODO: 实现保存功能
-    console.log('保存时间线');
+    // 触发自动保存中间件
+    dispatch({ type: 'timeline/triggerSave' });
+    console.log('时间线已保存', timelineData);
   };
 
   return (
