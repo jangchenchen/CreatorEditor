@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { 
   Box, 
   Paper, 
@@ -19,6 +20,7 @@ import {
 import ThemeAnalysis from './ThemeAnalysis';
 import CharacterMotivations from './CharacterMotivations';
 import PhilosophicalReflection from './PhilosophicalReflection';
+import { selectThemes, resetThemes } from '../../../slices/themesSlice';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,19 +48,25 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
 
 const ThemeExploration: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const dispatch = useDispatch();
+  const themesData = useSelector(selectThemes);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
   const handleSave = () => {
-    // TODO: 实现保存功能
-    console.log('保存主题探索');
+    // 触发自动保存中间件
+    dispatch({ type: 'themes/triggerSave' });
+    console.log('主题探索已保存', themesData);
   };
 
   const handleRefresh = () => {
-    // TODO: 实现刷新功能
-    console.log('刷新主题探索');
+    // 重置主题数据
+    if (window.confirm('确定要重置主题探索吗？这将清除所有未保存的内容。')) {
+      dispatch(resetThemes());
+      console.log('主题探索已重置');
+    }
   };
 
   return (

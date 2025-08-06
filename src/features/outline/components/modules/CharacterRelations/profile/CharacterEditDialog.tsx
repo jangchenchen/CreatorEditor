@@ -1,5 +1,6 @@
 /**
  * 角色编辑对话框组件
+ * 包含表单验证功能
  */
 
 import React from 'react';
@@ -15,16 +16,20 @@ import {
   MenuItem,
   Button,
   Box,
-  Grid
+  Grid,
+  Alert
 } from '@mui/material';
 import { Character, CharacterRole } from '../../../../types/outline.types';
+import { ValidatedTextField } from '../../../common/ValidatedTextField';
+import { useFormValidation } from '../../../../hooks/useFormValidation';
+import { formValidationSets } from '../../../../utils/formValidation';
 
 interface CharacterEditDialogProps {
   open: boolean;
   editMode: boolean;
   character: Character | null;
   onClose: () => void;
-  onSave: () => void;
+  onSave: (character: Character) => void;
   onCharacterChange: React.Dispatch<React.SetStateAction<Character | null>>;
 }
 
@@ -36,6 +41,44 @@ export const CharacterEditDialog: React.FC<CharacterEditDialogProps> = ({
   onSave,
   onCharacterChange
 }) => {
+  // 表单验证
+  const validation = useFormValidation({
+    validationRules: {
+      name: formValidationSets.character.name,
+      age: formValidationSets.character.age,
+      background: formValidationSets.character.background
+    },
+    validateOnBlur: true
+  });
+
+  // 处理保存
+  const handleSave = () => {
+    if (!character) return;
+    
+    const formData = {
+      name: character.name,
+      age: character.age,
+      background: character.background
+    };
+    
+    // 验证表单
+    if (validation.validateForm(formData)) {
+      onSave(character);
+      validation.clearErrors();
+    }
+  };
+
+  // 处理关闭
+  const handleClose = () => {
+    validation.clearErrors();
+    onClose();
+  };
+
+  // 处理字段变化和验证
+  const handleFieldChange = (field: keyof Character, value: any) => {
+    onCharacterChange(prev => prev ? { ...prev, [field]: value } : null);
+    validation.validateField(field, value);
+  };
   return (
     <Dialog
       open={open}
@@ -50,13 +93,29 @@ export const CharacterEditDialog: React.FC<CharacterEditDialogProps> = ({
         <Box sx={{ pt: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <ValidatedTextField
                 fullWidth
                 label="角色姓名"
+                name="name"
                 value={character?.name || ''}
-                onChange={(e) => onCharacterChange(prev => 
-                  prev ? { ...prev, name: e.target.value } : null
-                )}
+                onChange={(e) => handleFieldChange('name', e.target.value)}
+                errors={validation.errors}
+                required
+                helperText="角色的姓名或称号"
+              />
+            </Grid>
+            
+            <Grid item xs={12} sm={6}>
+              <ValidatedTextField
+                fullWidth
+                label="角色年龄"
+                name="age"
+                type="number"
+                value={character?.age || ''}
+                onChange={(e) => handleFieldChange('age', Number(e.target.value))}
+                errors={validation.errors}
+                required
+                helperText="角色的年龄（0-200）"
               />
             </Grid>
             
@@ -79,15 +138,16 @@ export const CharacterEditDialog: React.FC<CharacterEditDialogProps> = ({
             </Grid>
 
             <Grid item xs={12}>
-              <TextField
+              <ValidatedTextField
                 fullWidth
                 multiline
                 rows={2}
                 label="角色背景"
+                name="background"
                 value={character?.background || ''}
-                onChange={(e) => onCharacterChange(prev => 
-                  prev ? { ...prev, background: e.target.value } : null
-                )}
+                onChange={(e) => handleFieldChange('background', e.target.value)}
+                errors={validation.errors}
+                helperText="角色的出身、经历等背景信息（最多500字）"
               />
             </Grid>
 
@@ -101,6 +161,7 @@ export const CharacterEditDialog: React.FC<CharacterEditDialogProps> = ({
                 onChange={(e) => onCharacterChange(prev => 
                   prev ? { ...prev, appearance: e.target.value } : null
                 )}
+                helperText="角色的外貌特征描述"
               />
             </Grid>
 
@@ -114,14 +175,33 @@ export const CharacterEditDialog: React.FC<CharacterEditDialogProps> = ({
                 onChange={(e) => onCharacterChange(prev => 
                   prev ? { ...prev, goals: e.target.value } : null
                 )}
+                helperText="角色的目标、动机和追求"
               />
             </Grid>
+
+            {/* 验证错误提示 */}
+            {validation.errors.length > 0 && validation.isSubmitted && (
+              <Grid item xs={12}>
+                <Alert severity="error">
+                  请修正以下错误：
+                  <ul style={{ margin: '8px 0 0 0', paddingLeft: '20px' }}>
+                    {validation.errors.map((error, index) => (
+                      <li key={index}>{error.message}</li>
+                    ))}
+                  </ul>
+                </Alert>
+              </Grid>
+            )}
           </Grid>
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>取消</Button>
-        <Button onClick={onSave} variant="contained">
+        <Button onClick={handleClose}>取消</Button>
+        <Button 
+          onClick={handleSave} 
+          variant="contained"
+          disabled={validation.isSubmitted && !validation.isValid}
+        >
           {editMode ? '保存' : '创建'}
         </Button>
       </DialogActions>

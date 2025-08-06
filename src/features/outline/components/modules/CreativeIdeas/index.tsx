@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { 
   Box, 
   Paper, 
@@ -19,6 +20,8 @@ import {
 import IdeasManagement from './IdeasManagement';
 import PlotAlternatives from './PlotAlternatives';
 import InspirationSources from './InspirationSources';
+import { selectIdeas, addCreativeIdea } from '../../../slices/ideasSlice';
+import { CreativeIdea } from '../../../types/outline.types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,19 +49,34 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
 
 const CreativeIdeas: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const dispatch = useDispatch();
+  const ideasData = useSelector(selectIdeas);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
   const handleAddIdea = () => {
-    // TODO: 实现新增创意功能
-    console.log('添加新创意');
+    const newIdea: CreativeIdea = {
+      id: `idea-${Date.now()}`,
+      title: '新创意',
+      description: '',
+      category: 'plot',
+      status: 'brainstorm',
+      tags: [],
+      notes: '',
+      relatedElements: [],
+      potential: 'high',
+      lastUpdated: new Date()
+    };
+    dispatch(addCreativeIdea(newIdea));
+    console.log('已添加新创意:', newIdea);
   };
 
   const handleSave = () => {
-    // TODO: 实现保存功能
-    console.log('保存创意想法');
+    // 触发自动保存中间件
+    dispatch({ type: 'ideas/triggerSave' });
+    console.log('创意想法已保存', ideasData);
   };
 
   return (

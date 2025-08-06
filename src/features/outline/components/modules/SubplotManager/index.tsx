@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { 
   Box, 
   Paper, 
@@ -19,6 +20,8 @@ import {
 import SubplotManagement from './SubplotManagement';
 import SecondaryCharacterStories from './SecondaryCharacterStories';
 import WeavingStrategy from './WeavingStrategy';
+import { selectSubplots, addSubplot } from '../../../slices/subplotsSlice';
+import { Subplot } from '../../../types/outline.types';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,19 +49,34 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
 
 const SubplotManager: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const dispatch = useDispatch();
+  const subplotsData = useSelector(selectSubplots);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
   const handleAddSubplot = () => {
-    // TODO: 实现新增副线功能
-    console.log('添加新副线');
+    const newSubplot: Subplot = {
+      id: `subplot-${Date.now()}`,
+      title: '新副线',
+      description: '',
+      mainCharacters: [],
+      plotPoints: [],
+      resolution: '',
+      relationship: 'parallel',
+      priority: 'medium',
+      status: 'planned',
+      lastUpdated: new Date()
+    };
+    dispatch(addSubplot(newSubplot));
+    console.log('已添加新副线:', newSubplot);
   };
 
   const handleSave = () => {
-    // TODO: 实现保存功能
-    console.log('保存副线情节');
+    // 触发自动保存中间件
+    dispatch({ type: 'subplots/triggerSave' });
+    console.log('副线情节已保存', subplotsData);
   };
 
   return (

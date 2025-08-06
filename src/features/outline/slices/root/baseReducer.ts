@@ -7,6 +7,7 @@ import chaptersReducer from '../chaptersSlice';
 import subplotsReducer from '../subplotsSlice';
 import ideasReducer from '../ideasSlice';
 import worldReducer from '../worldSlice';
+import themesReducer from '../themesSlice';
 import { OutlineState } from './types';
 
 // Combine all the individual slices
@@ -18,7 +19,8 @@ export const baseOutlineReducer = combineReducers({
   chapters: chaptersReducer,
   subplots: subplotsReducer,
   ideas: ideasReducer,
-  world: worldReducer
+  world: worldReducer,
+  themes: themesReducer
 });
 
 export default baseOutlineReducer;

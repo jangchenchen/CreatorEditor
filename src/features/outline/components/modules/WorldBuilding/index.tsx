@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { 
   Box, 
   Paper, 
@@ -19,6 +20,7 @@ import {
 import { GeographySettings } from './GeographySettingsNew';
 import SocialSystems from './SocialSystems';
 import WorldHistory from './WorldHistory';
+import { selectWorld, resetWorld } from '../../../slices/worldSlice';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,19 +48,25 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
 
 const WorldBuilding: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const dispatch = useDispatch();
+  const worldData = useSelector(selectWorld);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
   const handleSave = () => {
-    // TODO: 实现保存功能
-    console.log('保存世界设定');
+    // 触发自动保存中间件
+    dispatch({ type: 'world/triggerSave' });
+    console.log('世界设定已保存', worldData);
   };
 
   const handleRefresh = () => {
-    // TODO: 实现刷新功能
-    console.log('刷新世界设定');
+    // 重置世界数据
+    if (window.confirm('确定要重置世界设定吗？这将清除所有未保存的内容。')) {
+      dispatch(resetWorld());
+      console.log('世界设定已重置');
+    }
   };
 
   return (

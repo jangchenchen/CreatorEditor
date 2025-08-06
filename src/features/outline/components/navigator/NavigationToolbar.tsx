@@ -9,7 +9,8 @@ import {
 } from '@mui/material';
 import {
   Settings as SettingsIcon,
-  Info as InfoIcon
+  Info as InfoIcon,
+  BugReport as TestIcon
 } from '@mui/icons-material';
 import { modules } from './navigatorConstants';
 import { OutlineModule } from '../../types/outline.types';
@@ -18,12 +19,14 @@ interface NavigationToolbarProps {
   selectedModule: OutlineModule | null;
   onBackToNavigator: () => void;
   onInfoOpen: () => void;
+  onTestOpen?: () => void;
 }
 
 const NavigationToolbar: React.FC<NavigationToolbarProps> = ({
   selectedModule,
   onBackToNavigator,
-  onInfoOpen
+  onInfoOpen,
+  onTestOpen
 }) => {
   if (selectedModule) {
     return (
@@ -60,6 +63,13 @@ const NavigationToolbar: React.FC<NavigationToolbarProps> = ({
             <SettingsIcon />
           </IconButton>
         </Tooltip>
+        {onTestOpen && (
+          <Tooltip title="测试导出功能">
+            <IconButton onClick={onTestOpen} color="secondary">
+              <TestIcon />
+            </IconButton>
+          </Tooltip>
+        )}
       </Box>
     </Box>
   );
