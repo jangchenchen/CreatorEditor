@@ -5,24 +5,23 @@
 
 import { RootState } from '../../../app/store';
 import { OutlineData } from '../types/outline.types';
-import { DatabaseManager } from './storage/DatabaseManager';
-import { StorageMigration } from './storage/StorageMigration';
-import { BackupManager } from './storage/BackupManager';
-import { StateTransformer } from './storage/StateTransformer';
-import { ProjectStorageService } from './storage/ProjectStorageService';
+import { BrowserDatabaseManager } from './storage/BrowserDatabaseManager';
+import { BrowserStorageMigration } from './storage/BrowserStorageMigration';
+import { BrowserBackupManager } from './storage/BrowserBackupManager';
+import { BrowserProjectStorageService } from './storage/BrowserProjectStorageService';
 
 export class LocalStorageService {
-  private dbManager: DatabaseManager;
-  private migrationService: StorageMigration;
-  private backupManager: BackupManager;
-  private projectService: ProjectStorageService;
+  private dbManager: BrowserDatabaseManager;
+  private migrationService: BrowserStorageMigration;
+  private backupManager: BrowserBackupManager;
+  private projectService: BrowserProjectStorageService;
   private isInitialized: boolean = false;
 
-  constructor(dataPath?: string) {
-    this.dbManager = new DatabaseManager(dataPath);
-    this.migrationService = new StorageMigration(this.dbManager);
-    this.backupManager = new BackupManager(this.dbManager);
-    this.projectService = new ProjectStorageService(this.dbManager);
+  constructor(storageKey?: string) {
+    this.dbManager = new BrowserDatabaseManager(storageKey);
+    this.migrationService = new BrowserStorageMigration(this.dbManager);
+    this.backupManager = new BrowserBackupManager(this.dbManager);
+    this.projectService = new BrowserProjectStorageService(this.dbManager);
   }
 
   /**

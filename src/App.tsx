@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -10,6 +10,9 @@ import {
 import CssBaseline from '@mui/material/CssBaseline';
 import Editor from './features/editor/Editor';
 import OutlineNavigator from './features/outline/components/OutlineNavigator';
+// import GlobalErrorBoundary from './utils/error/GlobalErrorBoundary';
+// import ErrorNotificationProvider from './utils/error/ErrorNotificationSystem';
+// import { usePerformanceMonitor } from './utils/performance/PerformanceMonitor';
 
 // 创建主题
 const theme = createTheme({
@@ -37,10 +40,21 @@ const theme = createTheme({
 
 function App() {
   const [activeTab, setActiveTab] = useState(0);
+  // const { startOperation, endOperation } = usePerformanceMonitor('App');
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    // startOperation('tab-switch');
     setActiveTab(newValue);
+    // endOperation('tab-switch');
   };
+
+  // 启用性能监控
+  // useEffect(() => {
+  //   startOperation('app-render');
+  //   return () => {
+  //     endOperation('app-render');
+  //   };
+  // }, [startOperation, endOperation]);
 
   return (
     <Provider store={store}>

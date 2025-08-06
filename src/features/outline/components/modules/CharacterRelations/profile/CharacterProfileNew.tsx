@@ -5,7 +5,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { useCharacterProfile } from './useCharacterProfile';
-import { CharacterList } from './CharacterList';
+import OptimizedCharacterList from '../../../common/OptimizedCharacterList';
 import { CharacterEditDialog } from './CharacterEditDialog';
 
 const CharacterProfileNew: React.FC = () => {
@@ -25,11 +25,14 @@ const CharacterProfileNew: React.FC = () => {
   return (
     <Box sx={{ height: '100%', overflow: 'auto' }}>
       {/* 角色列表 */}
-      <CharacterList
+      <OptimizedCharacterList
         characters={characters}
         onEdit={handleEditCharacter}
         onDelete={handleDeleteCharacter}
-        onAdd={handleAddCharacter}
+        loading={false}
+        searchPlaceholder="搜索角色..."
+        emptyMessage="暂无角色数据"
+        height={500}
       />
 
       {/* 角色编辑对话框 */}

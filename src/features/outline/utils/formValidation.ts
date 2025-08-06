@@ -141,6 +141,11 @@ export function validateField(
   value: any,
   rules: ValidationRule
 ): ValidationError | null {
+  // 如果rules为undefined或null，返回null
+  if (!rules) {
+    return null;
+  }
+  
   const label = fieldLabels[fieldName] || fieldName;
   
   // 必填验证
@@ -280,3 +285,20 @@ export const formValidationSets = {
     description: validationRules.relationshipDescription
   }
 };
+
+/**
+ * 创建自定义验证规则
+ * @param message 错误消息
+ * @param validator 验证函数
+ * @returns ValidationRule with validate method
+ */
+export function createValidationRule(
+  message: string,
+  validator: (value: any) => boolean
+) {
+  return {
+    message,
+    validate: validator,
+    custom: validator
+  };
+}

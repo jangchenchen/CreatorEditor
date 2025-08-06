@@ -86,17 +86,18 @@ export const {
   resetStory 
 } = storySlice.actions;
 
+export { storySlice };
 export default storySlice.reducer;
 
 // Selectors
-export const selectStory = (state: { story: StoryState }) => state.story;
-export const selectStoryBackground = (state: { story: StoryState }) => state.story.background;
-export const selectCoreTheme = (state: { story: StoryState }) => state.story.coreTheme;
-export const selectSynopsis = (state: { story: StoryState }) => state.story.synopsis;
+export const selectStory = (state: { outline: { story: StoryState } }) => state.outline.story;
+export const selectStoryBackground = (state: { outline: { story: StoryState } }) => state.outline.story.background;
+export const selectCoreTheme = (state: { outline: { story: StoryState } }) => state.outline.story.coreTheme;
+export const selectSynopsis = (state: { outline: { story: StoryState } }) => state.outline.story.synopsis;
 
 // Calculate story completion rate
-export const selectStoryCompletion = (state: { story: StoryState }) => {
-  const { background, coreTheme, synopsis } = state.story;
+export const selectStoryCompletion = (state: { outline: { story: StoryState } }) => {
+  const { background, coreTheme, synopsis } = state.outline.story;
   let completed = 0;
   const total = 10;
   

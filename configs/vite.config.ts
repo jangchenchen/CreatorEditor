@@ -7,6 +7,12 @@ export default defineConfig({
   root: path.join(__dirname, '..'),
   publicDir: 'public',
   plugins: [react()],
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: false,
+    open: false
+  },
   build: {
     outDir: 'dist',
     rollupOptions: {

@@ -3,6 +3,8 @@
  * 监控渲染性能、内存使用和操作延迟
  */
 
+import React from 'react';
+
 export interface PerformanceMetrics {
   renderTime: number;
   memoryUsage: number;
@@ -283,5 +285,22 @@ export function usePerformanceMonitor(componentName: string) {
     }
   }, [componentName]);
 
-  return { measureOperation };
+  const startOperation = React.useCallback((operationName: string) => {
+    const key = `${componentName}.${operationName}`;
+    performanceMonitor.startTimer(key);
+  }, [componentName]);
+
+  const endOperation = React.useCallback((operationName: string) => {
+    const key = `${componentName}.${operationName}`;
+    performanceMonitor.endTimer(key, 'operation', {
+      component: componentName,
+      operation: operationName
+    });
+  }, [componentName]);
+
+  return { 
+    measureOperation,
+    startOperation,
+    endOperation 
+  };
 }

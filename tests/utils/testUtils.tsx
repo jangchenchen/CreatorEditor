@@ -8,7 +8,7 @@ import { render, RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore, Store } from '@reduxjs/toolkit';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { rootOutlineSlice } from '../../src/features/outline/slices/rootOutlineSlice';
+import { outlineReducer } from '../../src/features/outline/slices/rootOutlineSlice';
 import { OutlineState } from '../../src/features/outline/types/outline.types';
 
 // 默认主题
@@ -126,7 +126,7 @@ export const createMockOutlineState = (overrides: Partial<OutlineState> = {}): O
 export const createTestStore = (initialState?: Partial<OutlineState>): Store => {
   return configureStore({
     reducer: {
-      outline: rootOutlineSlice.reducer
+      outline: outlineReducer
     },
     preloadedState: {
       outline: createMockOutlineState(initialState)

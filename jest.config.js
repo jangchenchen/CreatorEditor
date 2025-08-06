@@ -12,7 +12,7 @@ module.exports = {
   rootDir: '.',
   
   // 模块路径映射
-  moduleNameMapping: {
+  moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@features/(.*)$': '<rootDir>/src/features/$1',
     '^@components/(.*)$': '<rootDir>/src/components/$1',

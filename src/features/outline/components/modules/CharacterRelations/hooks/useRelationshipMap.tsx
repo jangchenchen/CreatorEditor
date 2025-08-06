@@ -13,4 +13,8 @@
 // 每个文件都 < 200行，符合架构要求
 
 // 使用新的模块化Hook
-export { default } from './useRelationshipMapNew';
+import { useRelationshipMapNew } from './useRelationshipMapNew';
+
+// 提供命名导出和默认导出
+export const useRelationshipMap = useRelationshipMapNew;
+export { useRelationshipMapNew as default } from './useRelationshipMapNew';

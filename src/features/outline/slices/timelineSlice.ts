@@ -27,10 +27,10 @@ const timelineSlice = createSlice({
       state.events.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
     },
 
-    updatePlotEvent: (state, action: PayloadAction<PlotEvent>) => {
+    updatePlotEvent: (state, action: PayloadAction<{ id: string; updates: Partial<PlotEvent> }>) => {
       const index = state.events.findIndex(e => e.id === action.payload.id);
       if (index !== -1) {
-        state.events[index] = action.payload;
+        state.events[index] = { ...state.events[index], ...action.payload.updates };
         // Re-sort after update
         state.events.sort((a, b) => a.timestamp.localeCompare(b.timestamp));
       }
@@ -41,6 +41,10 @@ const timelineSlice = createSlice({
     },
 
     updateTimelineInfo: (state, action: PayloadAction<Partial<Pick<TimelineState, 'startTime' | 'endTime' | 'timelineNotes'>>>) => {
+      Object.assign(state, action.payload);
+    },
+
+    updateTimelineSettings: (state, action: PayloadAction<Partial<Pick<TimelineState, 'startTime' | 'endTime' | 'timelineNotes'>>>) => {
       Object.assign(state, action.payload);
     },
 
@@ -64,40 +68,49 @@ export const {
   updatePlotEvent,
   deletePlotEvent,
   updateTimelineInfo,
+  updateTimelineSettings,
   reorderEvents,
   loadTimelineData,
   resetTimeline
 } = timelineSlice.actions;
 
+export { timelineSlice };
 export default timelineSlice.reducer;
 
 // Selectors
-export const selectTimeline = (state: { timeline: TimelineState }) => state.timeline;
-export const selectPlotEvents = (state: { timeline: TimelineState }) => state.timeline.events;
-export const selectKeyEvents = (state: { timeline: TimelineState }) => 
-  state.timeline.events.filter(e => e.isKeyEvent);
+export const selectTimeline = (state: { outline: { timeline: TimelineState } }) => state.outline.timeline;
+export const selectPlotEvents = (state: { outline: { timeline: TimelineState } }) => state.outline.timeline.events;
+export const selectTimelineEvents = (state: { outline: { timeline: TimelineState } }) => state.outline.timeline.events;
+export const selectTimelineSettings = (state: { outline: { timeline: TimelineState } }) => ({
+  id: state.outline.timeline.id,
+  startTime: state.outline.timeline.startTime,
+  endTime: state.outline.timeline.endTime,
+  timelineNotes: state.outline.timeline.timelineNotes
+});
+export const selectKeyEvents = (state: { outline: { timeline: TimelineState } }) => 
+  state.outline.timeline.events.filter(e => e.isKeyEvent);
 
 export const selectEventsByType = (eventType: PlotEvent['type']) => 
-  (state: { timeline: TimelineState }) => 
-    state.timeline.events.filter(e => e.type === eventType);
+  (state: { outline: { timeline: TimelineState } }) => 
+    state.outline.timeline.events.filter(e => e.type === eventType);
 
 export const selectEventsByImportance = (importance: PlotEvent['importance']) => 
-  (state: { timeline: TimelineState }) => 
-    state.timeline.events.filter(e => e.importance === importance);
+  (state: { outline: { timeline: TimelineState } }) => 
+    state.outline.timeline.events.filter(e => e.importance === importance);
 
 export const selectEventsInvolvingCharacter = (characterId: string) => 
-  (state: { timeline: TimelineState }) => 
-    state.timeline.events.filter(e => e.characters.includes(characterId));
+  (state: { outline: { timeline: TimelineState } }) => 
+    state.outline.timeline.events.filter(e => e.characters.includes(characterId));
 
-export const selectTimelineStats = (state: { timeline: TimelineState }) => ({
-  totalEvents: state.timeline.events.length,
-  keyEvents: state.timeline.events.filter(e => e.isKeyEvent).length,
-  criticalEvents: state.timeline.events.filter(e => e.importance === 'critical').length,
-  importantEvents: state.timeline.events.filter(e => e.importance === 'important').length,
-  minorEvents: state.timeline.events.filter(e => e.importance === 'minor').length,
-  beginningEvents: state.timeline.events.filter(e => e.type === 'beginning').length,
-  developmentEvents: state.timeline.events.filter(e => e.type === 'development').length,
-  climaxEvents: state.timeline.events.filter(e => e.type === 'climax').length,
-  resolutionEvents: state.timeline.events.filter(e => e.type === 'resolution').length,
-  transitionEvents: state.timeline.events.filter(e => e.type === 'transition').length
+export const selectTimelineStats = (state: { outline: { timeline: TimelineState } }) => ({
+  totalEvents: state.outline.timeline.events.length,
+  keyEvents: state.outline.timeline.events.filter(e => e.isKeyEvent).length,
+  criticalEvents: state.outline.timeline.events.filter(e => e.importance === 'critical').length,
+  importantEvents: state.outline.timeline.events.filter(e => e.importance === 'important').length,
+  minorEvents: state.outline.timeline.events.filter(e => e.importance === 'minor').length,
+  beginningEvents: state.outline.timeline.events.filter(e => e.type === 'beginning').length,
+  developmentEvents: state.outline.timeline.events.filter(e => e.type === 'development').length,
+  climaxEvents: state.outline.timeline.events.filter(e => e.type === 'climax').length,
+  resolutionEvents: state.outline.timeline.events.filter(e => e.type === 'resolution').length,
+  transitionEvents: state.outline.timeline.events.filter(e => e.type === 'transition').length
 });
